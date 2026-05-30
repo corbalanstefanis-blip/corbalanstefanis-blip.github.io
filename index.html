@@ -430,31 +430,41 @@ h1.hero-title em{font-style:italic;color:var(--accent);font-weight:300;display:b
   position:relative;overflow:hidden;
   background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);
   transition:background .4s;
+  /* En móvil que no se muestre a la derecha sino como fondo */
 }
-.hero-art{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.hero-circles{position:relative;width:100%;height:100%;}
+.hero-art{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.hero-circles{
+  position:relative;
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
 .circle-1{
   position:absolute;border-radius:50%;
-  width:520px;height:520px;
-  background:radial-gradient(circle,rgba(155,77,235,.18) 0%,transparent 70%);
+  /* Usar % para que no se corte */
+  width:min(520px,90%);height:min(520px,90%);
+  background:radial-gradient(circle,rgba(166,123,91,.15) 0%,transparent 70%);
   top:50%;left:50%;transform:translate(-50%,-50%);
   animation:pulse1 6s ease-in-out infinite;
 }
 .circle-2{
   position:absolute;border-radius:50%;
-  width:360px;height:360px;
-  border:1px solid rgba(155,77,235,.22);
+  width:min(360px,65%);height:min(360px,65%);
+  border:1px solid rgba(166,123,91,.2);
   top:50%;left:50%;transform:translate(-50%,-50%);
   animation:pulse2 8s ease-in-out infinite;
 }
 .circle-3{
   position:absolute;border-radius:50%;
-  width:210px;height:210px;
-  border:1px solid rgba(20,184,166,.35);
+  width:min(210px,38%);height:min(210px,38%);
+  border:1px solid rgba(106,155,132,.3);
   top:50%;left:50%;transform:translate(-50%,-50%);
 }
-@keyframes pulse1{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.09);}}
-@keyframes pulse2{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}50%{transform:translate(-50%,-50%) scale(1.13) rotate(9deg);}}
+@keyframes pulse1{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
+@keyframes pulse2{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}50%{transform:translate(-50%,-50%) scale(1.12) rotate(9deg);}}
 
 .hero-float-card{
   position:absolute;
@@ -2030,9 +2040,30 @@ nav{padding:12px 24px;}
   .hamburger.open span:nth-child(2){opacity:0;}
   .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
   section{padding:60px 20px!important;}
-  #hero{padding:120px 20px 80px!important;}
+  #hero{
+    padding:90px 20px 60px!important;
+    grid-template-columns:1fr!important;
+    min-height:auto!important;
+  }
+  .hero-left{
+    padding:0!important;
+    text-align:center!important;
+    align-items:center!important;
+  }
+  .hero-eyebrow{justify-content:center!important;}
+  .hero-sub{text-align:center!important;}
+  .hero-buttons{justify-content:center!important;}
+  .hero-stats{justify-content:center!important;gap:24px!important;}
   .hero-title{font-size:clamp(2.4rem,10vw,4rem)!important;}
   .hero-actions{flex-direction:column;align-items:center;}
+  /* Círculos — mostrar como banda decorativa debajo del texto */
+  .hero-right{
+    height:200px!important;
+    min-height:200px!important;
+  }
+  .circle-1{width:240px!important;height:240px!important;}
+  .circle-2{width:160px!important;height:160px!important;}
+  .circle-3{width:90px!important;height:90px!important;}
   .cat-grid{
     display:flex!important;
     overflow-x:auto!important;
@@ -2061,17 +2092,17 @@ nav{padding:12px 24px;}
   .featured-grid{grid-template-columns:1fr!important;}
   .profile-stats{grid-template-columns:repeat(3,1fr)!important;}
   .footer-top{grid-template-columns:1fr!important;gap:32px!important;}
-  .toolbox-panel{width:calc(100vw - 32px)!important;right:16px!important;bottom:80px!important;}
+  .toolbox-panel{width:calc(100vw - 32px)!important;right:16px!important;left:16px!important;bottom:80px!important;}
   .ia-panel{width:calc(100vw - 24px)!important;bottom:80px!important;}
   .music-panel{width:100%!important;border-radius:20px 20px 0 0!important;
     top:auto!important;bottom:0!important;right:0!important;transform:none!important;}
   .music-fab{top:auto!important;bottom:160px!important;right:0!important;
     transform:none!important;border-radius:12px 0 0 12px!important;writing-mode:horizontal-tb!important;
     padding:10px 12px!important;flex-direction:row!important;gap:6px!important;}
-  .cinco-btn{bottom:82px!important;left:16px!important;font-size:.75rem!important;padding:10px 14px!important;}
+  .cinco-btn{bottom:82px!important;right:16px!important;left:auto!important;font-size:.75rem!important;padding:10px 14px!important;}
   .toolbox-fab{bottom:82px!important;right:16px!important;}
   .ia-fab{display:none!important;}
-  .config-fab{bottom:146px!important;left:16px!important;}
+  .config-fab{bottom:146px!important;right:72px!important;left:auto!important;}
   .privacy-chip{display:none!important;}
   .emergency-btn{top:auto!important;bottom:240px!important;transform:none!important;
     border-radius:0 8px 8px 0!important;writing-mode:vertical-rl!important;}
@@ -2081,7 +2112,7 @@ nav{padding:12px 24px;}
   .profile-modal{padding:28px 20px!important;}
   .recipe-modal{padding:28px 20px!important;}
   .premium-modal{padding:28px 20px!important;}
-  .settings-panel{width:calc(100vw - 32px)!important;right:16px!important;bottom:72px!important;}
+  .settings-panel{width:calc(100vw - 32px)!important;right:16px!important;left:16px!important;bottom:72px!important;}
 }
 @media(max-width:480px){
   .cat-grid{grid-template-columns:1fr!important;}
@@ -2101,7 +2132,7 @@ nav{padding:12px 24px;}
    RUEDA DE CONFIGURACIÓN
 ════════════════════════════════════════ */
 .config-fab{
-  position:fixed;bottom:96px;left:32px;z-index:1200;
+  position:fixed;bottom:96px;right:32px;z-index:1200;
   width:48px;height:48px;border-radius:50%;
   background:var(--bg2);border:1px solid var(--border);
   color:var(--text2);font-size:1.2rem;cursor:pointer;
@@ -2566,7 +2597,7 @@ select.bib-input{cursor:pointer;}
 .bib-card-autor{font-size:.78rem;color:var(--text2);margin-bottom:8px;}
 .bib-card-nota{font-size:.78rem;color:var(--text2);font-style:italic;margin-bottom:8px;line-height:1.5;}
 .bib-card-link{font-size:.75rem;color:var(--accent);text-decoration:none;}
-.bib-card-del{position:absolute;top:10px;right:10px;background:none;border:none;
+.bib-card-del{position:absolute;top:10px;right:10px;background:none;border:none;z-index:2;
   cursor:pointer;color:var(--text3);font-size:.8rem;}
 .bib-cat-badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:10px;
   background:var(--pill-bg);color:var(--accent);margin-bottom:6px;}
@@ -3072,7 +3103,18 @@ body.panel-open {
         <div class="circle-2"></div>
         <div class="circle-3"></div>
       </div>
-      <div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;">KALMA</em></div>
+      <!-- Luna decorativa en el hero -->
+<svg class="hero-luna" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg"
+  style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;pointer-events:none;z-index:1;">
+  <path d="M210 48 C168 58, 140 96, 146 136 C152 176, 184 198, 220 192 C196 214, 164 220, 134 208 C98 194, 76 158, 82 122 C88 84, 118 62, 152 56 C172 53, 192 52, 210 48 Z"
+    fill="rgba(166,123,91,0.3)" stroke="rgba(166,123,91,0.6)" stroke-width="1"/>
+  <circle cx="72" cy="80" r="2" fill="rgba(166,123,91,0.5)"/>
+  <circle cx="52" cy="180" r="1.5" fill="rgba(166,123,91,0.4)"/>
+  <circle cx="228" cy="228" r="2" fill="rgba(166,123,91,0.4)"/>
+  <circle cx="108" cy="248" r="1.5" fill="rgba(166,123,91,0.35)"/>
+  <circle cx="240" cy="68" r="1.5" fill="rgba(166,123,91,0.4)"/>
+</svg>
+<div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;">KALMA</em></div>
 
     </div>
   </div>
@@ -3122,6 +3164,24 @@ body.panel-open {
       </div>
       <div class="uv-big">SER</div>
     </div>
+  </div>
+</section>
+
+<!-- ═══ POR QUÉ LA LUNA ═══ -->
+<section id="la-luna" style="padding:80px 80px;background:var(--bg3);transition:background .4s;text-align:center;">
+  <div class="fade-up" style="max-width:680px;margin:0 auto;">
+    <div style="font-size:2.8rem;margin-bottom:20px;">🌙</div>
+    <div class="section-tag" style="justify-content:center;">Por qué la luna</div>
+    <h2 class="section-title" style="font-size:clamp(28px,4vw,46px);">
+      La luna inspira<br/><em>KALMA.</em>
+    </h2>
+    <p class="section-body" style="margin:0 auto;text-align:center;max-width:560px;">
+      El ciclo menstrual dura lo mismo que el ciclo lunar — no es poesía, es biología. Durante siglos, las mujeres usaron la luna para entender su propio ritmo. KALMA nació de esa misma idea: que vivir en armonía con tus ciclos, con tu ritmo, con tus tiempos, es la forma más poderosa de cuidarte.
+    </p>
+    <div style="width:50px;height:1px;background:var(--accent);margin:28px auto;opacity:.5;"></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--accent);line-height:1.7;">
+      "La luna no corre. Tiene fases, tiene pausas, tiene luz incluso en la oscuridad.<br/>Eso es KALMA — tu espacio, tu ritmo, tu mundo."
+    </p>
   </div>
 </section>
 
@@ -5858,23 +5918,17 @@ function bibHandleFile(input) {
   var file = input.files[0];
   if(!file) return;
   var nameEl = document.getElementById('bib-file-name');
-  // Auto-completar título si está vacío
   var tituloEl = document.getElementById('bib-titulo');
   if(!tituloEl.value.trim()) {
     tituloEl.value = file.name.replace(/\.(epub|pdf|txt|mobi)$/i,'').replace(/_/g,' ');
   }
-  // Para EPUB/PDF guardamos referencia al nombre (no el contenido — muy pesado)
-  _bibFileData = { name: file.name, size: file.size, type: file.type };
-  if(nameEl) nameEl.textContent = '✓ ' + file.name + ' (' + (file.size/1024/1024).toFixed(1) + ' MB)';
-  // Si es txt, leer contenido para notas
-  if(file.type === 'text/plain' && file.size < 500000) {
-    var r = new FileReader();
-    r.onload = function(e) {
-      var nota = document.getElementById('bib-nota');
-      if(nota && !nota.value.trim()) nota.value = e.target.result.slice(0,500);
-    };
-    r.readAsText(file);
-  }
+  // Leer como dataUrl para poder abrirlo después
+  var r = new FileReader();
+  r.onload = function(e) {
+    _bibFileData = { name: file.name, size: file.size, type: file.type, dataUrl: e.target.result };
+    if(nameEl) nameEl.textContent = '✓ ' + file.name + ' (' + (file.size/1024/1024).toFixed(1) + ' MB)';
+  };
+  r.readAsDataURL(file);
 }
 
 function addBibEntry() {
@@ -5927,17 +5981,27 @@ function renderBib() {
   var bms = JSON.parse(localStorage.getItem('kalma-bm')||'{}');
   el.innerHTML = data.map(function(e){
     var bmActive = bms['bib-'+e.id] ? 'active' : '';
-    return '<div class="bib-card">'
-      +'<button class="senalador '+bmActive+'" onclick="toggleBM(\'bib-'+e.id+'\',this)" title="Señalar" aria-label="Marcar libro">'
+    // Botón abrir archivo
+    var abrirBtn = '';
+    if(e.archivo && e.archivo.dataUrl) {
+      abrirBtn = '<a class="bib-card-link" href="'+e.archivo.dataUrl+'" target="_blank" download="'+e.archivo.name+'" style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;">📎 Abrir '+e.archivo.name+'</a>';
+    } else if(e.link) {
+      abrirBtn = '<a class="bib-card-link" href="'+e.link+'" target="_blank" rel="noopener">🔗 Abrir enlace →</a>';
+    } else if(e.archivo) {
+      abrirBtn = '<div class="bib-card-file" style="color:var(--text2);">📎 '+e.archivo.name+' <span style="font-size:.68rem;opacity:.6;">(volvé a subir para abrir)</span></div>';
+    }
+    return '<div class="bib-card" style="padding-top:44px;">'
+      // Señalador — esquina superior IZQUIERDA
+      +'<button class="senalador '+bmActive+'" style="position:absolute;top:8px;left:10px;z-index:2;" onclick="toggleBM(\'bib-'+e.id+'\',this)" title="Señalar" aria-label="Marcar libro">'
       +'<svg viewBox="0 0 20 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bm-fill" d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" stroke-linejoin="round"/><text x="10" y="18" text-anchor="middle" font-size="8" fill="white" font-family="serif" font-weight="bold" opacity=".9">K</text></svg>'
       +'</button>'
+      // X eliminar — esquina superior DERECHA
       +'<button class="bib-card-del" onclick="deleteBib('+e.id+')" title="Eliminar">✕</button>'
       +'<div class="bib-cat-badge">'+(CAT_LABELS[e.cat]||e.cat)+'</div>'
       +'<div class="bib-card-title">'+e.titulo+'</div>'
       +(e.autor?'<div class="bib-card-autor">'+e.autor+'</div>':'')
       +(e.nota?'<div class="bib-card-nota">"'+e.nota+'"</div>':'')
-      +(e.archivo?'<div class="bib-card-file">📎 '+e.archivo.name+'</div>':'')
-      +(e.link?'<a class="bib-card-link" href="'+e.link+'" target="_blank" rel="noopener">Abrir →</a>':'')
+      +abrirBtn
       +'</div>';
   }).join('');
 }
