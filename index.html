@@ -9,7 +9,7 @@
   cursor:pointer !important;
   touch-action:manipulation !important;
   -webkit-tap-highlight-color:transparent !important;
-  min-width:64px !important;
+  min-width:0 !important;
   min-height:52px !important;
   border-radius:10px !important;
   border:2px solid var(--border) !important;
@@ -27,6 +27,17 @@
 .palette-btn.active {
   border-color:var(--accent) !important;
   color:var(--accent) !important;
+}
+#theme-palette-grid .palette-btn {
+  min-width:0 !important;
+  min-height:44px !important;
+  padding:5px 4px !important;
+  font-size:.65rem !important;
+  overflow:visible !important;
+}
+#theme-palette-grid .palette-btn span {
+  display:block !important;
+  font-size:.65rem !important;
 }
 .palette-btn:active { opacity:.75 !important; }
 .palette-swatches {
@@ -386,14 +397,15 @@ nav{
   border-top:1px solid var(--border);
   z-index:1000;padding:8px 0 max(8px,env(safe-area-inset-bottom));
 }
-.bottom-nav-items{display:flex;justify-content:space-around;align-items:center;}
+.bottom-nav-items{display:flex;justify-content:space-around;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.bottom-nav-items::-webkit-scrollbar{display:none;}
 .bnav-item{
   display:flex;flex-direction:column;align-items:center;gap:3px;
   color:var(--text2);text-decoration:none;font-size:9px;
   letter-spacing:1px;text-transform:uppercase;
   /* Área táctil grande */
-  padding:8px 14px;
-  min-width:56px;min-height:52px;
+  padding:8px 8px;
+  min-width:50px;min-height:52px;
   border-radius:12px;
   border:none;background:none;cursor:pointer;
   /* Sin delay táctil */
@@ -1668,7 +1680,7 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 /* ═══════════════════════════════════════════
    RUTINAS PERSONALIZADAS
 ═══════════════════════════════════════════ */
-#rutinas{padding:80px 60px;}
+#rutinas{padding:80px 60px;touch-action:manipulation;}
 .rutina-quiz{
   max-width:600px;margin:40px auto 0;
   background:var(--card);border:1px solid var(--border);
@@ -1679,7 +1691,9 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 .quiz-opt{
   padding:16px;border-radius:14px;border:1px solid var(--border);
   background:var(--bg2);color:var(--text);cursor:pointer;text-align:center;
-  transition:all .15s;font-size:.88rem;
+  transition:border-color .1s,background .1s;font-size:.88rem;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  user-select:none;-webkit-user-select:none;
 }
 .quiz-opt:hover{border-color:var(--accent);background:var(--pill-bg);}
 .quiz-opt.selected{background:var(--pill-bg);border-color:var(--accent);color:var(--accent);font-weight:500;}
@@ -1693,6 +1707,8 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 .quiz-nav{display:flex;gap:12px;justify-content:flex-end;}
 .quiz-btn{
   padding:11px 24px;border-radius:10px;border:none;cursor:pointer;font-size:.88rem;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   font-family:'DM Sans',sans-serif;transition:background .15s;
 }
 .quiz-btn.primary{background:var(--accent);color:#fff;}
@@ -1928,6 +1944,7 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   border-radius:20px 0 0 20px;
   box-shadow:-8px 0 40px rgba(0,0,0,.25);
   display:none;flex-direction:column;overflow:hidden;
+  touch-action:pan-y;
 }
 .music-panel.open{display:flex;}
 .music-panel-header{
@@ -1945,7 +1962,7 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   border-bottom:none;transition:all .15s;
 }
 .music-tab.active{background:var(--pill-bg);color:var(--accent);}
-.music-body{padding:16px 20px;}
+.music-body{padding:16px 20px;touch-action:pan-y;-webkit-overflow-scrolling:touch;overflow-y:auto;}
 .music-url-input{
   width:100%;padding:10px 14px;border-radius:10px;
   background:var(--bg2);border:1px solid var(--border);
@@ -2112,6 +2129,8 @@ nav{padding:12px 24px;}
     scroll-snap-type:x mandatory!important;
     -webkit-overflow-scrolling:touch!important;
     scrollbar-width:none!important;
+    touch-action:pan-x pan-y!important;
+    will-change:scroll-position!important;
     gap:12px!important;
     padding-bottom:8px!important;
   }
@@ -2853,6 +2872,9 @@ a:active,
 
 /* Botones de quiz más grandes */
 .quiz-opt {
+  touch-action:manipulation !important;
+  -webkit-tap-highlight-color:transparent !important;
+  user-select:none !important;
   padding: 14px 10px !important;
   font-size: 0.88rem !important;
 }
@@ -3263,6 +3285,7 @@ body.epub-reading .nav-right-actions{
     <button class="bnav-item active" data-panel="inicio"      onclick="showPanel('inicio')"><span class="bnav-icon">🏠</span><span>Inicio</span></button>
     <button class="bnav-item"        data-panel="categorias"  onclick="showPanel('categorias')"><span class="bnav-icon">✦</span><span>Explorar</span></button>
     <button class="bnav-item"        data-panel="rutinas"     onclick="showPanel('rutinas')"><span class="bnav-icon">🗓</span><span>Rutina</span></button>
+    <button class="bnav-item"        data-panel="biblioteca"  onclick="showPanel('biblioteca')"><span class="bnav-icon">📚</span><span>Biblioteca</span></button>
     <button class="bnav-item"        data-panel="recetario"   onclick="showPanel('recetario')"><span class="bnav-icon">🥗</span><span>Recetas</span></button>
     <button class="bnav-item"                                 onclick="openProfile()"><span class="bnav-icon">🌸</span><span>Perfil</span></button>
   </div>
@@ -3373,7 +3396,7 @@ body.epub-reading .nav-right-actions{
       La luna inspira<br/><em>KALMA.</em>
     </h2>
     <p class="section-body" style="margin:0 auto;text-align:center;max-width:560px;">
-      Durante siglos, las mujeres usaron la luna para entender su propio ritmo. KALMA nació de esa certeza: que entender tu propio ritmo, respetarlo y vivir en sincronía con él, es la forma más poderosa de cuidarte. No es poesía, es biología.
+      Durante siglos, las mujeres usaron la luna para entender su propio ritmo. KALMA nació de esa certeza: entender tu propio ritmo, respetarlo y vivir en sincronía con él, es la forma más poderosa de cuidarte. No es poesía, es biología.
     </p>
     <div style="width:50px;height:1px;background:var(--accent);margin:28px auto;opacity:.5;"></div>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--accent);line-height:1.7;">
@@ -4339,8 +4362,8 @@ body.epub-reading .nav-right-actions{
     <div class="settings-section-label">Tema y apariencia</div>
     <div style="margin-bottom:10px;">
       <div style="font-size:.75rem;color:var(--text2);margin-bottom:7px;letter-spacing:.04em;">PALETA DE COLORES</div>
-      <div id="theme-palette-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;">
-        <button class="palette-btn active" data-palette="cebada" onclick="setPalette('cebada',this)">
+      <div id="theme-palette-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;min-width:0;">
+        <button class="palette-btn active" data-palette="cebada" onclick="setPalette('cebada',this);event.stopPropagation();">
           <div style="display:flex;gap:2px;width:100%;margin-bottom:4px;">
             <span style="flex:1;height:10px;border-radius:2px;background:#F5EDD8;"></span>
             <span style="flex:1;height:10px;border-radius:2px;background:#A67B5B;"></span>
@@ -4348,7 +4371,7 @@ body.epub-reading .nav-right-actions{
           </div>
           <span style="font-size:.68rem;">Cebada</span>
         </button>
-        <button class="palette-btn" data-palette="avena" onclick="setPalette('avena',this)">
+        <button class="palette-btn" data-palette="avena" onclick="setPalette('avena',this);event.stopPropagation();">
           <div style="display:flex;gap:2px;width:100%;margin-bottom:4px;">
             <span style="flex:1;height:10px;border-radius:2px;background:#F4F0E8;"></span>
             <span style="flex:1;height:10px;border-radius:2px;background:#3D5A78;"></span>
@@ -4356,7 +4379,7 @@ body.epub-reading .nav-right-actions{
           </div>
           <span style="font-size:.68rem;">Avena</span>
         </button>
-        <button class="palette-btn" data-palette="rosa" onclick="setPalette('rosa',this)">
+        <button class="palette-btn" data-palette="rosa" onclick="setPalette('rosa',this);event.stopPropagation();">
           <div style="display:flex;gap:2px;width:100%;margin-bottom:4px;">
             <span style="flex:1;height:10px;border-radius:2px;background:#FBF0F3;"></span>
             <span style="flex:1;height:10px;border-radius:2px;background:#B05070;"></span>
@@ -4364,7 +4387,7 @@ body.epub-reading .nav-right-actions{
           </div>
           <span style="font-size:.68rem;">Rosa</span>
         </button>
-        <button class="palette-btn" data-palette="dark" onclick="setPalette('dark',this)">
+        <button class="palette-btn" data-palette="dark" onclick="setPalette('dark',this);event.stopPropagation();">
           <div style="display:flex;gap:2px;width:100%;margin-bottom:4px;">
             <span style="flex:1;height:10px;border-radius:2px;background:#0D0A14;"></span>
             <span style="flex:1;height:10px;border-radius:2px;background:#9B4DEB;"></span>
@@ -4377,10 +4400,10 @@ body.epub-reading .nav-right-actions{
     <div>
       <div style="font-size:.75rem;color:var(--text2);margin-bottom:7px;letter-spacing:.04em;">MODO</div>
       <div id="theme-mode-row" style="display:flex;gap:5px;flex-wrap:wrap;">
-        <button class="mode-btn" data-mode="light" onclick="setMode('light',this)">☀️ Claro</button>
+        <button class="mode-btn" data-mode="light" onclick="setMode('light',this);event.stopPropagation();">☀️ Claro</button>
         <button class="mode-btn active" data-mode="dark" onclick="setMode('dark',this)">🌙 Oscuro</button>
-        <button class="mode-btn" data-mode="lectura" onclick="setMode('lectura',this)">📖 Lectura</button>
-        <button class="mode-btn" data-mode="basic" onclick="setMode('basic',this)">◻ Básico</button>
+        <button class="mode-btn" data-mode="lectura" onclick="setMode('lectura',this);event.stopPropagation();">📖 Lectura</button>
+        <button class="mode-btn" data-mode="basic" onclick="setMode('basic',this);event.stopPropagation();">◻ Básico</button>
       </div>
     </div>
   </div>
@@ -4477,16 +4500,30 @@ body.epub-reading .nav-right-actions{
       <!-- Opción 3: Personalizable -->
       <div class="bm-opt" id="bm-opt-3" onclick="setBMStyle('personal')">
         <div class="bm-opt-custom">
-          <svg viewBox="0 0 20 36"><path d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" fill="var(--teal)" stroke="none"/><text x="10" y="20" text-anchor="middle" font-size="9" fill="white" opacity=".9" id="bm-preview-emoji">🌸</text></svg>
+          <svg viewBox="0 0 20 36"><path d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" fill="var(--teal)" stroke="none"/><text x="10" y="22" text-anchor="middle" font-size="9" fill="white" opacity=".9" id="bm-preview-emoji">🌸</text></svg>
           <input type="text" class="bm-custom-input" id="bm-emoji-input" value="🌸" maxlength="2"
             placeholder="🌸"
             oninput="updateBMEmoji(this.value)"
             onclick="event.stopPropagation()"
-            title="Poné un emoji: flor, tu hijo, tu mascota…"/>
+            title="Poné un emoji"
+            style="font-size:1.1rem!important;text-align:center;width:36px;"/>
         </div>
         <div class="bm-opt-label">Personal</div>
       </div>
-      <p style="font-size:.72rem;color:var(--text2);width:100%;margin-top:4px;">💡 Ponele un emoji que te represente — tu mascota, una flor, lo que quieras.</p>
+      <!-- Opción: Palabra personalizada -->
+      <div style="margin-top:12px;padding:10px;background:var(--bg3);border-radius:10px;border:1px solid var(--border);">
+        <div style="font-size:.72rem;color:var(--text2);margin-bottom:6px;">✏️ O poné una palabra corta en el señalador:</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" id="bm-word-input" maxlength="6" placeholder="ej: KALMA"
+            style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.78rem;color:var(--text);flex:1;font-family:'DM Sans',sans-serif;"
+            oninput="updateBMWord(this.value)"
+            onclick="event.stopPropagation()"/>
+          <div style="width:20px;height:36px;flex-shrink:0;">
+            <svg viewBox="0 0 20 36" id="bm-word-preview" style="width:100%;height:100%;"><path d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" fill="var(--teal)" stroke="none"/><text id="bm-word-preview-text" x="10" y="22" text-anchor="middle" font-size="5" fill="white" opacity=".9" font-family="sans-serif"></text></svg>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.72rem;color:var(--text2);width:100%;margin-top:4px;">💡 Emoji, letra o palabra corta — lo que te represente.</p>
     </div>
   </div>
 
@@ -5258,18 +5295,317 @@ var RUTINAS_DB = {
     {icon:'📋',name:'Planificación semanal',desc:'Anotás 3 metas, 3 tareas y una cosa solo para vos.',time:'15 min'},
     {icon:'🥗',name:'Meal prep express',desc:'Dejás lavado y cortado: lechuga, zanahoria, huevos duros.',time:'15 min'},
   ]},
+  // ── Combos faltantes: feliz ──
+  '5_feliz_cuerpo': {badge:'✨ Movimiento Feliz',title:'¡Movete con alegría!',desc:'Cuando estás feliz el cuerpo quiere moverse. Dale lo que pide.',steps:[
+    {icon:'💃',name:'Baile libre 2 min',desc:'Ponés tu canción favorita y bailás como si nadie mirara.',time:'2 min'},
+    {icon:'🤸',name:'10 saltos de alegría',desc:'Jumping jacks o simplemente saltar en el lugar.',time:'1 min'},
+    {icon:'🧘',name:'Postura del guerrero',desc:'Un minuto por lado. La energía positiva se vuelve fuerza.',time:'2 min'},
+  ]},
+  '5_feliz_mente': {badge:'✨ Gratitud Express',title:'Amplificá tu bienestar',desc:'Cuando te sentís bien, unos minutos de gratitud lo multiplican.',steps:[
+    {icon:'📝',name:'3 cosas hermosas de hoy',desc:'Escribilas. Lo que te hizo sonreír, aunque sea pequeño.',time:'2 min'},
+    {icon:'🌬️',name:'Respiración energizante',desc:'5 inhalaciones profundas, exhalando con una sonrisa.',time:'1 min'},
+    {icon:'💌',name:'Mensaje a alguien especial',desc:'Una persona que quieras. Un mensaje corto. Sembrás alegría.',time:'2 min'},
+  ]},
+  '5_feliz_piel': {badge:'🌸 Glow de felicidad',title:'Ritual express radiante',desc:'Tu piel brilla cuando estás feliz. Potencialo.',steps:[
+    {icon:'💧',name:'Agua fría en el rostro',desc:'Cierra los poros, activa la circulación y te deja luminosa.',time:'1 min'},
+    {icon:'✨',name:'Serum vitamina C',desc:'3 gotas, masajeás hacia arriba con los dedos tibios.',time:'2 min'},
+    {icon:'🌟',name:'Hidratante y fijador',desc:'El toque final que transforma cualquier look.',time:'2 min'},
+  ]},
+  '15_feliz_cuerpo': {badge:'💃 Cardio Feliz',title:'Energía que baila',desc:'Tenés 15 minutos y energía de sobra. A disfrutarlos.',steps:[
+    {icon:'🎵',name:'Calentamiento bailado',desc:'Pones una playlist que te encante. 5 minutos de movimiento libre.',time:'5 min'},
+    {icon:'🏃‍♀️',name:'Cardio divertido',desc:'20 jumping jacks, 10 mountain climbers, 10 sentadillas. 2 rondas.',time:'7 min'},
+    {icon:'🧘',name:'Cierre con gratitud',desc:'Estiramiento final respirando profundo y sonriendo.',time:'3 min'},
+  ]},
+  '15_feliz_mente': {badge:'🌟 Amplitud Mental',title:'Mente brillante',desc:'La alegría expande tu perspectiva. Aprovechala.',steps:[
+    {icon:'📖',name:'Lectura inspiradora',desc:'10 páginas de algo que te encante, sin apuros.',time:'10 min'},
+    {icon:'💭',name:'Visualización positiva',desc:'Cerras los ojos y te imaginás 3 cosas que querés lograr.',time:'3 min'},
+    {icon:'📝',name:'Una meta concreta',desc:'La escribís. Con fecha. Hoy es un buen día para comprometerte.',time:'2 min'},
+  ]},
+  '15_feliz_piel': {badge:'🌸 Ritual Completo',title:'Belleza con alegría',desc:'15 minutos de cuidado personal que son puro placer.',steps:[
+    {icon:'🧴',name:'Doble limpieza',desc:'Aceite desmaquillante + espuma suave. El ritual empieza así.',time:'4 min'},
+    {icon:'💆',name:'Masaje facial',desc:'Con tu serum favorito, movimientos hacia arriba y afuera.',time:'5 min'},
+    {icon:'🌟',name:'Mascarilla hidratante',desc:'La dejás actuar mientras respirás y disfrutás el momento.',time:'6 min'},
+  ]},
+  '15_feliz_orden': {badge:'✅ Productividad Alegre',title:'Organización con energía',desc:'Cuando estás bien, es el mejor momento para ordenar tu mundo.',steps:[
+    {icon:'🎯',name:'3 objetivos del día',desc:'Los escribís. Los priorizás. Los que hoy SÍ vas a hacer.',time:'5 min'},
+    {icon:'📧',name:'Inbox a cero',desc:'Respondés lo urgente, archivás el resto.',time:'5 min'},
+    {icon:'✨',name:'Un espacio ordenado',desc:'Tu escritorio, tu cartera, o tu mesita de luz. Un lugar que brille.',time:'5 min'},
+  ]},
+  '30_feliz_cuerpo': {badge:'🔥 Workout de Alegría',title:'30 minutos de pura energía',desc:'Tenés tiempo, tenés energía. Es el momento perfecto para moverte.',steps:[
+    {icon:'🤸',name:'Calentamiento completo',desc:'5 min de movilidad articular y cardio suave.',time:'5 min'},
+    {icon:'💪',name:'Circuito de fuerza',desc:'3 rondas: 15 sentadillas, 12 flexiones, 20 abdominales.',time:'15 min'},
+    {icon:'🧘',name:'Yoga suave + estiramientos',desc:'Postura del perro boca abajo, triángulo, paloma. Con calma.',time:'10 min'},
+  ]},
+  '30_feliz_mente': {badge:'🌟 Expansión Mental',title:'Tiempo para crecer',desc:'La alegría es combustible para aprender y crear.',steps:[
+    {icon:'📚',name:'Lectura o podcast',desc:'20 min de algo que te nutra y te inspire.',time:'20 min'},
+    {icon:'✍️',name:'Journaling creativo',desc:'¿Qué soñás para los próximos 3 meses? Escribilo libre.',time:'7 min'},
+    {icon:'🎨',name:'Un pequeño proyecto creativo',desc:'Dibujo, playlist nueva, foto artística. Lo que te salga.',time:'3 min'},
+  ]},
+  '30_feliz_piel': {badge:'💫 Ritual Glow Completo',title:'30 minutos de amor propio',desc:'Piel radiante para un estado de ánimo radiante.',steps:[
+    {icon:'🛁',name:'Baño o ducha ritual',desc:'Con tiempo, con música, con el jabón que más te gusta.',time:'10 min'},
+    {icon:'💆',name:'Exfoliación suave',desc:'Circular, ascendente. Renovás la piel y la energía.',time:'5 min'},
+    {icon:'🌸',name:'Skincare completo',desc:'Tónico, serum, contorno de ojos, hidratante, fijador.',time:'10 min'},
+    {icon:'🧴',name:'Hidratación corporal',desc:'Crema o aceite en piernas y brazos. Massage incluido.',time:'5 min'},
+  ]},
+  '30_feliz_orden': {badge:'🌈 Organización Total',title:'La hora de ponerte al día',desc:'Con energía y alegría, organizar se vuelve un placer.',steps:[
+    {icon:'📋',name:'Planificación semanal',desc:'Objetivos, compromisos y al menos una cosa solo para vos.',time:'10 min'},
+    {icon:'🗑️',name:'Limpieza rápida',desc:'Un cajón, una parte del armario, el escritorio. Lo que esté pendiente.',time:'10 min'},
+    {icon:'📲',name:'Organización digital',desc:'Fotos, notas, apps. Un espacio digital ordenado libera la mente.',time:'10 min'},
+  ]},
+  '60_feliz_cuerpo': {badge:'🏆 Entrenamiento Completo',title:'Una hora de puro movimiento',desc:'¡Tenés 1 hora y energía! Es el mejor momento para entrenar de verdad.',steps:[
+    {icon:'🤸',name:'Calentamiento dinámico',desc:'Movilidad completa, articulaciones, cardio suave. 10 minutos.',time:'10 min'},
+    {icon:'💪',name:'Bloque de fuerza',desc:'4 rondas: sentadillas, peso muerto rumano, estocadas, flexiones.',time:'20 min'},
+    {icon:'⚡',name:'Bloque de cardio',desc:'Tabata: 20 seg de trabajo, 10 de descanso. 8 ejercicios.',time:'15 min'},
+    {icon:'🧘',name:'Yoga y estiramientos',desc:'15 min de posturas de recuperación. Te lo merecés.',time:'15 min'},
+  ]},
+  '60_feliz_mente': {badge:'🌟 Día de Expansión',title:'Una hora para crecer',desc:'La alegría amplifica todo lo que aprendés. Aprovechalo.',steps:[
+    {icon:'📚',name:'Lectura o curso',desc:'30 min de algo que te inspire, nutra o desafíe.',time:'30 min'},
+    {icon:'✍️',name:'Journaling profundo',desc:'¿Dónde querés estar en 1 año? Escribilo con detalle.',time:'15 min'},
+    {icon:'🎨',name:'Proyecto creativo personal',desc:'Música, arte, escritura, manualidades. Lo que te haga fluir.',time:'15 min'},
+  ]},
+  '60_feliz_piel': {badge:'💫 Spa Day en Casa',title:'Una hora de puro lujo',desc:'Tu cuerpo se merece esta atención completa.',steps:[
+    {icon:'🛁',name:'Baño ritual largo',desc:'Sales de baño o aceites esenciales. Sin apuros, sin culpa.',time:'20 min'},
+    {icon:'🌸',name:'Exfoliación facial y corporal',desc:'Suave y circular. Renovás la piel de cabeza a pies.',time:'10 min'},
+    {icon:'💆',name:'Mascarilla + masaje facial',desc:'15 min con la mascarilla. Masajeás con rodillo o con los dedos.',time:'15 min'},
+    {icon:'🧴',name:'Skincare completo + hidratación',desc:'Todos los pasos faciales + crema o aceite en el cuerpo.',time:'15 min'},
+  ]},
+  '60_feliz_orden': {badge:'🌈 Reset Completo',title:'La hora de transformar tu espacio',desc:'Con tiempo y energía, un reset que dura toda la semana.',steps:[
+    {icon:'🗂️',name:'Organización profunda',desc:'Un espacio que necesite orden: armario, cocina, escritorio.',time:'20 min'},
+    {icon:'📋',name:'Planificación semanal detallada',desc:'Metas, compromisos, espacios de tiempo para vos.',time:'15 min'},
+    {icon:'🛒',name:'Lista de compras inteligente',desc:'Despensa, semana de menú, lo que necesitás tener en casa.',time:'10 min'},
+    {icon:'🌱',name:'Un proyecto personal',desc:'Algo pequeño que tenías pendiente solo para vos. Hoy es el día.',time:'15 min'},
+  ]},
+
+  // ── Combos faltantes: 5 min ──
+  '5_cansada_cuerpo': {badge:'🌿 Stretch Suave',title:'Movimiento que restaura',desc:'Cuando estás cansada, el cuerpo pide suavidad, no exigencia.',steps:[
+    {icon:'🧘',name:'Cat-cow x5',desc:'En 4 apoyos. Columna lenta. Soltás la tensión acumulada.',time:'2 min'},
+    {icon:'🌊',name:'Postura del niño',desc:'Frente al suelo, brazos extendidos. Respirás profundo.',time:'2 min'},
+    {icon:'💧',name:'Hidratate',desc:'Un vaso de agua, despacio. Tu cuerpo lo necesita.',time:'1 min'},
+  ]},
+  '5_cansada_piel': {badge:'💦 SOS Hidratación',title:'Rescate exprés de piel',desc:'Cuando estás cansada tu piel también lo está. Devolvele vida.',steps:[
+    {icon:'💧',name:'Agua fría en el rostro',desc:'Cierra los poros y despierta la circulación al instante.',time:'1 min'},
+    {icon:'🌊',name:'Contorno de ojos',desc:'Un toque de crema y suave golpeteo con los dedos anulares.',time:'2 min'},
+    {icon:'✨',name:'Hidratante express',desc:'Una capa fina de hidratante. Cerrás la piel y la protegés.',time:'2 min'},
+  ]},
+  '5_cansada_orden': {badge:'📝 Mínimo Vital',title:'Una sola cosa',desc:'Cuando estás cansada, solo un pequeño paso hacia adelante.',steps:[
+    {icon:'📝',name:'Una tarea pendiente',desc:'Solo una. La más urgente. La anotás en papel.',time:'1 min'},
+    {icon:'🗑️',name:'Un objeto fuera de lugar',desc:'Lo ponés donde va. Solo uno.',time:'1 min'},
+    {icon:'🌸',name:'Autocompasión',desc:'Te recordás que no tenés que hacerlo todo hoy.',time:'3 min'},
+  ]},
+  '5_energia_mente': {badge:'⚡ Foco Mental',title:'Activa tu mente al máximo',desc:'Con energía tu mente puede volar. Dale un objetivo.',steps:[
+    {icon:'🎯',name:'Un objetivo claro',desc:'¿Qué querés lograr en las próximas 2 horas? Lo escribís.',time:'1 min'},
+    {icon:'📵',name:'Silencio activo',desc:'Teléfono boca abajo, 3 respiraciones profundas.',time:'1 min'},
+    {icon:'⚡',name:'Sprint de 3 minutos',desc:'La tarea más importante de tu lista, a full velocidad.',time:'3 min'},
+  ]},
+  '5_energia_piel': {badge:'✨ Glow Exprés',title:'Brilla en 5 minutos',desc:'Tu energía se nota en la piel. Amplifícala.',steps:[
+    {icon:'💦',name:'Spray refrescante',desc:'Agua termal o spray hidratante. Te refresca y activa.',time:'1 min'},
+    {icon:'✨',name:'Corrector e iluminador',desc:'Dos toques bajo los ojos y en el arco de ceja.',time:'2 min'},
+    {icon:'💋',name:'Toque de color',desc:'Un labial nude o coral. Menos de 1 minuto de aplicación.',time:'2 min'},
+  ]},
+  '5_energia_orden': {badge:'⚡ Micro Sprint',title:'5 minutos de productividad pura',desc:'Con energía hasta 5 minutos rinden el doble.',steps:[
+    {icon:'🗑️',name:'Limpieza flash',desc:'30 segundos tirando lo que no sirve del escritorio.',time:'1 min'},
+    {icon:'📧',name:'3 emails prioritarios',desc:'Solo los urgentes. Respondés breve y vas.',time:'2 min'},
+    {icon:'✅',name:'Un pendiente quick',desc:'Algo de tu lista que se resuelve en 2 minutos. Ya.',time:'2 min'},
+  ]},
+  '5_estres_cuerpo': {badge:'🌬️ Liberar la Tensión',title:'Soltar el estrés del cuerpo',desc:'El estrés se guarda en el cuerpo. Lo liberamos con movimiento.',steps:[
+    {icon:'🌬️',name:'Respiración 4-7-8',desc:'Inhalás 4 seg, sostenés 7, exhalás 8. Repetís 4 veces.',time:'2 min'},
+    {icon:'💆',name:'Masaje de cuello y hombros',desc:'Con los pulgares en la base del cráneo. Círculos suaves.',time:'2 min'},
+    {icon:'🤸',name:'Sacudite',desc:'Pies, piernas, brazos, manos. Literalmente sacudirte suelta tensión.',time:'1 min'},
+  ]},
+  '5_estres_mente': {badge:'🧠 Calma Mental',title:'5 minutos para bajar revoluciones',desc:'La mente estresada necesita un ancla. Esto la encuentra.',steps:[
+    {icon:'🫁',name:'Box breathing',desc:'4 seg inhalás, 4 sostenés, 4 exhalás, 4 esperas. x4 rondas.',time:'2 min'},
+    {icon:'👁️',name:'Técnica 5-4-3-2-1',desc:'5 cosas que ves, 4 que tocás, 3 que oís, 2 que olés, 1 que saboreás.',time:'2 min'},
+    {icon:'🌿',name:'Una frase de anclaje',desc:'Te decís: "esto también pasa". Lo sentís de verdad.',time:'1 min'},
+  ]},
+  '5_estres_orden': {badge:'🌊 Claridad Express',title:'Orden para calmar el caos',desc:'A veces ordenar algo pequeño calma la cabeza grande.',steps:[
+    {icon:'📝',name:'Vuelca todo a papel',desc:'Todo lo que tenés en la cabeza, a una lista. Sale de ahí.',time:'2 min'},
+    {icon:'🗂️',name:'Prioridad única',desc:'De todo lo que anotaste, ¿cuál es solo una cosa importante? Marcála.',time:'2 min'},
+    {icon:'🌸',name:'Lo demás puede esperar',desc:'Todo lo otro lo dejás para mañana. Sin culpa.',time:'1 min'},
+  ]},
+  // ── Combos faltantes: 15 min ──
+  '15_cansada_cuerpo': {badge:'🌿 Restauración Activa',title:'Movimiento suave de 15 min',desc:'No hace falta exigirse cuando uno está cansada. La suavidad también es fuerza.',steps:[
+    {icon:'🧘',name:'Yoga suave de apertura',desc:'Postura del gato, del niño, torsión suave. 10 minutos sin apuro.',time:'10 min'},
+    {icon:'🌬️',name:'Respiración consciente',desc:'5 respiraciones profundas antes y después de cada postura.',time:'3 min'},
+    {icon:'🌸',name:'Descanso final',desc:'Shavasana. 2 minutos tumbada. Tu cuerpo lo merece.',time:'2 min'},
+  ]},
+  '15_cansada_piel': {badge:'🌙 Ritual Nocturno',title:'Skincare de recarga',desc:'Cuando estás cansada, el skincare es cuidado y descanso al mismo tiempo.',steps:[
+    {icon:'💦',name:'Doble limpieza suave',desc:'Bálsamo desmaquillante + gel suave. Quitás el día de encima.',time:'5 min'},
+    {icon:'🌊',name:'Sérum de noche',desc:'Retinol o vitamina C nocturno, según tu piel.',time:'3 min'},
+    {icon:'💆',name:'Mascarilla en crema',desc:'Hidratante densa o mascarilla de noche. La dejás toda la noche.',time:'7 min'},
+  ]},
+  '15_cansada_orden': {badge:'🌙 Reset Suave',title:'Un orden mínimo para descansar bien',desc:'Ordenar un poco antes de dormir ayuda a desconectar mejor.',steps:[
+    {icon:'🌙',name:'Cerrar el día',desc:'Anotás en 3 líneas: qué lograste, qué dejás para mañana, una cosa buena del día.',time:'5 min'},
+    {icon:'🗂️',name:'Escritorio o mesita',desc:'Un espacio físico despejado. No todo, solo uno.',time:'5 min'},
+    {icon:'📲',name:'Teléfono en modo noche',desc:'No notification, modo avión o alcance limitado. Tu mente descansa.',time:'5 min'},
+  ]},
+  '15_energia_mente': {badge:'🔥 Foco Total',title:'15 minutos de concentración pura',desc:'La energía que tenés, la canalizás hacia lo que más importa.',steps:[
+    {icon:'🎯',name:'Pomodoro exprés',desc:'Elegís UNA tarea. Ponés 15 min en el timer. Sin interrupciones.',time:'12 min'},
+    {icon:'📝',name:'Cierre y próximo paso',desc:'Al terminar: ¿qué lograste? ¿cuál es el siguiente paso concreto?',time:'3 min'},
+  ]},
+  '15_energia_piel': {badge:'🌟 Ritual AM Completo',title:'Skincare de mañana, paso a paso',desc:'Cuando tenés tiempo y energía, cada paso cuenta.',steps:[
+    {icon:'💦',name:'Limpieza y tónico',desc:'Piel limpia, tónico equilibrante. La base de todo.',time:'3 min'},
+    {icon:'✨',name:'Vitamina C + sérum',desc:'Protección antioxidante y activos según tu piel.',time:'4 min'},
+    {icon:'☀️',name:'Hidratante + FPS 50',desc:'El paso que no se saltea. Nunca.',time:'3 min'},
+    {icon:'💄',name:'Opcionales de maquillaje',desc:'Lo que te salga ese día: base, corrector, máscara.',time:'5 min'},
+  ]},
+  '15_energia_orden': {badge:'⚡ Productividad Express',title:'15 minutos, máximo rendimiento',desc:'Con energía cada minuto rinde mucho. A aprovecharlos.',steps:[
+    {icon:'🎯',name:'Lista de las 3 más importantes',desc:'Solo tres. Las tareas del día que SÍ van a mover la aguja.',time:'2 min'},
+    {icon:'📧',name:'Inbox zero parcial',desc:'Respondés urgentes, archivás el resto, borrás lo que sobra.',time:'8 min'},
+    {icon:'📅',name:'Revisión de agenda',desc:'¿Qué compromisos tenés? ¿Hay algo que pueda moverse?',time:'5 min'},
+  ]},
+  '15_estres_cuerpo': {badge:'💆 Soltar la Tensión',title:'Cuerpo antistrés en 15 min',desc:'El estrés vive en el cuerpo. Con 15 min lo podés soltar.',steps:[
+    {icon:'🚶‍♀️',name:'Caminata corta sin pantallas',desc:'10 minutos afuera si podés, o por la casa. Sin teléfono.',time:'10 min'},
+    {icon:'🧘',name:'Postura de piernas en pared',desc:'Acostada, piernas apoyadas en la pared. 5 minutos. Calma el sistema nervioso.',time:'5 min'},
+  ]},
+  '15_estres_mente': {badge:'🌊 Reset Mental',title:'15 minutos para tu cabeza',desc:'Cuando la mente no para, le das un lugar donde sí puede.',steps:[
+    {icon:'📔',name:'Stream of consciousness',desc:'Escribís sin parar 10 minutos. Todo lo que aparezca. Sin releer.',time:'10 min'},
+    {icon:'🫁',name:'Respiración de coherencia',desc:'5 seg inhalás, 5 exhalás. Durante 5 minutos. Equilibra el sistema nervioso.',time:'5 min'},
+  ]},
+  '15_estres_piel': {badge:'🌸 SOS Piel Estresada',title:'Calma para piel y mente',desc:'El skincare como meditación activa.',steps:[
+    {icon:'💧',name:'Agua fría + limpieza',desc:'El agua fría activa. La limpieza suave resetea.',time:'3 min'},
+    {icon:'🌿',name:'Mascarilla calmante',desc:'Caolín, aloe o avena. Para pieles reactivas al estrés.',time:'8 min'},
+    {icon:'🌊',name:'Cierre con hidratante',desc:'Textura cremosa, movimientos lentos y hacia arriba.',time:'4 min'},
+  ]},
+  '15_estres_orden': {badge:'🌿 Un Solo Paso',title:'Solo una cosa, bien hecha',desc:'Cuando todo se acumula, la clave es un solo paso.',steps:[
+    {icon:'📝',name:'Brain dump completo',desc:'Todo lo que tenés en la cabeza, a papel. 5 minutos sin parar.',time:'5 min'},
+    {icon:'🔴',name:'Solo una cosa urgente',desc:'De todo lo que anotaste, cuál es la más urgente. Solo esa.',time:'2 min'},
+    {icon:'⏱️',name:'10 minutos de acción',desc:'Solo esa tarea. Timer en 10 min. Al terminar, cerrás.',time:'8 min'},
+  ]},
+  // ── Combos faltantes: 30 min ──
+  '30_cansada_cuerpo': {badge:'🌿 Yoga Restaurativo',title:'Movimiento que recarga',desc:'30 minutos de yoga para reponer energía.',steps:[
+    {icon:'🧘',name:'Apertura de cadera suave',desc:'Postura de la paloma, 3 minutos por lado.',time:'6 min'},
+    {icon:'🌊',name:'Torsiones espinales',desc:'Acostada, rodillas al pecho, torsión lenta a cada lado.',time:'8 min'},
+    {icon:'🌙',name:'Posturas de tierra',desc:'Perro boca abajo, postura del niño, gato-vaca.',time:'10 min'},
+    {icon:'🌸',name:'Shavasana extendido',desc:'6 minutos de descanso consciente. Merecido.',time:'6 min'},
+  ]},
+  '30_cansada_mente': {badge:'🌙 Descanso Mental',title:'Ritual de desconexión',desc:'La mente cansada necesita permiso para descansar.',steps:[
+    {icon:'📵',name:'Sin pantallas',desc:'Teléfono boca abajo, notificaciones silenciadas.',time:'1 min'},
+    {icon:'🍵',name:'Infusión ritual',desc:'Preparás el té o mate con consciencia. Cada paso importa.',time:'7 min'},
+    {icon:'📖',name:'Lectura suave',desc:'Algo de placer. Sin información, sin urgencia.',time:'20 min'},
+    {icon:'🌸',name:'Journaling de 2 líneas',desc:'¿Cómo te sentiste hoy? Solo dos oraciones.',time:'2 min'},
+  ]},
+  '30_cansada_piel': {badge:'🌙 Spa Nocturno',title:'Ritual de belleza reparador',desc:'Cuando el cuerpo está cansado, el skincare es medicina.',steps:[
+    {icon:'🛁',name:'Baño o ducha caliente',desc:'15 minutos. Con aceite o sal de baño si tenés.',time:'15 min'},
+    {icon:'🌸',name:'Skincare completo',desc:'Limpieza, tónico, sérum de noche, hidratante.',time:'10 min'},
+    {icon:'🧴',name:'Crema de manos y pies',desc:'Lo que más olvidamos. Cerrás el día cuidándote completa.',time:'5 min'},
+  ]},
+  '30_cansada_orden': {badge:'🌈 Reset Gentil',title:'Organización sin exigencia',desc:'Ordenar cuando estás cansada es solo un paso pequeño.',steps:[
+    {icon:'🌙',name:'Cierre del día',desc:'¿Qué hiciste hoy? ¿Qué dejás para mañana? 3 líneas máximo.',time:'5 min'},
+    {icon:'🗂️',name:'Una zona pequeña',desc:'La cocina, el baño, la mesita. Solo una y chica.',time:'15 min'},
+    {icon:'📲',name:'Digital order',desc:'Fotos del día organizadas, pantalla del celu limpia.',time:'10 min'},
+  ]},
+  '30_energia_cuerpo': {badge:'🔥 Circuito Express',title:'30 minutos de potencia',desc:'Tenés energía para dar y llevar. A usarla.',steps:[
+    {icon:'🤸',name:'Calentamiento completo',desc:'5 min de movilidad articular y cardio suave.',time:'5 min'},
+    {icon:'💪',name:'Fuerza funcional',desc:'4 series: sentadillas, peso muerto, fondos, abdominales.',time:'15 min'},
+    {icon:'⚡',name:'Finisher cardio',desc:'5 min de HIIT: burpees, mountain climbers, saltos.',time:'5 min'},
+    {icon:'🧘',name:'Estiramientos',desc:'5 min de cierre para no quedar rígida.',time:'5 min'},
+  ]},
+  '30_energia_mente': {badge:'🧠 Aprendizaje Activo',title:'Media hora para crecer',desc:'Con energía el aprendizaje se asienta mejor.',steps:[
+    {icon:'📚',name:'Lectura técnica o de desarrollo',desc:'20 min de algo que te nutra o desafíe.',time:'20 min'},
+    {icon:'✍️',name:'Síntesis propia',desc:'¿Qué aprendiste? ¿Cómo lo usás? Lo escribís en tus palabras.',time:'7 min'},
+    {icon:'🎯',name:'Una acción concreta',desc:'Algo que vas a aplicar esta semana. Lo ponés en tu agenda.',time:'3 min'},
+  ]},
+  '30_energia_orden': {badge:'🚀 Productividad Total',title:'Media hora de máxima eficiencia',desc:'Con energía y tiempo, podés resetear la semana entera.',steps:[
+    {icon:'📋',name:'Revisión y planificación',desc:'¿Qué pendientes tenés? Los organizás por urgencia e importancia.',time:'10 min'},
+    {icon:'📧',name:'Comunicaciones al día',desc:'Emails, mensajes, respuestas pendientes. Limpiás el backlog.',time:'10 min'},
+    {icon:'🏠',name:'Un espacio físico',desc:'El escritorio, la cocina, el placard. Lo que más necesite.',time:'10 min'},
+  ]},
+  '30_estres_cuerpo': {badge:'💆 Movimiento Terapéutico',title:'Soltar el estrés del cuerpo',desc:'El estrés acumulado en el cuerpo se disuelve con movimiento consciente.',steps:[
+    {icon:'🚶‍♀️',name:'Caminata sin teléfono',desc:'15 min afuera si podés. Respirás, mirás, no pensás.',time:'15 min'},
+    {icon:'🧘',name:'Yoga suave de apertura',desc:'Cadera, pecho, hombros. Donde el estrés más se acumula.',time:'10 min'},
+    {icon:'🫁',name:'Respiración de cierre',desc:'4-7-8 x5 repeticiones. Bajas el sistema nervioso.',time:'5 min'},
+  ]},
+  '30_estres_piel': {badge:'🌿 Ritual Calmante',title:'Skincare como meditación',desc:'El ritual de belleza puede ser tu meditación cuando estás estresada.',steps:[
+    {icon:'💦',name:'Limpieza doble',desc:'Bálsamo + espuma suave. El proceso ya es calmante.',time:'5 min'},
+    {icon:'🌿',name:'Mascarilla calmante',desc:'Aloe vera, centella asiática o avena. 15 minutos de pausa real.',time:'15 min'},
+    {icon:'🌊',name:'Sérum + hidratante',desc:'Capas livianas, movimientos suaves hacia arriba.',time:'7 min'},
+    {icon:'🌸',name:'Contorno de ojos',desc:'El toque de cuidado que muchas veces se olvida.',time:'3 min'},
+  ]},
+  '30_estres_orden': {badge:'🌊 Calma Organizada',title:'Ordenar para respirar',desc:'Un espacio ordenado calma una mente en caos.',steps:[
+    {icon:'🫁',name:'Respira antes',desc:'3 minutos de respiración. Antes de tocar nada.',time:'3 min'},
+    {icon:'📝',name:'Brain dump',desc:'Todo lo que está en tu cabeza, a papel. Sin filtro.',time:'7 min'},
+    {icon:'🗂️',name:'Prioridad única del día',desc:'De toda esa lista, ¿cuál es la más importante? Solo esa.',time:'5 min'},
+    {icon:'🏠',name:'Un espacio físico',desc:'Solo uno. El que más te molesta ver desordenado.',time:'15 min'},
+  ]},
+  // ── Combos faltantes: 60 min ──
+  '60_cansada_cuerpo': {badge:'🌿 Yoga Reparador',title:'Una hora de movimiento restaurativo',desc:'Cuando estás cansada y tenés tiempo, el yoga reparador es el regalo.',steps:[
+    {icon:'🧘',name:'Yoga restaurativo',desc:'Posturas apoyadas con cojines o mantas. Sin esfuerzo.',time:'30 min'},
+    {icon:'🚶‍♀️',name:'Caminata suave',desc:'20 min lentos, sin destino, sin ritmo, sin teléfono.',time:'20 min'},
+    {icon:'🌸',name:'Shavasana largo',desc:'10 minutos de descanso consciente al final.',time:'10 min'},
+  ]},
+  '60_cansada_mente': {badge:'🌙 Día de Silencio',title:'Una hora para no hacer nada',desc:'A veces el mejor cuidado es simplemente descansar la mente.',steps:[
+    {icon:'📵',name:'Desconexión total',desc:'Teléfono apagado o en modo avión. Sin excepción.',time:'2 min'},
+    {icon:'🛁',name:'Baño largo',desc:'Agua caliente, sin apuros, sin música ni podcast.',time:'20 min'},
+    {icon:'📖',name:'Lectura placentera',desc:'Algo que hayas querido leer hace tiempo, sin presión.',time:'25 min'},
+    {icon:'🌙',name:'Siesta o descanso',desc:'Si el cuerpo pide dormir, escuchalo. 13 minutos son suficientes.',time:'13 min'},
+  ]},
+  '60_cansada_piel': {badge:'💆 Spa Completo',title:'Una hora de puro cuidado',desc:'Cuando estás cansada y tenés tiempo, el spa en casa es el regalo perfecto.',steps:[
+    {icon:'🛁',name:'Baño ritual largo',desc:'Con sales de baño o aceite esencial. Sin apuros.',time:'20 min'},
+    {icon:'🌸',name:'Exfoliación suave',desc:'Corporal o facial, o ambas. Piel nueva para mente nueva.',time:'10 min'},
+    {icon:'💆',name:'Mascarilla + masaje facial',desc:'15 min con mascarilla, masajeás cuello y escote.',time:'15 min'},
+    {icon:'🧴',name:'Hidratación total',desc:'Cara, cuello, brazos, piernas, manos. Todo.',time:'15 min'},
+  ]},
+  '60_estres_piel': {badge:'🌿 Ritual Antiestrés',title:'Una hora de skincare terapéutico',desc:'Una hora entera de cuidado personal para bajar el cortisol.',steps:[
+    {icon:'🛁',name:'Baño de inmersión',desc:'Sales de baño con lavanda o manzanilla. 20 minutos sin prisa.',time:'20 min'},
+    {icon:'💆',name:'Masaje corporal suave',desc:'Aceite de almendras o coco. Movimientos lentos, descendentes.',time:'15 min'},
+    {icon:'🌿',name:'Mascarilla facial calmante',desc:'Centella asiática o avena. La dejás actuar 15 minutos.',time:'15 min'},
+    {icon:'🌸',name:'Skincare facial completo',desc:'Todos los pasos, sin apuros. Ritualizás cada producto.',time:'10 min'},
+  ]},
+  // ── Otros combos faltantes ──
+  '60_energia_cuerpo': {badge:'🏆 Full Power',title:'Entrenamiento de una hora',desc:'Máxima energía, máxima dedicación.',steps:[
+    {icon:'🤸',name:'Calentamiento completo',desc:'10 min de movilidad articular y activación muscular.',time:'10 min'},
+    {icon:'💪',name:'Fuerza funcional',desc:'4 rondas de: sentadillas, peso muerto, estocadas, flexiones.',time:'20 min'},
+    {icon:'⚡',name:'Cardio HIIT',desc:'Tabata completo: 8 ejercicios, 20 seg cada uno.',time:'15 min'},
+    {icon:'🧘',name:'Vuelta a la calma',desc:'Yoga restaurativo y estiramientos profundos.',time:'15 min'},
+  ]},
+  '60_energia_mente': {badge:'🧠 Deep Learning',title:'Una hora para tu mente',desc:'Energía + tiempo = la combinación perfecta para crecer.',steps:[
+    {icon:'📚',name:'Aprendizaje activo',desc:'Un curso, un libro técnico, o un podcast de alto valor. Tomás notas.',time:'30 min'},
+    {icon:'✍️',name:'Síntesis y aplicación',desc:'¿Qué aprendiste? ¿Cómo lo aplicás a tu vida? Lo escribís.',time:'15 min'},
+    {icon:'🎯',name:'Plan de acción',desc:'Una cosa concreta que vas a implementar esta semana.',time:'15 min'},
+  ]},
+  '60_energia_piel': {badge:'💎 Glow Total',title:'Un spa day completo',desc:'Con energía se disfruta más el autocuidado.',steps:[
+    {icon:'🛁',name:'Baño con rituales',desc:'Sales, aceites, velas. El proceso completo sin apuros.',time:'20 min'},
+    {icon:'🌸',name:'Exfoliación + mascarilla',desc:'Peeling suave y mascarilla nutritiva según tu tipo de piel.',time:'15 min'},
+    {icon:'💆',name:'Skincare completo',desc:'Todos los pasos, con masaje facial de 5 minutos incluido.',time:'15 min'},
+    {icon:'🧴',name:'Hidratación total',desc:'Cuerpo, manos y pies. Crema rica, sin saltear ningún punto.',time:'10 min'},
+  ]},
+  '60_energia_orden': {badge:'⚡ Sprint de Productividad',title:'La hora más productiva del día',desc:'Cuando tenés energía, ¡úsala para ordenar todo de una vez!',steps:[
+    {icon:'🗂️',name:'Deep clean digital',desc:'Emails, fotos, archivos. Todo organizado y etiquetado.',time:'20 min'},
+    {icon:'📋',name:'Planificación mensual',desc:'Objetivos del mes, compromisos, espacios para vos.',time:'20 min'},
+    {icon:'🏠',name:'Orden físico profundo',desc:'Un espacio que necesita atención real. Sin postergarlo más.',time:'20 min'},
+  ]},
+  '60_estres_cuerpo': {badge:'💪 Mover Para Soltar',title:'Movimiento que libera',desc:'El estrés acumulado en el cuerpo se libera con movimiento.',steps:[
+    {icon:'🚶‍♀️',name:'Caminata lenta sin teléfono',desc:'20 min al aire libre. Respirás, mirás alrededor, nada de pantallas.',time:'20 min'},
+    {icon:'🧘',name:'Yoga suave',desc:'Posturas de apertura: corazón, caderas, espalda. Sin forzar.',time:'25 min'},
+    {icon:'🫁',name:'Respiración 4-7-8',desc:'El cierre. 5 repeticiones completas para bajar el sistema nervioso.',time:'5 min'},
+    {icon:'💧',name:'Vaso de agua',desc:'Y un momento de quietud. Ya hiciste mucho.',time:'10 min'},
+  ]},
+  '60_estres_mente': {badge:'🌿 Reset Profundo',title:'Una hora para resetear',desc:'Cuando la cabeza no para, le das espacio para que sí pare.',steps:[
+    {icon:'🚶‍♀️',name:'Caminata sin destino',desc:'30 min. Sin podcast, sin música. Solo tus pensamientos y el aire.',time:'30 min'},
+    {icon:'📔',name:'Journaling de descarga',desc:'Todo lo que pesa. Sin censura. Solo para vos.',time:'15 min'},
+    {icon:'🫁',name:'Meditación guiada',desc:'Una app de meditación o simplemente silencio con respiración.',time:'10 min'},
+    {icon:'🍵',name:'Infusión y nada más',desc:'5 minutos de no hacer absolutamente nada.',time:'5 min'},
+  ]},
+  '60_estres_orden': {badge:'🌊 Calma Organizada',title:'Orden para calmar la mente',desc:'A veces ordenar el espacio externo ordena el interno.',steps:[
+    {icon:'🫁',name:'Primero: respirar',desc:'5 respiraciones profundas antes de empezar. Sin excepción.',time:'2 min'},
+    {icon:'🗂️',name:'Una zona a la vez',desc:'Solo una. El escritorio, la mesa, la mesita. No todo.',time:'25 min'},
+    {icon:'📋',name:'Lista de pendientes',desc:'Todo lo que está en tu cabeza, a papel. Sale de ahí.',time:'15 min'},
+    {icon:'🌸',name:'Ritual de cierre',desc:'Skincare o algo pequeño que te guste. Cierre suave del día.',time:'18 min'},
+  ]},
 };
 function selectQuiz(key, val, btn) {
   quizAnswers[key] = val;
   var siblings = btn.parentElement.querySelectorAll('.quiz-opt');
   siblings.forEach(function(b){b.classList.remove('selected');});
   btn.classList.add('selected');
-  // Auto-avanzar al siguiente paso
+  // Haptic feedback if available
+  if(navigator.vibrate) navigator.vibrate(10);
+  // Auto-avanzar al siguiente paso (reducido de 350 a 200ms para mayor respuesta)
   var step = parseInt(btn.closest('[id^="quiz-step-"]') ? btn.closest('[id^="quiz-step-"]').id.replace('quiz-step-','') : 0);
   if(step && step < 3) {
-    setTimeout(function(){ quizNext(step + 1); }, 350);
+    setTimeout(function(){ quizNext(step + 1); }, 200);
   } else if(step === 3) {
-    setTimeout(function(){ generateRutina(); }, 350);
+    setTimeout(function(){ generateRutina(); }, 200);
   }
 }
 function quizNext(step) {
@@ -5312,6 +5648,20 @@ function generateRutina() {
   stepsEl.querySelectorAll('.fade-up').forEach(function(el){obs.observe(el);});
   result.scrollIntoView({behavior:'smooth',block:'start'});
 }
+// Add pointerdown to quiz-opts for immediate visual feedback
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.quiz-opt').forEach(function(btn){
+    btn.addEventListener('pointerdown', function(){
+      this.style.opacity = '0.75';
+    });
+    btn.addEventListener('pointerup', function(){
+      this.style.opacity = '';
+    });
+    btn.addEventListener('pointercancel', function(){
+      this.style.opacity = '';
+    });
+  });
+});
 function resetRutina() {
   quizAnswers = {};
   document.getElementById('rutina-quiz').style.display='block';
