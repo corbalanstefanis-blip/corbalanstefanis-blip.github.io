@@ -507,34 +507,7 @@ h1.hero-title em{font-style:italic;color:var(--accent);font-weight:300;display:b
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
-.hero-circles{
-  position:relative;
-  width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;
-}
-.circle-1{
-  position:absolute;border-radius:50%;
-  /* Usar % para que no se corte */
-  width:min(520px,90%);height:min(520px,90%);
-  background:radial-gradient(circle,rgba(166,123,91,.15) 0%,transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  animation:pulse1 6s ease-in-out infinite;
-}
-.circle-2{
-  position:absolute;border-radius:50%;
-  width:min(360px,65%);height:min(360px,65%);
-  border:1px solid rgba(166,123,91,.2);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  animation:pulse2 8s ease-in-out infinite;
-}
-.circle-3{
-  position:absolute;border-radius:50%;
-  width:min(210px,38%);height:min(210px,38%);
-  border:1px solid rgba(106,155,132,.3);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-}
-@keyframes pulse1{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
-@keyframes pulse2{0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}50%{transform:translate(-50%,-50%) scale(1.12) rotate(9deg);}}
+
 
 .hero-float-card{
   position:absolute;
@@ -2131,9 +2104,7 @@ nav{padding:12px 24px;}
     height:200px!important;
     min-height:200px!important;
   }
-  .circle-1{width:240px!important;height:240px!important;}
-  .circle-2{width:160px!important;height:160px!important;}
-  .circle-3{width:90px!important;height:90px!important;}
+
   .cat-grid{
     display:flex!important;
     overflow-x:auto!important;
@@ -2346,7 +2317,7 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 }
 
 .emergency-overlay{
-  position:fixed;inset:0;z-index:6000;
+  position:fixed;inset:0;z-index:10001;
   background:#0a0a0f;
   display:none;flex-direction:column;
   align-items:center;justify-content:center;
@@ -2392,12 +2363,13 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   text-align:center;max-width:280px;
 }
 .emergency-write{
-  width:100%;max-width:420px;
+  width:100%;max-width:460px;
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.18);
   border-radius:14px;padding:16px 18px;
   color:rgba(255,255,255,.85);font-size:1rem;
-  resize:none;height:160px;outline:none;
+  resize:vertical;min-height:200px;height:200px;max-height:50vh;
+  outline:none;
   font-family:'DM Sans',sans-serif;line-height:1.8;
   box-sizing:border-box;
   -webkit-appearance:none;
@@ -2661,8 +2633,8 @@ select.bib-input{cursor:pointer;}
 .bib-filtro{background:var(--bg3);border:1px solid var(--border);border-radius:16px;
   padding:5px 14px;font-size:.78rem;cursor:pointer;color:var(--text2);transition:all .2s;}
 .bib-filtro.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.bib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
-.bib-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;}
+.bib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;overflow:visible;}
+.bib-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:visible;}
 .bib-card-title{font-weight:500;font-size:.9rem;color:var(--text);margin-bottom:4px;}
 .bib-card-autor{font-size:.78rem;color:var(--text2);margin-bottom:8px;}
 .bib-card-nota{font-size:.78rem;color:var(--text2);font-style:italic;margin-bottom:8px;line-height:1.5;}
@@ -2675,7 +2647,7 @@ select.bib-input{cursor:pointer;}
 
 /* ── SEÑALADOR DIGITAL ── */
 .senalador{
-  position:absolute;top:-2px;right:14px;
+  position:absolute;top:-4px;right:14px;
   width:20px;height:36px;
   cursor:pointer;z-index:10;
   transition:filter .2s;
@@ -2687,8 +2659,9 @@ select.bib-input{cursor:pointer;}
 .senalador[style*="left"]{right:auto;}
 
 .senalador svg{width:100%;height:100%;display:block;}
-.senalador.active svg .bm-fill{fill:var(--accent);}
-.senalador:not(.active) svg .bm-fill{fill:var(--bg3);stroke:var(--border);stroke-width:1;}
+.senalador.active svg .bm-fill{fill:var(--accent);stroke:none;}
+.senalador:not(.active) svg .bm-fill{fill:var(--bg);stroke:var(--accent);stroke-width:2;}
+.senalador:not(.active):hover svg .bm-fill{fill:var(--accent);opacity:.25;}
 .senalador:hover{filter:brightness(1.15);}
 
 @keyframes bm-wave{
@@ -3010,17 +2983,55 @@ body.panel-open {
 }
 /* Lector de texto + voz */
 .bib-reader-overlay{
-  display:none;position:fixed;inset:0;z-index:9999;
-  background:var(--bg);flex-direction:column;
+  display:none;position:fixed;
+  top:0;left:0;bottom:0;
+  width:min(520px,100vw);
+  z-index:5000;
+  background:var(--bg);
+  flex-direction:column;
+  border-right:1px solid var(--border);
+  box-shadow:8px 0 40px rgba(0,0,0,.2);
+  transform:translateX(-100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
 }
-.bib-reader-overlay.open{display:flex;}
+.bib-reader-overlay.open{
+  display:flex;
+  transform:translateX(0);
+}
+/* Modo EPUB: pantalla completa para ver dos páginas */
+.bib-reader-overlay.epub-mode{
+  width:100vw;right:0;
+  border-right:none;
+}
+/* El viewer EPUB - padding derecho para no tapar con senalador */
+.bib-reader-overlay.epub-mode #bib-epub-viewer{
+  padding-right: 60px;
+  box-sizing: border-box;
+}
+/* Ocultar botones nav derecha cuando el lector EPUB está abierto */
+body.epub-reading .nav-right-actions{
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+@media(max-width:600px){
+  .bib-reader-overlay{
+    top:auto;left:0;right:0;
+    width:100%;height:90vh;
+    border-right:none;border-top:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.2);
+    transform:translateY(100%);
+  }
+  .bib-reader-overlay.open{transform:translateY(0);}
+}
 .bib-reader-header{
   display:flex;align-items:center;gap:12px;
-  padding:16px 20px;border-bottom:1px solid var(--border);
+  padding:14px 16px;border-bottom:1px solid var(--border);
   flex-shrink:0;
 }
 .bib-reader-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+  font-family:'Cormorant Garamond',serif;font-size:1rem;
   font-style:italic;color:var(--text);flex:1;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
@@ -3031,9 +3042,8 @@ body.panel-open {
 }
 .bib-reader-close:hover{background:var(--bg3);}
 .bib-reader-body{
-  flex:1;overflow-y:auto;padding:32px 24px;
+  flex:1;overflow-y:auto;padding:24px 20px;
   font-size:1rem;line-height:2;color:var(--text);
-  max-width:680px;margin:0 auto;width:100%;
 }
 .bib-reader-body p{margin-bottom:1.2em;}
 .bib-tts-bar{
@@ -3048,9 +3058,32 @@ body.panel-open {
 /* EPUB viewer */
 #bib-epub-viewer{
   flex:1;width:100%;min-height:0;overflow:hidden;
-  background:var(--bg);
+  background:var(--bg);position:relative;
 }
-#bib-epub-viewer iframe{border:none!important;}
+#bib-epub-viewer iframe{border:none!important;width:100%!important;height:100%!important;}
+
+/* Señalador de página dentro del lector */
+#epub-page-senalador{
+  position:fixed;top:0;right:72px;
+  width:60px;height:160px;
+  z-index:5010;cursor:pointer;
+  transform-origin:top center;
+  pointer-events:auto;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.25));
+}
+#epub-page-senalador svg{width:100%;height:100%;display:block;}
+#epub-page-senalador.wave{
+  animation:bm-page-wave 1.4s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes bm-page-wave{
+  0%   {transform:scaleY(1)    scaleX(1);}
+  12%  {transform:scaleY(1.55) scaleX(1.12);}
+  35%  {transform:scaleY(1.42) scaleX(1.08);}
+  55%  {transform:scaleY(1.22) scaleX(1.04);}
+  72%  {transform:scaleY(1.08) scaleX(1.01);}
+  88%  {transform:scaleY(0.88) scaleX(0.98);}
+  100% {transform:scaleY(1)    scaleX(1);}
+}
 /* Nav EPUB */
 .epub-nav-btn{
   background:var(--bg3);border:1px solid var(--border);
@@ -3216,7 +3249,7 @@ body.panel-open {
     <li><a href="#" onclick="showPanel('biblioteca');return false;" class="nav-panel-link" data-panel="biblioteca">Biblioteca</a></li>
     <li><a href="#" onclick="showPanel('tienda');return false;" class="nav-panel-link" data-panel="tienda">Tienda</a></li>
   </ul>
-  <div class="nav-right">
+  <div class="nav-right nav-right-actions">
     <button class="profile-btn" onclick="openProfile()"><span class="profile-av-sm" id="nav-av">🌸</span><span id="nav-name">Mi perfil</span></button>
 
     <a href="#" onclick="showPanel('rutinas');return false;" class="nav-cta">Empezar</a>
@@ -3266,11 +3299,7 @@ body.panel-open {
   </div>
   <div class="hero-right">
     <div class="hero-art">
-      <div class="hero-circles">
-        <div class="circle-1"></div>
-        <div class="circle-2"></div>
-        <div class="circle-3"></div>
-      </div>
+
       <!-- Luna decorativa en el hero -->
 <svg class="hero-luna" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg"
   style="position:absolute;inset:0;width:100%;height:100%;opacity:0.18;pointer-events:none;z-index:1;">
@@ -3344,7 +3373,7 @@ body.panel-open {
       La luna inspira<br/><em>KALMA.</em>
     </h2>
     <p class="section-body" style="margin:0 auto;text-align:center;max-width:560px;">
-      El ciclo menstrual dura lo mismo que el ciclo lunar — no es poesía, es biología. Durante siglos, las mujeres usaron la luna para entender su propio ritmo. KALMA nació de esa certeza: que entender tu propio ritmo, respetarlo y vivir en sincronía con él, es la forma más poderosa de cuidarte.
+      Durante siglos, las mujeres usaron la luna para entender su propio ritmo. KALMA nació de esa certeza: que entender tu propio ritmo, respetarlo y vivir en sincronía con él, es la forma más poderosa de cuidarte. No es poesía, es biología.
     </p>
     <div style="width:50px;height:1px;background:var(--accent);margin:28px auto;opacity:.5;"></div>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--accent);line-height:1.7;">
@@ -3878,6 +3907,16 @@ body.panel-open {
 </section>
 <!-- Overlay lector de texto -->
 <div class="bib-reader-overlay" id="bib-reader-overlay" role="dialog" aria-modal="true" aria-label="Lector">
+  <!-- Señalador de página — esquina superior derecha del lector -->
+  <div id="epub-page-senalador" title="Página marcada" style="display:none;">
+    <svg width="52" height="140" viewBox="0 0 52 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="4" y="0" width="44" height="110" rx="4" fill="var(--accent)"/>
+      <polygon points="4,110 26,130 48,110" fill="var(--accent)"/>
+      <rect x="14" y="18" width="24" height="1.5" rx="1" fill="var(--bg)" opacity=".7"/>
+      <rect x="14" y="26" width="18" height="1.5" rx="1" fill="var(--bg)" opacity=".5"/>
+      <text x="26" y="76" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-size="28" fill="var(--bg)" opacity=".9" font-style="italic">K</text>
+    </svg>
+  </div>
   <div class="bib-reader-header">
     <button class="bib-reader-close" onclick="closeBibReader()" aria-label="Cerrar lector">✕</button>
     <div class="bib-reader-title" id="bib-reader-title">—</div>
@@ -3887,7 +3926,7 @@ body.panel-open {
   <!-- PDF: iframe -->
   <iframe class="bib-pdf-frame" id="bib-pdf-frame" style="display:none;" title="Lector PDF"></iframe>
   <!-- EPUB: viewer -->
-  <div id="bib-epub-viewer" style="display:none;"></div>
+  <div id="bib-epub-viewer" style="display:none;position:relative;"></div>
   <!-- Barra TTS (solo txt) -->
   <div class="bib-tts-bar" id="bib-tts-bar" style="display:none;">
     <button class="bib-tts-btn" id="tts-play-btn" onclick="ttsToggle()" title="Leer en voz alta">🔊 Leer</button>
@@ -6329,7 +6368,7 @@ function renderBib() {
     }
     return '<div class="bib-card" style="padding-top:44px;">'
       // Señalador — esquina superior IZQUIERDA
-      +'<button class="senalador '+bmActive+'" style="position:absolute;top:8px;left:10px;right:auto;z-index:2;background:none;border:none;padding:0;" onclick="toggleBM(\'bib-'+e.id+'\',this)" title="Señalar" aria-label="Marcar libro">'
+      +'<button class="senalador '+bmActive+'" style="position:absolute;top:4px;left:8px;right:auto;z-index:2;background:none;border:none;padding:0;width:28px;height:48px;" onclick="toggleBM(\'bib-'+e.id+'\',this)" title="Señalar" aria-label="Marcar libro">'
       +'<svg viewBox="0 0 20 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bm-fill" d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" stroke-linejoin="round"/><text x="10" y="18" text-anchor="middle" font-size="8" fill="white" font-family="serif" font-weight="bold" opacity=".9">K</text></svg>'
       +'</button>'
       // X eliminar — esquina superior DERECHA
@@ -6379,9 +6418,21 @@ function openBibReader(entryId) {
   var fname = (entry.archivo.name||'').toLowerCase();
 
   if(/\.pdf$/.test(fname)) {
-    // PDF: mostrar en iframe
+    // PDF: usar ObjectURL (dataUrl en iframe está bloqueado por browsers modernos)
     var frame = document.getElementById('bib-pdf-frame');
-    frame.src = entry.archivo.dataUrl;
+    try {
+      var b64pdf = entry.archivo.dataUrl.split(',')[1];
+      var binPdf = atob(b64pdf);
+      var bytesPdf = new Uint8Array(binPdf.length);
+      for(var i=0; i<binPdf.length; i++) bytesPdf[i] = binPdf.charCodeAt(i);
+      var blobPdf = new Blob([bytesPdf], {type:'application/pdf'});
+      var objUrl = URL.createObjectURL(blobPdf);
+      frame.src = objUrl;
+      // liberar cuando se cierre
+      frame._objUrl = objUrl;
+    } catch(e) {
+      frame.src = entry.archivo.dataUrl;
+    }
     frame.style.display = 'block';
   } else if(/\.epub$/.test(fname)) {
     // EPUB: cargar epub.js
@@ -6389,6 +6440,14 @@ function openBibReader(entryId) {
     viewer.style.display = 'block';
     document.getElementById('bib-epub-bar').style.display = 'flex';
     viewer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text2);font-size:.9rem;gap:10px;"><span>⏳</span> Cargando libro…</div>';
+    _epubCurrentId = String(entry.id);
+    _epubSavedCfi = localStorage.getItem('kalma-epub-pos-'+_epubCurrentId) || null;
+    // Modo pantalla completa para dos páginas
+    document.getElementById('bib-reader-overlay').classList.add('epub-mode');
+    document.body.classList.add('epub-reading');
+    // Mostrar señalador
+    var sena = document.getElementById('epub-page-senalador');
+    if(sena) sena.style.display = 'block';
     loadEpubJs(function(){
       initEpubReader(entry.archivo.dataUrl, viewer);
     });
@@ -6412,24 +6471,29 @@ function openBibReader(entryId) {
   }
 
   overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 
 function closeBibReader() {
   ttsStop();
   if(_epubBook) { try{ _epubBook.destroy(); }catch(e){} _epubBook=null; _epubRendition=null; }
   var frame = document.getElementById('bib-pdf-frame');
-  if(frame) frame.src = '';
-  var overlay = document.getElementById('bib-reader-overlay');
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
-// Cerrar con Escape
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape') {
-    var overlay = document.getElementById('bib-reader-overlay');
-    if(overlay && overlay.classList.contains('open')) closeBibReader();
+  if(frame) {
+    if(frame._objUrl) { URL.revokeObjectURL(frame._objUrl); frame._objUrl = null; }
+    frame.src = '';
   }
+  var overlay = document.getElementById('bib-reader-overlay');
+  overlay.classList.remove('open','epub-mode');
+  document.body.classList.remove('epub-reading');
+  var sena = document.getElementById('epub-page-senalador');
+  if(sena) sena.style.display = 'none';
+}
+// Teclado en lector
+document.addEventListener('keydown', function(e){
+  var overlay = document.getElementById('bib-reader-overlay');
+  if(!overlay || !overlay.classList.contains('open')) return;
+  if(e.key === 'Escape') { closeBibReader(); return; }
+  if(e.key === 'ArrowRight' || e.key === 'ArrowDown') { epubNext(); e.preventDefault(); }
+  if(e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { epubPrev(); e.preventDefault(); }
 });
 
 function escHtml(s) {
@@ -6534,27 +6598,43 @@ function ttsResetUI() {
 /* ── EPUB READER ── */
 var _epubBook = null;
 var _epubRendition = null;
+var _epubSavedCfi = null;
+var _epubCurrentId = null;
 
 function loadEpubJs(cb) {
   if(window.ePub) { cb(); return; }
-  // Try multiple CDNs
-  var cdns = [
-    'https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js',
-    'https://unpkg.com/epubjs@0.3.93/dist/epub.min.js'
-  ];
   var viewer = document.getElementById('bib-epub-viewer');
-  function tryNext(i) {
-    if(i >= cdns.length) {
-      if(viewer) viewer.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text2);">No se pudo cargar el lector EPUB. Verificá tu conexión a internet.</div>';
-      return;
-    }
+  function fail() {
+    if(viewer) viewer.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text2);line-height:1.8;">No se pudo cargar el lector EPUB.<br><small>Verificá tu conexión a internet.</small></div>';
+  }
+  // epub.js requiere JSZip — cargar en orden: JSZip → epub.js
+  function loadScript(src, onok, onerr) {
     var s = document.createElement('script');
-    s.src = cdns[i];
-    s.onload = cb;
-    s.onerror = function(){ tryNext(i+1); };
+    s.src = src;
+    s.onload = onok;
+    s.onerror = onerr || fail;
     document.head.appendChild(s);
   }
-  tryNext(0);
+  if(window.JSZip) {
+    // JSZip ya está, cargar epub.js
+    loadScript('https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js', cb,
+      function(){ loadScript('https://unpkg.com/epubjs@0.3.93/dist/epub.min.js', cb, fail); });
+  } else {
+    // Cargar JSZip primero, luego epub.js
+    loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',
+      function(){
+        loadScript('https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js', cb,
+          function(){ loadScript('https://unpkg.com/epubjs@0.3.93/dist/epub.min.js', cb, fail); });
+      },
+      function(){
+        loadScript('https://unpkg.com/jszip@3.10.1/dist/jszip.min.js',
+          function(){
+            loadScript('https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js', cb,
+              function(){ loadScript('https://unpkg.com/epubjs@0.3.93/dist/epub.min.js', cb, fail); });
+          }, fail);
+      }
+    );
+  }
 }
 
 function initEpubReader(dataUrl, container) {
@@ -6569,29 +6649,59 @@ function initEpubReader(dataUrl, container) {
     var buffer = bytes.buffer;
 
     _epubBook = ePub(buffer);
+    // epub.js necesita dimensiones en px, no porcentaje
+    // Usar ventana completa porque epub-mode ocupa 100vw
+    // Calcular ancho real disponible: pantalla - margen señalador derecho
+    var senW = 140; // señalador 52px en right:80px = ~140px reservados
+    var cw = (window.innerWidth || 1024) - senW;
+    var ch = (window.innerHeight || 768) - 110; // restar header + barra nav
+    // En pantallas anchas mostrar dos páginas
+    var twoPage = cw >= 700;
     _epubRendition = _epubBook.renderTo(container, {
-      width: '100%',
-      height: '100%',
-      spread: 'none',
-      flow: 'paginated'
+      width: cw,
+      height: ch,
+      spread: twoPage ? 'auto' : 'none',
+      flow: 'paginated',
+      allowScriptedContent: false,
+      manager: 'continuous'
     });
-    _epubRendition.display();
+    _epubRendition.display(_epubSavedCfi || undefined);
+    // Detectar colores del tema actual
+    var htmlEl = document.documentElement;
+    var cs = getComputedStyle(htmlEl);
+    var bgColor = cs.getPropertyValue('--bg').trim() || '#ffffff';
+    var textColor = cs.getPropertyValue('--text').trim() || '#000000';
+    var accentColor = cs.getPropertyValue('--accent').trim() || '#A67B5B';
     _epubRendition.themes.default({
+      'body,p,div,span,h1,h2,h3,h4,h5,h6,li,td,th': {
+        'color': textColor + ' !important',
+        'background': 'transparent !important'
+      },
       body: {
         'font-family': "'Georgia', serif !important",
         'font-size': '1.05rem !important',
         'line-height': '1.85 !important',
         'padding': '20px 30px !important',
         'max-width': '660px !important',
-        'margin': '0 auto !important'
-      }
+        'margin': '0 auto !important',
+        'background-color': bgColor + ' !important',
+        'color': textColor + ' !important'
+      },
+      'a': { 'color': accentColor + ' !important' }
     });
     _epubBook.ready.then(function(){
       return _epubBook.locations.generate(1024);
     }).then(function(){
       updateEpubInfo();
     });
-    _epubRendition.on('relocated', function(){ updateEpubInfo(); });
+    _epubRendition.on('relocated', function(loc){
+      updateEpubInfo();
+      // Guardar posición
+      if(loc && loc.start && loc.start.cfi) {
+        _epubSavedCfi = loc.start.cfi;
+        localStorage.setItem('kalma-epub-pos-'+_epubCurrentId, loc.start.cfi);
+      }
+    });
     _epubRendition.on('rendered', function(){ updateEpubInfo(); });
   } catch(err) {
     container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text2);">Error al abrir el EPUB: ' + err.message + '</div>';
@@ -6610,10 +6720,53 @@ function updateEpubInfo() {
 }
 
 function epubPrev() {
-  if(_epubRendition) _epubRendition.prev();
+  if(!_epubRendition) return;
+  waveSenaladorEpub();
+  // Usar display con página anterior por porcentaje para navegar página a página
+  try {
+    var loc = _epubRendition.currentLocation();
+    if(loc && loc.start && typeof loc.start.percentage === 'number') {
+      var totalPages = _epubBook.locations ? _epubBook.locations.length() : 0;
+      if(totalPages > 0) {
+        var curPage = Math.round(loc.start.percentage * totalPages);
+        var prevPage = Math.max(0, curPage - 1);
+        var cfi = _epubBook.locations.cfiFromPercentage(prevPage / totalPages);
+        _epubRendition.display(cfi).then(function(){ updateEpubInfo(); }).catch(function(){
+          _epubRendition.prev().then(function(){ updateEpubInfo(); });
+        });
+        return;
+      }
+    }
+  } catch(e) {}
+  _epubRendition.prev().then(function(){ updateEpubInfo(); }).catch(function(){});
 }
 function epubNext() {
-  if(_epubRendition) _epubRendition.next();
+  if(!_epubRendition) return;
+  waveSenaladorEpub();
+  try {
+    var loc = _epubRendition.currentLocation();
+    if(loc && loc.start && typeof loc.start.percentage === 'number') {
+      var totalPages = _epubBook.locations ? _epubBook.locations.length() : 0;
+      if(totalPages > 0) {
+        var curPage = Math.round(loc.start.percentage * totalPages);
+        var nextPage = Math.min(totalPages - 1, curPage + 1);
+        var cfi = _epubBook.locations.cfiFromPercentage(nextPage / totalPages);
+        _epubRendition.display(cfi).then(function(){ updateEpubInfo(); }).catch(function(){
+          _epubRendition.next().then(function(){ updateEpubInfo(); });
+        });
+        return;
+      }
+    }
+  } catch(e) {}
+  _epubRendition.next().then(function(){ updateEpubInfo(); }).catch(function(){});
+}
+function waveSenaladorEpub() {
+  var s = document.getElementById('epub-page-senalador');
+  if(!s) return;
+  s.classList.remove('wave');
+  void s.offsetWidth; // force reflow
+  s.classList.add('wave');
+  s.addEventListener('animationend', function(){ s.classList.remove('wave'); }, {once:true});
 }
 </script>
 <!-- ═══ SPEED-DIAL UNIFICADO ═══ -->
