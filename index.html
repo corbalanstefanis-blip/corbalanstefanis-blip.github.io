@@ -1496,27 +1496,60 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   font-family:'Cormorant Garamond',serif;font-size:1.6rem;
   color:rgba(255,255,255,.7);letter-spacing:.1em;
 }
-.breath-container{position:relative;display:flex;align-items:center;justify-content:center;}
+.breath-container{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  width:220px;height:220px;flex-shrink:0;
+}
+/* Anillo exterior - pulsa con la respiración via JS */
 .breath-ring{
   width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(20,184,166,.3),rgba(20,184,166,.05));
-  border:2px solid rgba(94,234,212,.4);
-  animation:breathe 16s ease-in-out infinite;
+  background:transparent;
+  border:3px solid rgba(94,234,212,.7);
+  box-shadow:0 0 28px rgba(94,234,212,.35), inset 0 0 28px rgba(94,234,212,.12);
   display:flex;align-items:center;justify-content:center;
+  transition:transform 5s cubic-bezier(.45,0,.55,1), box-shadow 5s ease, opacity 5s ease;
+  will-change:transform,opacity;
 }
-.breath-inner{
-  width:100px;height:100px;border-radius:50%;
-  background:radial-gradient(circle,rgba(20,184,166,.5),rgba(20,184,166,.15));
-  animation:breathe 16s ease-in-out infinite .5s;
+/* Círculo medio */
+.breath-mid{
+  width:148px;height:148px;border-radius:50%;
+  background:radial-gradient(circle at center, rgba(20,184,166,.22) 0%, transparent 70%);
+  border:2px solid rgba(94,234,212,.4);
   display:flex;align-items:center;justify-content:center;
+  transition:transform 5s cubic-bezier(.45,0,.55,1), opacity 5s ease;
+  will-change:transform,opacity;
+}
+/* Núcleo */
+.breath-inner{
+  width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at center, rgba(20,184,166,.55) 0%, rgba(20,184,166,.15) 60%, transparent 100%);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 5s cubic-bezier(.45,0,.55,1), background 5s ease;
+  will-change:transform;
 }
 .breath-text{
-  font-family:'Cormorant Garamond',serif;font-size:1rem;
-  color:rgba(255,255,255,.8);text-align:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  color:rgba(255,255,255,.92);text-align:center;letter-spacing:.04em;
+  pointer-events:none;
+}
+/* Contador de segundos */
+.breath-count{
+  position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);
+  font-family:'DM Sans',sans-serif;font-size:.82rem;
+  color:rgba(94,234,212,.6);letter-spacing:.06em;min-width:20px;text-align:center;
+}
+/* Barra de progreso de fase */
+.breath-progress-ring{
+  position:absolute;top:0;left:0;width:200px;height:200px;
+  transform:rotate(-90deg);pointer-events:none;
+}
+.breath-progress-ring circle{
+  fill:none;stroke:rgba(94,234,212,.5);stroke-width:3;
+  stroke-linecap:round;
 }
 @keyframes breathe{
-  0%,100%{transform:scale(1);opacity:.6;}
-  50%{transform:scale(1.25);opacity:1;}
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.22);}
 }
 .cinco-phrase{
   font-family:'Cormorant Garamond',serif;font-size:1.2rem;
@@ -2154,6 +2187,19 @@ nav{padding:12px 24px;}
   .footer-top{grid-template-columns:1fr!important;gap:32px!important;}
   .toolbox-panel{width:calc(100vw - 32px)!important;right:16px!important;left:16px!important;bottom:80px!important;}
   .ia-panel{width:calc(100vw - 24px)!important;bottom:80px!important;}
+  /* Emergency overlay - scroll si hace falta */
+  .emergency-overlay{justify-content:flex-start!important;}
+  /* Círculo 5 min - responsive mobile */
+  .breath-container{width:180px!important;height:180px!important;}
+  .breath-ring{width:160px!important;height:160px!important;}
+  .breath-mid{width:118px!important;height:118px!important;}
+  .breath-inner{width:76px!important;height:76px!important;}
+  .breath-progress-ring{width:160px!important;height:160px!important;}
+  .breath-progress-ring circle{r:76!important;}
+  #breath-arc{stroke-dasharray:478!important;}
+  .breath-count{bottom:-26px!important;}
+  /* Mobile 500px - clamp() ya lo maneja, solo ajuste fino */
+  .emergency-write{min-height:60px!important;height:68px!important;}
   .music-panel{width:100%!important;border-radius:20px 20px 0 0!important;
     top:auto!important;bottom:0!important;right:0!important;transform:none!important;}
   .music-fab{top:auto!important;bottom:160px!important;right:0!important;
@@ -2176,6 +2222,13 @@ nav{padding:12px 24px;}
 }
 @media(max-width:480px){
   .cat-grid{grid-template-columns:1fr!important;}
+  .breath-container{width:150px!important;height:150px!important;}
+  .breath-ring{width:132px!important;height:132px!important;}
+  .breath-mid{width:98px!important;height:98px!important;}
+  .breath-inner{width:64px!important;height:64px!important;}
+  /* Tiny screens <380px - solo ajuste fino, clamp() hace el trabajo */
+  .emergency-write{min-height:50px!important;height:58px!important;}
+  .emergency-action-btn{padding:7px 12px!important;font-size:.74rem!important;}
   .ob-opts{grid-template-columns:1fr!important;}
   .quiz-opts{grid-template-columns:1fr!important;}
   .pagos-grid{grid-template-columns:1fr!important;}
@@ -2340,10 +2393,11 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   background:#0a0a0f;
   display:none;flex-direction:column;
   align-items:center;justify-content:flex-start;
-  gap:16px;
-  padding:80px 32px 32px;
+  gap:clamp(6px,1.5vh,14px);
+  padding:clamp(48px,7vh,72px) 20px clamp(16px,3vh,32px);
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
+  box-sizing:border-box;
 }
 .emergency-overlay.open{display:flex;}
 .emergency-close{
@@ -2352,45 +2406,72 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   font-size:22px;cursor:pointer;
 }
 .emergency-label{
-  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin:0;
 }
 .emergency-title{
-  font-family:'Cormorant Garamond',serif;font-size:1.8rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.1rem,3.5vw,1.4rem);
   color:rgba(255,255,255,.8);text-align:center;
+  line-height:1.25;margin:0;
 }
 .emergency-breath{
-  width:130px;height:130px;border-radius:50%;
-  border:2px solid rgba(239,68,68,.3);
+  position:relative;
+  width:clamp(120px,32vw,168px);height:clamp(120px,32vw,168px);
+  border-radius:50%;
+  border:3px solid rgba(239,68,68,.65);
+  box-shadow:0 0 32px rgba(239,68,68,.3), inset 0 0 24px rgba(239,68,68,.1);
   display:flex;align-items:center;justify-content:center;
-  animation:em-breathe 16s ease-in-out infinite;
+  will-change:transform,box-shadow;
+  flex-shrink:0;
+}
+.emergency-breath-mid{
+  width:clamp(88px,24vw,122px);height:clamp(88px,24vw,122px);
+  border-radius:50%;
+  background:radial-gradient(circle at center, rgba(239,68,68,.18) 0%, transparent 70%);
+  border:2px solid rgba(239,68,68,.35);
+  display:flex;align-items:center;justify-content:center;
+  will-change:transform;
 }
 .emergency-breath-inner{
-  width:72px;height:72px;border-radius:50%;
-  background:radial-gradient(circle,rgba(239,68,68,.2),rgba(239,68,68,.05));
-  display:flex;align-items:center;justify-content:center;
-  animation:em-breathe 16s ease-in-out infinite .3s;
+  width:clamp(54px,14vw,78px);height:clamp(54px,14vw,78px);
+  border-radius:50%;
+  background:radial-gradient(circle at center, rgba(239,68,68,.5) 0%, rgba(239,68,68,.12) 60%, transparent 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  will-change:transform;
+}
+.emergency-breath-progress{
+  position:absolute;top:0;left:0;
+  width:clamp(120px,32vw,168px);height:clamp(120px,32vw,168px);
+  transform:rotate(-90deg);pointer-events:none;
+}
+.emergency-breath-progress circle{
+  fill:none;stroke:rgba(239,68,68,.6);stroke-width:3.5;stroke-linecap:round;
 }
 @keyframes em-breathe{
-  0%,100%{transform:scale(1);opacity:.5;}
-  50%{transform:scale(1.2);opacity:1;}
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.18);}
 }
 .emergency-breath-text{
-  font-size:.85rem;color:rgba(255,255,255,.7);
-  font-family:'Cormorant Garamond',serif;
+  font-size:.88rem;color:rgba(255,255,255,.92);
+  font-family:'Cormorant Garamond',serif;letter-spacing:.04em;
+}
+.emergency-breath-count{
+  font-size:.72rem;color:rgba(239,68,68,.75);
+  font-family:'DM Sans',sans-serif;letter-spacing:.06em;min-width:14px;text-align:center;
 }
 .emergency-phrase{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+  font-family:'Cormorant Garamond',serif;font-size:.9rem;
   color:rgba(255,255,255,.45);font-style:italic;
-  text-align:center;max-width:280px;
+  text-align:center;max-width:280px;margin:0;
 }
 .emergency-write{
   width:100%;max-width:460px;
   background:rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.18);
-  border-radius:14px;padding:16px 18px;
-  color:rgba(255,255,255,.85);font-size:1rem;
-  resize:vertical;min-height:100px;height:120px;max-height:220px;
+  border-radius:12px;padding:10px 12px;
+  color:rgba(255,255,255,.85);font-size:.85rem;
+  resize:vertical;min-height:64px;height:72px;max-height:140px;
   outline:none;
   font-family:'DM Sans',sans-serif;line-height:1.8;
   box-sizing:border-box;
@@ -2405,9 +2486,9 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   font-size:.72rem;color:rgba(255,255,255,.25);
   text-align:center;max-width:320px;
 }
-.emergency-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.emergency-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0;}
 .emergency-action-btn{
-  padding:10px 20px;border-radius:20px;
+  padding:8px 16px;border-radius:20px;
   border:1px solid rgba(255,255,255,.15);
   background:rgba(255,255,255,.05);
   color:rgba(255,255,255,.6);font-size:.82rem;cursor:pointer;
@@ -2722,6 +2803,11 @@ select.bib-input{cursor:pointer;}
   font-size:9px;z-index:3;line-height:1;
   width:18px;text-align:center;
   pointer-events:none;
+  overflow:hidden;
+}
+.senalador-personal .bm-custom-content img{
+  border-radius:2px 2px 8px 8px;
+  display:block;
 }
 .senalador-personal svg .bm-fill{fill:var(--bg3);stroke:var(--border);stroke-width:1;}
 .senalador-personal.active svg .bm-fill{fill:var(--teal);stroke:none;}
@@ -3038,7 +3124,7 @@ body.panel-open {
 }
 /* El viewer EPUB - padding derecho para no tapar con senalador */
 .bib-reader-overlay.epub-mode #bib-epub-viewer{
-  padding-right: 60px;
+  padding-right: 0;
   box-sizing: border-box;
 }
 /* Ocultar botones nav derecha cuando el lector EPUB está abierto */
@@ -3097,12 +3183,17 @@ body.epub-reading .nav-right-actions{
 
 /* Señalador de página dentro del lector */
 #epub-page-senalador{
-  position:fixed;top:0;right:72px;
-  width:60px;height:160px;
+  position:fixed;top:0;right:8px;
+  width:28px;height:60px;
   z-index:5010;cursor:pointer;
   transform-origin:top center;
   pointer-events:auto;
-  filter:drop-shadow(0 3px 8px rgba(0,0,0,.25));
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.2));
+}
+@media(max-width:600px){
+  #epub-page-senalador{
+    width:22px;height:48px;right:6px;
+  }
 }
 #epub-page-senalador svg{width:100%;height:100%;display:block;}
 #epub-page-senalador.wave{
@@ -4249,11 +4340,17 @@ body.epub-reading .nav-right-actions{
     <svg viewBox="0 0 20 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="bm-fill" d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" stroke-linejoin="round"/><text x="10" y="20" text-anchor="middle" font-size="10" fill="white" opacity=".85">✦</text></svg>
   </button>
   <div class="breath-container">
-    <div class="breath-ring">
-      <div class="breath-inner">
-        <div class="breath-text" id="breath-label">Inhala</div>
+    <div class="breath-ring" id="breath-ring">
+      <div class="breath-mid" id="breath-mid">
+        <div class="breath-inner" id="breath-inner">
+          <div class="breath-text" id="breath-label">Inhala</div>
+        </div>
       </div>
     </div>
+    <svg class="breath-progress-ring" id="breath-svg" viewBox="0 0 200 200">
+      <circle id="breath-arc" cx="100" cy="100" r="96" stroke-dasharray="603" stroke-dashoffset="603"/>
+    </svg>
+    <div class="breath-count" id="breath-count">5</div>
   </div>
   <p class="cinco-phrase" id="cinco-phrase"></p>
   <div class="cinco-timer" id="cinco-timer">5:00</div>
@@ -4465,6 +4562,7 @@ body.epub-reading .nav-right-actions{
 
   <div class="settings-section">
     <div class="settings-section-label">Recordatorios</div>
+    <div id="notif-status-bar" style="padding:8px 12px;border-radius:10px;font-size:.75rem;margin-bottom:10px;line-height:1.4;"></div>
 
     <div class="settings-row">
       <div class="settings-row-label">Tomar agua 💧<small>Notificación cada</small></div>
@@ -4508,7 +4606,7 @@ body.epub-reading .nav-right-actions{
         <div class="bm-opt-label">Oscuro</div>
       </div>
 
-      <!-- Opción 3: Personalizable -->
+      <!-- Opción 3: Personalizable (emoji) -->
       <div class="bm-opt" id="bm-opt-3" onclick="setBMStyle('personal')">
         <div class="bm-opt-custom">
           <svg viewBox="0 0 20 36"><path d="M2 0h16a2 2 0 0 1 2 2v32l-10-8L0 34V2a2 2 0 0 1 2-2z" fill="var(--teal)" stroke="none"/><text x="10" y="22" text-anchor="middle" font-size="9" fill="white" opacity=".9" id="bm-preview-emoji">🌸</text></svg>
@@ -4519,8 +4617,19 @@ body.epub-reading .nav-right-actions{
             title="Poné un emoji"
             style="font-size:1.1rem!important;text-align:center;width:36px;"/>
         </div>
-        <div class="bm-opt-label">Personal</div>
+        <div class="bm-opt-label">Emoji</div>
       </div>
+
+      <!-- Opción 4: Foto señalador -->
+      <div class="bm-opt" id="bm-opt-4" onclick="event.stopPropagation()">
+        <div class="bm-opt-custom" style="cursor:pointer;" onclick="setBMStyle('foto')">
+          <div id="bm-foto-preview" style="width:20px;height:36px;background:var(--teal);border-radius:3px 3px 10px 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;">📸</div>
+        </div>
+        <label for="bm-foto-input" style="display:block;margin-top:2px;background:var(--accent);color:#fff;border-radius:5px;padding:2px 5px;font-size:.6rem;cursor:pointer;white-space:nowrap;" onclick="event.stopPropagation()">+ Foto</label>
+        <input type="file" id="bm-foto-input" accept="image/*" style="display:none" onchange="handleBMFoto(this)" onclick="event.stopPropagation()"/>
+        <div class="bm-opt-label">Mi foto</div>
+      </div>
+
       <!-- Opción: Palabra personalizada -->
       <div style="margin-top:12px;padding:10px;background:var(--bg3);border-radius:10px;border:1px solid var(--border);">
         <div style="font-size:.72rem;color:var(--text2);margin-bottom:6px;">✏️ O poné una palabra corta en el señalador:</div>
@@ -4534,7 +4643,7 @@ body.epub-reading .nav-right-actions{
           </div>
         </div>
       </div>
-      <p style="font-size:.72rem;color:var(--text2);width:100%;margin-top:4px;">💡 Emoji, letra o palabra corta — lo que te represente.</p>
+      <p style="font-size:.72rem;color:var(--text2);width:100%;margin-top:4px;">💡 Emoji, palabra o una foto tuya — lo que te represente.</p>
     </div>
   </div>
 
@@ -4565,13 +4674,25 @@ body.epub-reading .nav-right-actions{
   <p class="emergency-label">Espacio seguro</p>
   <p class="emergency-title">Estás acá.<br/>Eso ya es suficiente.</p>
 
-  <div class="emergency-breath">
-    <div class="emergency-breath-inner">
-      <div class="emergency-breath-text" id="em-breath-label">Inhala…</div>
+  <!-- Círculo respiración -->
+  <div class="emergency-breath" id="em-breath-outer">
+    <svg class="emergency-breath-progress" id="em-breath-svg" viewBox="0 0 180 180">
+      <circle id="em-breath-arc" cx="90" cy="90" r="86" stroke-dasharray="540" stroke-dashoffset="540"/>
+    </svg>
+    <div class="emergency-breath-mid" id="em-breath-mid">
+      <div class="emergency-breath-inner" id="em-breath-inner">
+        <div class="emergency-breath-text" id="em-breath-label">Inhala…</div>
+        <div class="emergency-breath-count" id="em-breath-count">4</div>
+      </div>
     </div>
   </div>
 
-  <p class="emergency-phrase" id="em-phrase"></p>
+  <!-- Textos debajo del círculo — separados con margin-top fijo para no encimarse -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:clamp(8px,2vh,18px);width:100%;">
+    <p style="font-size:.65rem;color:rgba(239,68,68,.45);letter-spacing:.08em;text-transform:uppercase;text-align:center;margin:0;">Técnica 4·7·8 &nbsp;·&nbsp; Calma el sistema nervioso</p>
+    <p id="em-breath-inst" style="font-size:.8rem;color:rgba(255,255,255,.5);text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;margin:0;min-height:1.1em;">por la nariz</p>
+    <p class="emergency-phrase" id="em-phrase" style="margin:0;"></p>
+  </div>
 
   <!-- ── LÍNEAS DE AYUDA ── -->
   <div id="em-helplines" style="width:100%;margin:16px 0 4px;">
@@ -4616,8 +4737,21 @@ body.epub-reading .nav-right-actions{
 if('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('./sw.js')
-      .then(function(reg) { console.log('KALMA SW registrado:', reg.scope); })
+      .then(function(reg) {
+        console.log('KALMA SW registrado:', reg.scope);
+        // Pedir permiso de notificaciones proactivamente si no se ha pedido
+        if(notifSupported && typeof notifSupported === 'function' &&
+           Notification.permission === 'default') {
+          // No pedir al cargar, solo cuando el usuario activa un recordatorio
+        }
+      })
       .catch(function(err) { console.log('SW error:', err); });
+    // Escuchar mensajes del SW (notificaciones mientras la app está abierta)
+    navigator.serviceWorker.addEventListener('message', function(e) {
+      if(e.data && e.data.type === 'SHOW_NOTIF') {
+        showNotif(e.data.icon + ' ' + e.data.body);
+      }
+    });
   });
 }
 
@@ -5008,35 +5142,95 @@ const cincoFrases = [
   'Cada respiración es un reset.',
   'Mereces este silencio.'
 ];
-let breathPhase = 0;
-const breathLabels = ['Inhala…','Sostené…','Exhala…','Esperá…'];
+// ── RESPIRACIÓN COHERENCIA CARDÍACA 5-5 (modo 5 min) ──
+// Evidencia: optimiza variabilidad frecuencia cardíaca, reduce cortisol
+// Patrón: inhala 5s → exhala 5s (6 ciclos/min = coherencia cardíaca óptima)
+let breathPhase = 0; // 0=inhala, 1=exhala
 let breathInterval = null;
+let breathCountInterval = null;
+let breathCountVal = 5;
+
+var CINCO_PHASES = [
+  { label:'Inhala', secs:5,
+    ring:{scale:1.18, shadow:'0 0 40px rgba(94,234,212,.6), inset 0 0 40px rgba(94,234,212,.2)'},
+    mid:{scale:1.14}, inner:{scale:1.10},
+    arcColor:'rgba(94,234,212,.7)', arcFill:603 },
+  { label:'Exhala', secs:5,
+    ring:{scale:1.0, shadow:'0 0 16px rgba(94,234,212,.2), inset 0 0 10px rgba(94,234,212,.06)'},
+    mid:{scale:1.0}, inner:{scale:1.0},
+    arcColor:'rgba(94,234,212,.35)', arcFill:0 }
+];
+
+function applyBreathPhase(ph) {
+  var p = CINCO_PHASES[ph];
+  var ring = document.getElementById('breath-ring');
+  var mid  = document.getElementById('breath-mid');
+  var inner= document.getElementById('breath-inner');
+  var lbl  = document.getElementById('breath-label');
+  var arc  = document.getElementById('breath-arc');
+  if(ring)  { ring.style.transform  = 'scale('+p.ring.scale+')'; ring.style.boxShadow = p.ring.shadow; }
+  if(mid)   mid.style.transform   = 'scale('+p.mid.scale+')';
+  if(inner) inner.style.transform = 'scale('+p.inner.scale+')';
+  if(lbl)   lbl.textContent = p.label;
+  if(arc) {
+    var dur = p.secs + 's';
+    arc.style.transition = 'stroke-dashoffset '+dur+' linear, stroke '+dur+' ease';
+    arc.style.stroke = p.arcColor;
+    arc.style.strokeDashoffset = (603 - p.arcFill) + '';
+  }
+  // Transición ring/mid/inner dura el mismo tiempo que la fase
+  var transDur = p.secs + 's';
+  if(ring)  ring.style.transitionDuration  = transDur;
+  if(mid)   mid.style.transitionDuration   = transDur;
+  if(inner) inner.style.transitionDuration = transDur;
+}
+
+function startBreathCounter(secs) {
+  clearInterval(breathCountInterval);
+  breathCountVal = secs;
+  var el = document.getElementById('breath-count');
+  if(el) el.textContent = breathCountVal;
+  breathCountInterval = setInterval(function(){
+    breathCountVal--;
+    if(el) el.textContent = breathCountVal > 0 ? breathCountVal : '';
+    if(breathCountVal <= 0) clearInterval(breathCountInterval);
+  }, 1000);
+}
+
+function breathStep() {
+  breathPhase = (breathPhase + 1) % 2;
+  applyBreathPhase(breathPhase);
+  startBreathCounter(CINCO_PHASES[breathPhase].secs);
+  breathInterval = setTimeout(breathStep, CINCO_PHASES[breathPhase].secs * 1000);
+}
+
 function openCinco() {
   document.getElementById('cinco-overlay').classList.add('open');
+  breathPhase = 1; // va a avanzar a 0 (inhala) en el primer paso
   startCinco();
   document.getElementById('cinco-phrase').textContent = cincoFrases[Math.floor(Math.random()*cincoFrases.length)];
 }
 function closeCinco() {
   document.getElementById('cinco-overlay').classList.remove('open');
-  clearInterval(cincoInterval); clearTimeout(breathInterval);
+  clearInterval(cincoInterval); clearTimeout(breathInterval); clearInterval(breathCountInterval);
   cincoSecs = parseInt(document.querySelector('.cinco-ctrl-btn.active-dur').textContent)*60||300;
   cincoPaused = false;
   updateCincoDisplay();
+  // Reset circle
+  var ring = document.getElementById('breath-ring');
+  var arc  = document.getElementById('breath-arc');
+  if(ring) { ring.style.transform='scale(1)'; ring.style.transitionDuration='0.1s'; }
+  if(arc)  { arc.style.strokeDashoffset='603'; arc.style.transition='none'; }
 }
 function startCinco() {
-  clearInterval(cincoInterval); clearTimeout(breathInterval);
+  clearInterval(cincoInterval); clearTimeout(breathInterval); clearInterval(breathCountInterval);
   cincoPaused = false;
   cincoInterval = setInterval(function(){
     if(!cincoPaused){ cincoSecs--; updateCincoDisplay(); if(cincoSecs<=0) closeCinco(); }
   }, 1000);
-  var breathTiming = [4000, 4000, 6000, 2000]; // inhala, sostené, exhala, esperá
-  function breathStep(){
-    breathPhase = (breathPhase+1)%4;
-    var el = document.getElementById('breath-label');
-    if(el) el.textContent = breathLabels[breathPhase];
-    breathInterval = setTimeout(breathStep, breathTiming[breathPhase]);
-  }
-  breathInterval = setTimeout(breathStep, breathTiming[0]);
+  // Iniciar ciclo: primer step inmediato
+  breathPhase = 1;
+  breathStep();
 }
 function updateCincoDisplay() {
   const m = Math.floor(cincoSecs/60), s = cincoSecs%60;
@@ -6043,40 +6237,88 @@ function embedMusic(src) {
   buildYTEmbed(src, '');
 }
 
-// ─── RECORDATORIOS PUSH ───
+// ─── RECORDATORIOS ─── 
+// Sistema robusto: Notification API + fallback in-app
+// Funciona en Chrome/Edge/Firefox. En iOS Safari solo si la PWA está instalada.
 var remTimers = {};
-function requestNotifPerm(cb) {
-  if(!('Notification' in window)) { showNotif('Tu navegador no soporta notificaciones'); return; }
-  if(Notification.permission === 'granted') { cb(); return; }
-  Notification.requestPermission(function(p){ if(p==='granted') cb(); });
+
+function notifSupported() {
+  return ('Notification' in window);
 }
-function sendNotif(title, body, icon) {
-  if(location.protocol === 'file:') {
-    // Push notifications require HTTPS. Show toast instead.
-    showNotif((icon||'💜')+' '+title+': '+body);
+
+function notifGranted() {
+  return notifSupported() && Notification.permission === 'granted';
+}
+
+function requestNotifPerm(cb) {
+  if(!notifSupported()) {
+    showNotif('⚠️ Tu navegador no soporta notificaciones push. Usaremos recordatorios en pantalla.');
+    if(cb) cb(false);
     return;
   }
-  if(Notification.permission === 'granted') {
-    new Notification(title, { body: body, icon: icon || '💜' });
+  if(notifGranted()) { if(cb) cb(true); return; }
+  if(Notification.permission === 'denied') {
+    showNotif('🔕 Las notificaciones están bloqueadas. Habilitálas en Ajustes > Notificaciones de tu navegador.');
+    if(cb) cb(false);
+    return;
   }
-}
-function startReminder(key, ms, title, body) {
-  stopReminder(key);
-  // Show immediate confirmation
-  showNotif('⏰ Recordatorio activado: ' + title);
-  requestNotifPerm(function(){
-    remTimers[key] = setInterval(function(){ sendNotif(title, body); }, ms);
-    localStorage.setItem('rem-'+key, '1');
+  Notification.requestPermission().then(function(p) {
+    if(cb) cb(p === 'granted');
+  }).catch(function() {
+    // Older browsers use callback
+    Notification.requestPermission(function(p) {
+      if(cb) cb(p === 'granted');
+    });
   });
 }
+
+function sendNotif(title, body, icon) {
+  // Siempre mostrar in-app también (visible aunque la app esté abierta)
+  showNotif((icon||'💜') + ' ' + body);
+  // Push notification si tiene permiso y HTTPS
+  if(notifGranted() && location.protocol !== 'file:') {
+    try {
+      // Intentar via Service Worker primero (persiste aunque la app esté en background)
+      if(navigator.serviceWorker && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then(function(reg) {
+          reg.showNotification(title, {
+            body: body,
+            icon: '/icon-192.png',
+            badge: '/icon-192.png',
+            tag: title,
+            renotify: true,
+            vibrate: [200, 100, 200]
+          });
+        }).catch(function() {
+          new Notification(title, { body: body });
+        });
+      } else {
+        new Notification(title, { body: body });
+      }
+    } catch(e) {
+      console.log('Notif error:', e);
+    }
+  }
+}
+
+function startReminder(key, ms, title, body) {
+  stopReminder(key);
+  requestNotifPerm(function(granted) {
+    remTimers[key] = setInterval(function(){ sendNotif(title, body); }, ms);
+    localStorage.setItem('rem-'+key, JSON.stringify({ms:ms, title:title, body:body}));
+    showNotif('⏰ Recordatorio activado: ' + title + (granted ? '' : ' (solo en pantalla)'));
+  });
+}
+
 function stopReminder(key) {
   if(remTimers[key]) { clearInterval(remTimers[key]); delete remTimers[key]; }
   localStorage.removeItem('rem-'+key);
 }
+
 function toggleReminder(key, ms, title, body, btn) {
   btn.classList.toggle('on');
   if(btn.classList.contains('on')) startReminder(key, ms, title, body);
-  else stopReminder(key);
+  else { stopReminder(key); showNotif('Recordatorio desactivado'); }
 }
 
 // ─── RECOMPENSAS ───
@@ -6170,6 +6412,23 @@ function changeFontSize(dir) {
   applyA11y();
 }
 
+function updateNotifStatusBar() {
+  var bar = document.getElementById('notif-status-bar');
+  if(!bar) return;
+  if(!('Notification' in window)) {
+    bar.style.cssText='background:rgba(239,68,68,.12);color:rgba(239,68,68,.8);padding:8px 12px;border-radius:10px;font-size:.75rem;margin-bottom:10px;';
+    bar.textContent='⚠️ Tu navegador no soporta notificaciones push. Los recordatorios se mostrarán solo en pantalla.';
+  } else if(Notification.permission === 'denied') {
+    bar.style.cssText='background:rgba(239,68,68,.12);color:rgba(239,68,68,.8);padding:8px 12px;border-radius:10px;font-size:.75rem;margin-bottom:10px;line-height:1.5;';
+    bar.innerHTML='🔕 <strong>Notificaciones bloqueadas.</strong><br>Para habilitarlas: tocá el 🔒 o ⓘ en la barra del navegador → Notificaciones → Permitir.';
+  } else if(Notification.permission === 'granted') {
+    bar.style.cssText='background:rgba(20,184,166,.1);color:rgba(20,184,166,.9);padding:8px 12px;border-radius:10px;font-size:.75rem;margin-bottom:10px;';
+    bar.textContent='✓ Notificaciones activadas. Recibirás avisos aunque la app esté en segundo plano.';
+  } else {
+    bar.style.cssText='background:rgba(200,168,120,.1);color:rgba(200,168,120,.9);padding:8px 12px;border-radius:10px;font-size:.75rem;margin-bottom:10px;';
+    bar.textContent='📲 Al activar un recordatorio te pediremos permiso para notificarte.';
+  }
+}
 function toggleSettings() {
   var panel = document.getElementById('settings-panel');
   var fab = document.getElementById('config-fab');
@@ -6177,6 +6436,7 @@ function toggleSettings() {
   document.body.classList.toggle('panel-open', isOpen);
   fab.classList.add('spinning');
   setTimeout(function(){ fab.classList.remove('spinning'); }, 600);
+  if(isOpen) updateNotifStatusBar();
 }
 
 function openSettings() {
@@ -6193,62 +6453,103 @@ function confirmDeleteAll() {
 
 // ─── RECORDATORIOS DESDE SETTINGS ───
 var remIntervals = {};
+
 function toggleRemSettings(key, btn) {
   btn.classList.toggle('on');
   var on = btn.classList.contains('on');
   btn.setAttribute('aria-pressed', on);
   if(on) {
-    if(!('Notification' in window)) { showNotif('Tu navegador no soporta notificaciones'); btn.classList.remove('on'); return; }
-    Notification.requestPermission(function(p){
-      if(p !== 'granted') { btn.classList.remove('on'); showNotif('Activá los permisos de notificación en tu navegador.'); return; }
+    requestNotifPerm(function(granted) {
       if(key === 'agua') {
         var ms = parseInt(document.getElementById('rem-agua-interval').value) || 7200000;
         clearInterval(remIntervals['agua']);
         remIntervals['agua'] = setInterval(function(){
-          new Notification('💧 KALMA', {body: 'Tomaste agua hoy? Hidratarte es cuidarte.'});
+          sendNotif('💧 KALMA', 'Tomaste agua hoy? Hidratarte es cuidarte.', '💧');
         }, ms);
-        showNotif('💧 Recordatorio de agua activado');
+        localStorage.setItem('rem-agua', JSON.stringify({ms: ms}));
+        showNotif('💧 Recordatorio de agua activado' + (granted ? '' : ' (en pantalla)'));
       }
       if(key === 'breath') {
         var timeVal = document.getElementById('rem-breath-time').value || '12:00';
         scheduleBreathReminder(timeVal);
-        showNotif('🫁 Recordatorio de respiración activado');
+        localStorage.setItem('rem-breath', JSON.stringify({time: timeVal}));
+        showNotif('🫁 Recordatorio de respiración activado para las ' + timeVal + (granted ? '' : ' (en pantalla)'));
       }
-      localStorage.setItem('rem-'+key, '1');
     });
   } else {
     clearInterval(remIntervals[key]);
     clearTimeout(remIntervals[key+'_timeout']);
+    delete remIntervals[key];
     localStorage.removeItem('rem-'+key);
     showNotif('Recordatorio desactivado');
+    btn.setAttribute('aria-pressed', 'false');
   }
 }
 
 function scheduleBreathReminder(timeStr) {
-  var parts = timeStr.split(':');
+  clearTimeout(remIntervals['breath_timeout']);
+  var parts = (timeStr||'12:00').split(':');
   var now = new Date();
   var target = new Date();
-  target.setHours(parseInt(parts[0]), parseInt(parts[1]), 0, 0);
+  target.setHours(parseInt(parts[0])||12, parseInt(parts[1])||0, 0, 0);
   if(target <= now) target.setDate(target.getDate() + 1);
   var ms = target - now;
   remIntervals['breath_timeout'] = setTimeout(function(){
-    new Notification('🫁 KALMA', {body: 'Tu momento de respirar. Abrí KALMA y tomá tu pausa.'});
-    scheduleBreathReminder(timeStr); // reschedule for next day
+    sendNotif('🫁 KALMA', 'Tu momento de respirar. Abrí KALMA y tomá tu pausa.', '🫁');
+    scheduleBreathReminder(timeStr); // reprogramar para mañana
   }, ms);
 }
 
-// Restore reminders on load
+// ─── RESTAURAR RECORDATORIOS AL CARGAR ───
+// Los intervalos/timeouts se pierden al cerrar la app.
+// Los restauramos leyendo qué había guardado en localStorage.
+function restoreReminders() {
+  // Agua
+  var aguaData = localStorage.getItem('rem-agua');
+  if(aguaData) {
+    try {
+      var d = JSON.parse(aguaData);
+      var ms = d.ms || 7200000;
+      clearInterval(remIntervals['agua']);
+      remIntervals['agua'] = setInterval(function(){
+        sendNotif('💧 KALMA', 'Tomaste agua hoy? Hidratarte es cuidarte.', '💧');
+      }, ms);
+      // Marcar el toggle como activo
+      var btnA = document.getElementById('toggle-agua');
+      if(btnA) { btnA.classList.add('on'); btnA.setAttribute('aria-pressed','true'); }
+    } catch(e) {}
+  }
+  // Respiración
+  var breathData = localStorage.getItem('rem-breath');
+  if(breathData) {
+    try {
+      var d2 = JSON.parse(breathData);
+      scheduleBreathReminder(d2.time || '12:00');
+      var btnB = document.getElementById('toggle-breath');
+      if(btnB) { btnB.classList.add('on'); btnB.setAttribute('aria-pressed','true'); }
+      // Actualizar el input de hora
+      var inp = document.getElementById('rem-breath-time');
+      if(inp && d2.time) inp.value = d2.time;
+    } catch(e) {}
+  }
+}
+
+// Restore a11y + recordatorios al cargar
 (function(){
   applyA11y();
-  // Restore saved a11y toggles UI
   ['contrast','dyslexia','lines','motion'].forEach(function(k){
     var t = document.getElementById('toggle-'+k);
     if(t && a11yState[k]) { t.classList.add('on'); t.setAttribute('aria-pressed','true'); }
   });
+  // Restaurar recordatorios después de que el DOM esté listo
+  if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreReminders);
+  } else {
+    restoreReminders();
+  }
 })();
 
 // ─── MODO EMERGENCIA ───
-var emBreathInterval = null;
 var emPhrases = [
   'No tenés que tener todo resuelto ahora mismo.',
   'Respirá. Este momento también va a pasar.',
@@ -6258,30 +6559,129 @@ var emPhrases = [
   'Estás haciendo lo mejor que podés con lo que tenés.',
   'Este momento no define todo lo que sos.',
 ];
-var emBreathLabels = ['Inhala…', 'Sostené…', 'Exhala…', 'Esperá…'];
-var emBreathPhase = 0;
+
+// ── RESPIRACIÓN 4-7-8 (botón SOS) ──
+// Evidencia: activa nervio vago, baja FC y PA en segundos
+// Dr. Andrew Weil / Harvard Medical - validado clínicamente para ansiedad aguda
+// Patrón: inhala 4s → retiene 7s → exhala 8s → loop
+// ─── RESPIRACIÓN 4-7-8 SOS ───
+// ÚNICO sistema. Inhala 4s → Retené 7s → Exhala 8s
+// Técnica Dr. Andrew Weil — reduce ansiedad aguda activando nervio vago
+
+var _emTimer  = null;   // único timer activo
+var _emCntTimer = null; // timer del contador regresivo
+
+// Fases: [0] inhala 4s  [1] retenÉ 7s  [2] exhala 8s
+var _emPhases = [
+  { label:'Inhala',  inst:'por la nariz',    secs:4,
+    scale:1.18, shadow:'0 0 44px rgba(239,68,68,.5), inset 0 0 28px rgba(239,68,68,.15)',
+    bg:'radial-gradient(circle, rgba(239,68,68,.6) 0%, rgba(239,68,68,.15) 65%, transparent 100%)' },
+  { label:'Retené',  inst:'el aire adentro', secs:7,
+    scale:1.22, shadow:'0 0 56px rgba(239,68,68,.65), inset 0 0 36px rgba(239,68,68,.2)',
+    bg:'radial-gradient(circle, rgba(239,68,68,.72) 0%, rgba(239,68,68,.22) 65%, transparent 100%)' },
+  { label:'Exhala',  inst:'por la boca',     secs:8,
+    scale:1.0,  shadow:'0 0 14px rgba(239,68,68,.18), inset 0 0 6px rgba(239,68,68,.05)',
+    bg:'radial-gradient(circle, rgba(239,68,68,.28) 0%, rgba(239,68,68,.05) 65%, transparent 100%)' }
+];
+var _emCurPhase = -1;
+
+function _emApply(ph) {
+  var p  = _emPhases[ph];
+  var td = p.secs + 's';
+  var outer = document.getElementById('em-breath-outer');
+  var mid   = document.getElementById('em-breath-mid');
+  var inner = document.getElementById('em-breath-inner');
+  var lbl   = document.getElementById('em-breath-label');
+  var inst  = document.getElementById('em-breath-inst');
+  var cnt   = document.getElementById('em-breath-count');
+  var arc   = document.getElementById('em-breath-arc');
+
+  if(outer){
+    outer.style.transition = 'transform '+td+' cubic-bezier(.4,0,.2,1), box-shadow '+td+' ease';
+    outer.style.transform  = 'scale('+p.scale+')';
+    outer.style.boxShadow  = p.shadow;
+  }
+  if(mid){
+    mid.style.transition = 'transform '+td+' cubic-bezier(.4,0,.2,1)';
+    mid.style.transform  = 'scale('+(p.scale*.97)+')';
+  }
+  if(inner){
+    inner.style.transition = 'transform '+td+' cubic-bezier(.4,0,.2,1), background '+td+' ease';
+    inner.style.transform  = 'scale('+(p.scale*.92)+')';
+    inner.style.background = p.bg;
+  }
+  if(lbl)  lbl.textContent  = p.label;
+  if(inst) inst.textContent = p.inst;
+  if(cnt)  cnt.textContent  = p.secs;
+
+  // Arco: inhala = llena (540→0), retené = mantiene lleno, exhala = vacía (0→540)
+  if(arc){
+    arc.style.transition = 'none';
+    if(ph === 0) arc.style.strokeDashoffset = '540';       // reset a vacío
+    else if(ph === 1) arc.style.strokeDashoffset = '0';    // full
+    // ph=2: viene de retené=0, no resetear
+    void arc.getBoundingClientRect();                       // force reflow
+    if(ph === 0){
+      arc.style.transition = 'stroke-dashoffset '+td+' linear';
+      arc.style.strokeDashoffset = '0';                    // llena en 4s
+    } else if(ph === 1){
+      // mantener lleno, sin animación
+    } else {
+      arc.style.transition = 'stroke-dashoffset '+td+' linear';
+      arc.style.strokeDashoffset = '540';                  // vacía en 8s
+    }
+  }
+}
+
+function _emCountdown(secs) {
+  clearInterval(_emCntTimer);
+  var el = document.getElementById('em-breath-count');
+  var remaining = secs;
+  if(el) el.textContent = remaining;
+  _emCntTimer = setInterval(function(){
+    remaining--;
+    if(el) el.textContent = remaining > 0 ? remaining : '';
+    if(remaining <= 0) clearInterval(_emCntTimer);
+  }, 1000);
+}
+
+function _emRunPhase(ph) {
+  _emCurPhase = ph % 3;
+  _emApply(_emCurPhase);
+  _emCountdown(_emPhases[_emCurPhase].secs);
+  _emTimer = setTimeout(function(){ _emRunPhase(_emCurPhase + 1); },
+                        _emPhases[_emCurPhase].secs * 1000);
+}
+
+function startEmBreath() {
+  clearTimeout(_emTimer);
+  clearInterval(_emCntTimer);
+  _emCurPhase = -1;
+  _emRunPhase(0);   // arranca inmediatamente en INHALA 4s
+}
+
+function stopEmBreath() {
+  clearTimeout(_emTimer);
+  clearInterval(_emCntTimer);
+  var outer = document.getElementById('em-breath-outer');
+  var arc   = document.getElementById('em-breath-arc');
+  if(outer){ outer.style.transition='transform 0.3s'; outer.style.transform='scale(1)'; outer.style.boxShadow=''; }
+  if(arc)  { arc.style.transition='none'; arc.style.strokeDashoffset='540'; }
+}
 
 function openEmergency() {
+  stopEmBreath();  // limpiar cualquier estado previo
   initHelplines();
   document.getElementById('emergency-overlay').classList.add('open');
   loadEmContact();
   document.getElementById('em-phrase').textContent = emPhrases[Math.floor(Math.random()*emPhrases.length)];
   document.getElementById('em-write').value = '';
-  emBreathPhase = 0;
-  clearInterval(emBreathInterval);
-  var emBreathTiming = [4000, 4000, 6000, 2000];
-  function emBreathStep(){
-    emBreathPhase = (emBreathPhase + 1) % 4;
-    var el = document.getElementById('em-breath-label');
-    if(el) el.textContent = emBreathLabels[emBreathPhase];
-    emBreathInterval = setTimeout(emBreathStep, emBreathTiming[emBreathPhase]);
-  }
-  emBreathInterval = setTimeout(emBreathStep, emBreathTiming[0]);
+  startEmBreath(); // arrancar 4-7-8 limpio
 }
 
 function closeEmergency() {
+  stopEmBreath();
   document.getElementById('emergency-overlay').classList.remove('open');
-  clearTimeout(emBreathInterval);
 }
 
 // ── LÍNEAS DE AYUDA POR PAÍS ──
@@ -6667,6 +7067,142 @@ function toggleMusic() {
 }
 
 // ── SEÑALADORES ──────────────────────────────────────────────────────
+// ── SEÑALADOR — ESTILOS Y PERSONALIZACIÓN ─────────────────────────────
+var BM_STYLE_KEY = 'kalma-bm-style';
+var BM_EMOJI_KEY = 'kalma-bm-emoji';
+var BM_WORD_KEY  = 'kalma-bm-word';
+var BM_FOTO_KEY  = 'kalma-bm-foto';
+
+function setBMStyle(style) {
+  localStorage.setItem(BM_STYLE_KEY, style);
+  // Marcar opción activa en UI
+  document.querySelectorAll('.bm-opt').forEach(function(el){ el.classList.remove('selected'); });
+  var map = {claro:'bm-opt-1', oscuro:'bm-opt-2', personal:'bm-opt-3', foto:'bm-opt-4'};
+  var sel = document.getElementById(map[style]);
+  if(sel) sel.classList.add('selected');
+  // Si eligió foto, abrir selector de archivo
+  if(style === 'foto') {
+    var fi = document.getElementById('bm-foto-input');
+    if(fi && !localStorage.getItem(BM_FOTO_KEY)) fi.click();
+  }
+  applyBMStyleAll();
+}
+
+function updateBMEmoji(val) {
+  if(!val) return;
+  localStorage.setItem(BM_EMOJI_KEY, val);
+  var prev = document.getElementById('bm-preview-emoji');
+  if(prev) prev.textContent = val;
+  applyBMStyleAll();
+}
+
+function updateBMWord(val) {
+  localStorage.setItem(BM_WORD_KEY, val || '');
+  var prevTxt = document.getElementById('bm-word-preview-text');
+  if(prevTxt) prevTxt.textContent = val || '';
+  applyBMStyleAll();
+}
+
+function handleBMFoto(input) {
+  var file = input.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // Comprimir a max 80x80
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxSide = 80;
+      var scale = Math.min(maxSide/img.width, maxSide/img.height);
+      canvas.width  = Math.round(img.width  * scale);
+      canvas.height = Math.round(img.height * scale);
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      localStorage.setItem(BM_FOTO_KEY, dataUrl);
+      applyBMFotoPreview(dataUrl);
+      setBMStyle('foto');
+      showNotif('Foto guardada en tu señalador 📎');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function applyBMFotoPreview(dataUrl) {
+  var prev = document.getElementById('bm-foto-preview');
+  if(!prev) return;
+  prev.style.backgroundImage = 'url('+dataUrl+')';
+  prev.style.backgroundSize = 'cover';
+  prev.style.backgroundPosition = 'center';
+  prev.textContent = '';
+}
+
+function applyBMStyleAll() {
+  var style  = localStorage.getItem(BM_STYLE_KEY) || 'claro';
+  var emoji  = localStorage.getItem(BM_EMOJI_KEY) || '🌸';
+  var word   = localStorage.getItem(BM_WORD_KEY)  || '';
+  var foto   = localStorage.getItem(BM_FOTO_KEY)  || '';
+
+  // Actualizar todos los señaladores personales
+  document.querySelectorAll('.senalador-personal').forEach(function(btn) {
+    var cont = btn.querySelector('.bm-custom-content');
+    if(!cont) {
+      cont = document.createElement('div');
+      cont.className = 'bm-custom-content';
+      btn.appendChild(cont);
+    }
+    if(style === 'foto' && foto) {
+      cont.innerHTML = '<img src="'+foto+'" style="width:18px;height:32px;object-fit:cover;border-radius:2px 2px 8px 8px;display:block;" alt="foto"/>';
+    } else if(style === 'personal' && word) {
+      cont.innerHTML = '<span style="font-size:4px;font-weight:700;letter-spacing:0;line-height:1;color:#fff;word-break:break-all;text-align:center;display:block;padding:2px 1px;">'+word.toUpperCase()+'</span>';
+    } else if(style === 'personal') {
+      cont.innerHTML = '<span style="font-size:9px;">'+emoji+'</span>';
+    } else {
+      cont.innerHTML = '';
+    }
+  });
+
+  // Aplicar clase de estilo base
+  document.querySelectorAll('.senalador').forEach(function(btn) {
+    btn.classList.remove('senalador-claro','senalador-oscuro','senalador-personal');
+    if(style === 'oscuro') {
+      btn.classList.add('senalador-oscuro');
+    } else if(style === 'personal' || style === 'foto') {
+      btn.classList.add('senalador-personal');
+    } else {
+      btn.classList.add('senalador-claro');
+    }
+  });
+}
+
+function initBMStyle() {
+  var style  = localStorage.getItem(BM_STYLE_KEY) || 'claro';
+  var emoji  = localStorage.getItem(BM_EMOJI_KEY) || '🌸';
+  var word   = localStorage.getItem(BM_WORD_KEY)  || '';
+  var foto   = localStorage.getItem(BM_FOTO_KEY)  || '';
+
+  // Restaurar UI
+  var emojiInput = document.getElementById('bm-emoji-input');
+  if(emojiInput) emojiInput.value = emoji;
+  var prevEmoji = document.getElementById('bm-preview-emoji');
+  if(prevEmoji) prevEmoji.textContent = emoji;
+  var wordInput = document.getElementById('bm-word-input');
+  if(wordInput) wordInput.value = word;
+  var prevTxt = document.getElementById('bm-word-preview-text');
+  if(prevTxt) prevTxt.textContent = word;
+  if(foto) applyBMFotoPreview(foto);
+
+  // Marcar opción seleccionada
+  document.querySelectorAll('.bm-opt').forEach(function(el){ el.classList.remove('selected'); });
+  var map = {claro:'bm-opt-1', oscuro:'bm-opt-2', personal:'bm-opt-3', foto:'bm-opt-4'};
+  var sel = document.getElementById(map[style]);
+  if(sel) sel.classList.add('selected');
+
+  applyBMStyleAll();
+}
+setTimeout(initBMStyle, 100);
+
 var BM_KEY = 'kalma-bm';
 
 function toggleBM(id, btn) {
@@ -7144,11 +7680,9 @@ function initEpubReader(dataUrl, container) {
     var buffer = bytes.buffer;
 
     _epubBook = ePub(buffer);
-    // epub.js necesita dimensiones en px, no porcentaje
-    // Usar ventana completa porque epub-mode ocupa 100vw
-    // Calcular ancho real disponible: pantalla - margen señalador derecho
-    var senW = 140; // señalador 52px en right:80px = ~140px reservados
-    var cw = (window.innerWidth || 1024) - senW;
+    // epub.js necesita dimensiones en px
+    // Calcular ancho real disponible sin reservar para señalador (ahora es pequeño)
+    var cw = (window.innerWidth || 1024);
     var ch = (window.innerHeight || 768) - 110; // restar header + barra nav
     // En pantallas anchas mostrar dos páginas
     var twoPage = cw >= 700;
@@ -7157,8 +7691,7 @@ function initEpubReader(dataUrl, container) {
       height: ch,
       spread: twoPage ? 'auto' : 'none',
       flow: 'paginated',
-      allowScriptedContent: false,
-      manager: 'continuous'
+      allowScriptedContent: false
     });
     _epubRendition.display(_epubSavedCfi || undefined);
     // Detectar colores del tema actual
@@ -7214,46 +7747,28 @@ function updateEpubInfo() {
   } catch(e) {}
 }
 
+var _epubNavLocked = false;
 function epubPrev() {
-  if(!_epubRendition) return;
+  if(!_epubRendition || _epubNavLocked) return;
+  _epubNavLocked = true;
   waveSenaladorEpub();
-  // Usar display con página anterior por porcentaje para navegar página a página
-  try {
-    var loc = _epubRendition.currentLocation();
-    if(loc && loc.start && typeof loc.start.percentage === 'number') {
-      var totalPages = _epubBook.locations ? _epubBook.locations.length() : 0;
-      if(totalPages > 0) {
-        var curPage = Math.round(loc.start.percentage * totalPages);
-        var prevPage = Math.max(0, curPage - 1);
-        var cfi = _epubBook.locations.cfiFromPercentage(prevPage / totalPages);
-        _epubRendition.display(cfi).then(function(){ updateEpubInfo(); }).catch(function(){
-          _epubRendition.prev().then(function(){ updateEpubInfo(); });
-        });
-        return;
-      }
-    }
-  } catch(e) {}
-  _epubRendition.prev().then(function(){ updateEpubInfo(); }).catch(function(){});
+  _epubRendition.prev().then(function(){
+    updateEpubInfo();
+    _epubNavLocked = false;
+  }).catch(function(){
+    _epubNavLocked = false;
+  });
 }
 function epubNext() {
-  if(!_epubRendition) return;
+  if(!_epubRendition || _epubNavLocked) return;
+  _epubNavLocked = true;
   waveSenaladorEpub();
-  try {
-    var loc = _epubRendition.currentLocation();
-    if(loc && loc.start && typeof loc.start.percentage === 'number') {
-      var totalPages = _epubBook.locations ? _epubBook.locations.length() : 0;
-      if(totalPages > 0) {
-        var curPage = Math.round(loc.start.percentage * totalPages);
-        var nextPage = Math.min(totalPages - 1, curPage + 1);
-        var cfi = _epubBook.locations.cfiFromPercentage(nextPage / totalPages);
-        _epubRendition.display(cfi).then(function(){ updateEpubInfo(); }).catch(function(){
-          _epubRendition.next().then(function(){ updateEpubInfo(); });
-        });
-        return;
-      }
-    }
-  } catch(e) {}
-  _epubRendition.next().then(function(){ updateEpubInfo(); }).catch(function(){});
+  _epubRendition.next().then(function(){
+    updateEpubInfo();
+    _epubNavLocked = false;
+  }).catch(function(){
+    _epubNavLocked = false;
+  });
 }
 function waveSenaladorEpub() {
   var s = document.getElementById('epub-page-senalador');
