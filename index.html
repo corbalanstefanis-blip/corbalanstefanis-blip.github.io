@@ -2339,8 +2339,11 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   position:fixed;inset:0;z-index:10001;
   background:#0a0a0f;
   display:none;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:24px;padding:32px;
+  align-items:center;justify-content:flex-start;
+  gap:16px;
+  padding:80px 32px 32px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 .emergency-overlay.open{display:flex;}
 .emergency-close{
@@ -2357,13 +2360,13 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   color:rgba(255,255,255,.8);text-align:center;
 }
 .emergency-breath{
-  width:160px;height:160px;border-radius:50%;
+  width:130px;height:130px;border-radius:50%;
   border:2px solid rgba(239,68,68,.3);
   display:flex;align-items:center;justify-content:center;
   animation:em-breathe 16s ease-in-out infinite;
 }
 .emergency-breath-inner{
-  width:90px;height:90px;border-radius:50%;
+  width:72px;height:72px;border-radius:50%;
   background:radial-gradient(circle,rgba(239,68,68,.2),rgba(239,68,68,.05));
   display:flex;align-items:center;justify-content:center;
   animation:em-breathe 16s ease-in-out infinite .3s;
@@ -2387,7 +2390,7 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   border:1px solid rgba(255,255,255,.18);
   border-radius:14px;padding:16px 18px;
   color:rgba(255,255,255,.85);font-size:1rem;
-  resize:vertical;min-height:200px;height:200px;max-height:50vh;
+  resize:vertical;min-height:100px;height:120px;max-height:220px;
   outline:none;
   font-family:'DM Sans',sans-serif;line-height:1.8;
   box-sizing:border-box;
@@ -2411,6 +2414,14 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   transition:all .2s;
 }
 .emergency-action-btn:hover{background:rgba(255,255,255,.12);color:#fff;}
+.em-hl-body.open{max-height:600px!important;}
+.em-hl-country{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08);}
+.em-hl-country:last-child{border-bottom:none;}
+.em-hl-country-name{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.55;margin-bottom:6px;}
+.em-hl-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;}
+.em-hl-desc{font-size:.75rem;opacity:.8;flex:1;}
+.em-hl-call{font-size:.72rem;font-weight:700;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.2);white-space:nowrap;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.em-hl-call:active{background:rgba(255,255,255,.3);}
 .emergency-disclaimer{
   font-size:.7rem;color:rgba(255,255,255,.2);
   text-align:center;max-width:300px;line-height:1.5;
@@ -4562,6 +4573,18 @@ body.epub-reading .nav-right-actions{
 
   <p class="emergency-phrase" id="em-phrase"></p>
 
+  <!-- ── LÍNEAS DE AYUDA ── -->
+  <div id="em-helplines" style="width:100%;margin:16px 0 4px;">
+    <button id="em-hl-toggle" onclick="var b=document.getElementById('em-helplines-body');b.classList.toggle('open');b.style.maxHeight=b.classList.contains('open')?(b.scrollHeight+'px'):'0';this.querySelector('.em-hl-arrow').textContent=b.classList.contains('open')?'▲':'▼';event.stopPropagation();" style="border-radius:12px 12px 0 0;"
+      style="width:100%;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 16px;color:rgba(255,255,255,.9);font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:space-between;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+      <span>📞 Líneas de ayuda profesional gratuitas</span>
+      <span class="em-hl-arrow">▼</span>
+    </button>
+    <div id="em-helplines-body" style="overflow:hidden;max-height:0;transition:max-height .3s ease;">
+    <!-- JS lo abre con clase open -->
+    </div>
+  </div>
+
   <textarea class="emergency-write" id="em-write"
     placeholder="Si querés, escribí lo que sentís. Nadie más va a leer esto. Y lo podés borrar cuando quieras."
     aria-label="Espacio de escritura privado"></textarea>
@@ -6239,6 +6262,7 @@ var emBreathLabels = ['Inhala…', 'Sostené…', 'Exhala…', 'Esperá…'];
 var emBreathPhase = 0;
 
 function openEmergency() {
+  initHelplines();
   document.getElementById('emergency-overlay').classList.add('open');
   loadEmContact();
   document.getElementById('em-phrase').textContent = emPhrases[Math.floor(Math.random()*emPhrases.length)];
@@ -6258,6 +6282,127 @@ function openEmergency() {
 function closeEmergency() {
   document.getElementById('emergency-overlay').classList.remove('open');
   clearTimeout(emBreathInterval);
+}
+
+// ── LÍNEAS DE AYUDA POR PAÍS ──
+var HELPLINES = {
+  AR: {
+    name: '🇦🇷 Argentina',
+    lines: [
+      { desc: 'Violencia de género (24h)', tel: '144', wsp: '+5491127716463' },
+      { desc: 'Emergencia violencia (CABA)', tel: '137', wsp: null },
+      { desc: 'Salud mental gratuita', tel: '08009990091', wsp: null },
+      { desc: 'Emergencias', tel: '911', wsp: null },
+    ]
+  },
+  MX: {
+    name: '🇲🇽 México',
+    lines: [
+      { desc: 'Línea de la Vida (crisis, 24h)', tel: '8009112000', wsp: null },
+      { desc: 'ConTacto Joven (13-29 años)', tel: null, wsp: '+525579009669' },
+      { desc: 'UNAM Atención Psicológica', tel: '5550250855', wsp: null },
+      { desc: 'Emergencias', tel: '911', wsp: null },
+    ]
+  },
+  CL: {
+    name: '🇨🇱 Chile',
+    lines: [
+      { desc: 'Crisis salud mental y suicidio (24h)', tel: '*4141', wsp: null },
+      { desc: 'Violencia de género', tel: '1455', wsp: null },
+      { desc: 'Emergencias', tel: '131', wsp: null },
+    ]
+  },
+  CO: {
+    name: '🇨🇴 Colombia',
+    lines: [
+      { desc: 'Línea 106 - Salud Mental (24h)', tel: '106', wsp: null },
+      { desc: 'Violencia de género', tel: '155', wsp: null },
+      { desc: 'Emergencias', tel: '123', wsp: null },
+    ]
+  },
+  UY: {
+    name: '🇺🇾 Uruguay',
+    lines: [
+      { desc: 'Apoyo emocional (24h)', tel: '08001920', wsp: null },
+      { desc: 'Prevención suicidio (Línea Vida)', tel: '08000767', wsp: null },
+      { desc: 'Violencia doméstica', tel: '08004141', wsp: null },
+      { desc: 'Emergencias', tel: '911', wsp: null },
+    ]
+  },
+  DEFAULT: {
+    name: '🌎 Internacional',
+    lines: [
+      { desc: 'Argentina - Violencia de género', tel: '144', wsp: '+5491127716463' },
+      { desc: 'México - Línea de la Vida', tel: '8009112000', wsp: null },
+      { desc: 'Chile - Crisis salud mental', tel: '*4141', wsp: null },
+    ]
+  }
+};
+
+function renderHelplines(countryCode) {
+  var data = HELPLINES[countryCode] || HELPLINES['DEFAULT'];
+  var body = document.getElementById('em-helplines-body');
+  if (!body) return;
+  var html = '<div style="background:rgba(255,255,255,.06);border-radius:0 0 12px 12px;padding:4px 0;">';
+  html += '<div class="em-hl-country">';
+  html += '<div class="em-hl-country-name">' + data.name + '</div>';
+  data.lines.forEach(function(line) {
+    html += '<div class="em-hl-line">';
+    html += '<span class="em-hl-desc">' + line.desc + '</span>';
+    var btns = '';
+    if (line.tel) {
+      btns += '<a class="em-hl-call" href="tel:' + line.tel + '" onclick="event.stopPropagation()">📞 ' + line.tel + '</a>';
+    }
+    if (line.wsp) {
+      btns += '<a class="em-hl-call" href="https://wa.me/' + line.wsp.replace(/[^0-9]/g,'') + '" target="_blank" onclick="event.stopPropagation()" style="background:rgba(37,211,102,.2);border-color:rgba(37,211,102,.4);">💬 WA</a>';
+    }
+    html += '<div style="display:flex;gap:5px;flex-shrink:0;">' + btns + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  // Selector de país
+  html += '<div style="padding:8px 14px;border-top:1px solid rgba(255,255,255,.08);">';
+  html += '<select onchange="renderHelplines(this.value);event.stopPropagation()" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 8px;color:#fff;font-size:.75rem;">';
+  var countries = [{code:'AR',name:'🇦🇷 Argentina'},{code:'MX',name:'🇲🇽 México'},{code:'CL',name:'🇨🇱 Chile'},{code:'CO',name:'🇨🇴 Colombia'},{code:'UY',name:'🇺🇾 Uruguay'}];
+  countries.forEach(function(c){
+    html += '<option value="' + c.code + '"' + (c.code === countryCode ? ' selected' : '') + '>' + c.name + '</option>';
+  });
+  html += '</select></div>';
+  html += '</div>';
+  body.innerHTML = html;
+}
+
+function initHelplines() {
+  // Try to detect country from timezone/language
+  var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  var lang = navigator.language || '';
+  var country = 'DEFAULT';
+  if (tz.includes('Argentina') || tz.includes('Buenos_Aires')) country = 'AR';
+  else if (tz.includes('Mexico') || tz.includes('Mexico_City') || tz.includes('Monterrey') || tz.includes('Mazatlan')) country = 'MX';
+  else if (tz.includes('Santiago')) country = 'CL';
+  else if (tz.includes('Bogota')) country = 'CO';
+  else if (tz.includes('Montevideo')) country = 'UY';
+  renderHelplines(country);
+  // Auto-open
+  setTimeout(function(){
+    var b = document.getElementById('em-helplines-body');
+    var t = document.getElementById('em-hl-toggle');
+    if(b && !b.classList.contains('open')){
+      b.classList.add('open');
+      b.style.maxHeight = b.scrollHeight + 'px';
+      if(t) t.querySelector('.em-hl-arrow').textContent = '▲';
+      // Round button corners
+      if(t) t.style.borderRadius = '12px 12px 0 0';
+    }
+  }, 50);
+  // Make open/close for the helplines body work with class
+  var style = document.getElementById('em-hl-open-style');
+  if (!style) {
+    style = document.createElement('style');
+    style.id = 'em-hl-open-style';
+    style.textContent = '#em-helplines-body.open{max-height:600px!important;}';
+    document.head.appendChild(style);
+  }
 }
 
 function emSaveNote() {
