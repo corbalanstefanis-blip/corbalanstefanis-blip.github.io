@@ -333,7 +333,7 @@ body{
   font-family:'DM Sans',sans-serif;
   background:var(--bg);
   color:var(--text);
-  overflow-x:hidden;
+  overflow-x:clip;
   transition:background .4s ease,color .4s ease;
 }
 
@@ -2188,15 +2188,7 @@ nav{padding:12px 24px;}
     height:200px!important;
     flex-shrink:0!important;
     scroll-snap-align:start!important;
-    touch-action:manipulation!important;
-    -webkit-tap-highlight-color:transparent!important;
-    cursor:pointer!important;
   }
-  .cat-card *{
-    touch-action:manipulation!important;
-    pointer-events:none!important;
-  }
-  .cat-card-overlay,.cat-card-arrow{pointer-events:none!important;}
   .product-grid{grid-template-columns:1fr!important;}
   .video-grid{grid-template-columns:1fr!important;}
   .recipe-grid{grid-template-columns:1fr!important;}
@@ -2412,7 +2404,7 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 
 .emergency-overlay{
   position:fixed;inset:0;z-index:10001;
-  background:#0a0a0f;
+  background:linear-gradient(160deg,#1a1220 0%,#2a1a2e 40%,#1e2a38 100%);
   display:none;flex-direction:column;
   align-items:center;justify-content:flex-start;
   gap:clamp(6px,1.5vh,14px);
@@ -2429,20 +2421,20 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 }
 .emergency-label{
   font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);margin:0;
+  color:rgba(255,255,255,.5);margin:0;
 }
 .emergency-title{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.1rem,3.5vw,1.4rem);
-  color:rgba(255,255,255,.8);text-align:center;
-  line-height:1.25;margin:0;
+  font-size:clamp(1.2rem,4vw,1.5rem);
+  color:rgba(255,255,255,.92);text-align:center;
+  line-height:1.3;margin:0;
 }
 .emergency-breath{
   position:relative;
   width:clamp(120px,32vw,168px);height:clamp(120px,32vw,168px);
   border-radius:50%;
-  border:3px solid rgba(239,68,68,.65);
-  box-shadow:0 0 32px rgba(239,68,68,.3), inset 0 0 24px rgba(239,68,68,.1);
+  border:3px solid rgba(180,140,220,.65);
+  box-shadow:0 0 32px rgba(160,100,200,.3), inset 0 0 24px rgba(140,100,180,.1);
   display:flex;align-items:center;justify-content:center;
   will-change:transform,box-shadow;
   flex-shrink:0;
@@ -2450,15 +2442,15 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 .emergency-breath-mid{
   width:clamp(88px,24vw,122px);height:clamp(88px,24vw,122px);
   border-radius:50%;
-  background:radial-gradient(circle at center, rgba(239,68,68,.18) 0%, transparent 70%);
-  border:2px solid rgba(239,68,68,.35);
+  background:radial-gradient(circle at center, rgba(160,100,200,.18) 0%, transparent 70%);
+  border:2px solid rgba(180,140,220,.35);
   display:flex;align-items:center;justify-content:center;
   will-change:transform;
 }
 .emergency-breath-inner{
   width:clamp(54px,14vw,78px);height:clamp(54px,14vw,78px);
   border-radius:50%;
-  background:radial-gradient(circle at center, rgba(239,68,68,.5) 0%, rgba(239,68,68,.12) 60%, transparent 100%);
+  background:radial-gradient(circle at center, rgba(160,100,200,.5) 0%, rgba(140,100,180,.12) 60%, transparent 100%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   will-change:transform;
 }
@@ -2468,7 +2460,7 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   transform:rotate(-90deg);pointer-events:none;
 }
 .emergency-breath-progress circle{
-  fill:none;stroke:rgba(239,68,68,.6);stroke-width:3.5;stroke-linecap:round;
+  fill:none;stroke:rgba(180,140,220,.7);stroke-width:3.5;stroke-linecap:round;
 }
 @keyframes em-breathe{
   0%,100%{transform:scale(1);}
@@ -2479,12 +2471,12 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
   font-family:'Cormorant Garamond',serif;letter-spacing:.04em;
 }
 .emergency-breath-count{
-  font-size:.72rem;color:rgba(239,68,68,.75);
+  font-size:.72rem;color:rgba(200,170,240,.85);
   font-family:'DM Sans',sans-serif;letter-spacing:.06em;min-width:14px;text-align:center;
 }
 .emergency-phrase{
-  font-family:'Cormorant Garamond',serif;font-size:.9rem;
-  color:rgba(255,255,255,.45);font-style:italic;
+  font-family:'Cormorant Garamond',serif;font-size:.95rem;
+  color:rgba(255,255,255,.6);font-style:italic;
   text-align:center;max-width:280px;margin:0;
 }
 .emergency-write{
@@ -2630,7 +2622,7 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 
 /* ── RESPONSIVE HARDENING — all devices ── */
 img,video,iframe{max-width:100%;height:auto;}
-.page-panel.active{overflow-x:hidden;}
+.page-panel.active{overflow-x:clip;}
 section,div{max-width:100%;word-wrap:break-word;}
 input,textarea,select{max-width:100%;box-sizing:border-box;}
 .video-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))!important;}
@@ -2705,7 +2697,7 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
   transition:transform .15s,background .15s;white-space:nowrap;
 }
 .sd-item:hover{transform:translateX(-4px);background:var(--bg2);}
-.sd-item-danger{color:#ef4444;border-color:rgba(239,68,68,.25);}
+.sd-item-danger{color:#c084e0;border-color:rgba(192,132,224,.3);background:rgba(160,80,200,.06);}
 .sd-icon{font-size:1.1rem;line-height:1;}
 .sd-label{font-weight:500;letter-spacing:.02em;}
 .sd-backdrop{display:none;position:fixed;inset:0;z-index:1199;background:transparent;}
@@ -3044,14 +3036,22 @@ a:active,
   overflow-y: scroll !important;
 }
 /* Evitar que el body se mueva cuando hay panel abierto */
-/* NOTA: NO usar position:fixed — bloquea el scroll interno del panel en iOS Safari */
+/* SIN position:fixed — rompe el scroll interno de paneles en iOS Safari */
 body.panel-open {
   overflow: hidden;
 }
 
-/* Fix toolbox z-index - no tapar input */
+/* Fix toolbox z-index — debe estar sobre speed-dial y sd-backdrop */
 .toolbox-panel {
-  z-index: 1100 !important;
+  z-index: 1210 !important;
+  overflow: visible !important;
+}
+/* El scroll va solo en el body del toolbox, no en el panel completo */
+.toolbox-body {
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  border-radius: 0 0 20px 20px;
 }
 .speed-dial {
   z-index: 1200 !important;
@@ -3170,12 +3170,11 @@ body.epub-reading .nav-right-actions{
 }
 @media(max-width:600px){
   .bib-reader-overlay{
-    top:0;left:0;right:0;bottom:0;
-    width:100%;height:100%;
-    height:100dvh;
-    border-right:none;border-top:none;
-    border-radius:0;
-    box-shadow:none;
+    top:auto;left:0;right:0;
+    width:100%;height:90vh;
+    border-right:none;border-top:1px solid var(--border);
+    border-radius:20px 20px 0 0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.2);
     transform:translateY(100%);
   }
   .bib-reader-overlay.open{transform:translateY(0);}
@@ -4200,12 +4199,12 @@ body.epub-reading .nav-right-actions{
     <button class="toolbox-close" onclick="toggleToolbox()">✕</button>
   </div>
   <div class="toolbox-tabs">
-    <button class="toolbox-tab active" onclick="switchTool('bloc',this)">📝 Notas</button>
-    <button class="toolbox-tab" onclick="switchTool('calc',this)">🧮 Calc</button>
-    <button class="toolbox-tab" onclick="switchTool('cal',this)">📅 Agenda</button>
-    <button class="toolbox-tab" onclick="switchTool('lista',this)">📋 Listas</button>
-    <button class="toolbox-tab" onclick="switchTool('habitos',this)">🌱 Hábitos</button>
-    <button class="toolbox-tab" onclick="switchTool('galeria',this)">📁 Galería</button>
+    <button class="toolbox-tab active" onclick="switchTool('bloc',this);event.stopPropagation()">📝 Notas</button>
+    <button class="toolbox-tab" onclick="switchTool('calc',this);event.stopPropagation()">🧮 Calc</button>
+    <button class="toolbox-tab" onclick="switchTool('cal',this);event.stopPropagation()">📅 Agenda</button>
+    <button class="toolbox-tab" onclick="switchTool('lista',this);event.stopPropagation()">📋 Listas</button>
+    <button class="toolbox-tab" onclick="switchTool('habitos',this);event.stopPropagation()">🌱 Hábitos</button>
+    <button class="toolbox-tab" onclick="switchTool('galeria',this);event.stopPropagation()">📁 Galería</button>
   </div>
   <div class="toolbox-body">
 
@@ -4656,15 +4655,13 @@ body.epub-reading .nav-right-actions{
         <div class="bm-opt-label">Emoji</div>
       </div>
 
-      <!-- Opción 4: Foto señalador -->
-      <!-- Opción 4: Foto señalador — label toca el input directamente (iOS Safari compatible) -->
-      <div class="bm-opt" id="bm-opt-4" style="position:relative;" onclick="event.stopPropagation()">
-        <div id="bm-foto-preview" style="width:20px;height:36px;background:var(--teal);border-radius:3px 3px 10px 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;margin:0 auto;">📸</div>
-        <!-- Label envuelve el input — iOS abre el selector de fotos al tocar el label completo -->
-        <label for="bm-foto-input" style="display:flex;align-items:center;justify-content:center;margin-top:4px;background:var(--accent);color:#fff;border-radius:6px;padding:4px 6px;font-size:.6rem;cursor:pointer;white-space:nowrap;min-height:28px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+      <!-- Opción 4: Foto señalador — iOS Safari: label directo, capture=environment -->
+      <div class="bm-opt" id="bm-opt-4" style="position:relative;" onclick="setBMStyle('foto');event.stopPropagation()">
+        <div id="bm-foto-preview" style="width:20px;height:36px;background:var(--teal);border-radius:3px 3px 10px 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;margin:0 auto 2px;">📸</div>
+        <label for="bm-foto-input" style="display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border-radius:6px;padding:4px 6px;font-size:.6rem;cursor:pointer;white-space:nowrap;min-height:24px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;" onclick="event.stopPropagation()">
           📷 Foto
         </label>
-        <input type="file" id="bm-foto-input" accept="image/*" capture="environment" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"/>
+        <input type="file" id="bm-foto-input" accept="image/*" capture="environment" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" tabindex="-1"/>
         <div class="bm-opt-label">Mi foto</div>
       </div>
 
@@ -6925,18 +6922,6 @@ function showPanel(name) {
 // ── GALERÍA DE MEMORIAS ──────────────────────────────────────────────────
 var GALERIA_KEY = 'kalma-galeria';
 function galeriaLoad() {
-  var items = JSON.parse(localStorage.getItem(GALERIA_KEY) || '[]');
-  var grid = document.getElementById('galeria-grid');
-  if(!grid) return;
-  if(!items.length) { grid.innerHTML = '<div class="galeria-empty">Tus fotos aparecen aca. Solo vos las ves.</div>'; return; }
-  grid.innerHTML = items.map(function(it,i){
-    return '<div class="galeria-item"><img src="'+it.src+'" loading="lazy"/>'
-      +'<div class="galeria-item-overlay">'+(it.caption?'<div class="galeria-item-caption">'+it.caption+'</div>':'')
-      +'<div class="galeria-item-date">'+it.date+'</div></div>'
-      +'<button class="galeria-item-del" onclick="galeriaDel('+i+')" title="Eliminar">x</button></div>';
-  }).join('');
-}
-function galeriaLoad() {
   var grid = document.getElementById('galeria-grid');
   if(!grid) return;
   var photos = JSON.parse(localStorage.getItem('kalma-galeria') || '[]');
@@ -7115,11 +7100,6 @@ function closeDial() {
   var t = document.getElementById('sd-trigger');
   if(t) t.setAttribute('aria-expanded','false');
 }
-function toggleMusic() {
-  var panel = document.getElementById('music-panel');
-  if(panel) panel.classList.toggle('open');
-}
-
 // ── SEÑALADORES ──────────────────────────────────────────────────────
 // ── SEÑALADOR — ESTILOS Y PERSONALIZACIÓN ─────────────────────────────
 var BM_STYLE_KEY = 'kalma-bm-style';
@@ -7134,8 +7114,8 @@ function setBMStyle(style) {
   var map = {claro:'bm-opt-1', oscuro:'bm-opt-2', personal:'bm-opt-3', foto:'bm-opt-4'};
   var sel = document.getElementById(map[style]);
   if(sel) sel.classList.add('selected');
-  // Nota: el file picker se abre via el <label for="bm-foto-input"> directamente
-  // No usamos fi.click() porque iOS Safari bloquea .click() programático si no viene de gesto directo
+  // NO usar fi.click() — iOS Safari bloquea .click() programático
+  // El label for="bm-foto-input" abre el selector directamente al tocar
   applyBMStyleAll();
 }
 
@@ -7276,18 +7256,11 @@ function initBMStyle() {
   var sel = document.getElementById(map[style]);
   if(sel) sel.classList.add('selected');
 
-  // Adjuntar listener al input foto (más confiable que onchange en iOS Safari)
+  // Adjuntar listener al input foto — más confiable que onchange inline en iOS Safari
   var fotoInput = document.getElementById('bm-foto-input');
-  if(fotoInput) {
+  if(fotoInput && !fotoInput._listenerAdded) {
     fotoInput.addEventListener('change', function() { handleBMFoto(this); });
-  }
-
-  // Tocar la opción 4 también activa el bm-opt-4 + abre el file picker si no hay foto
-  var opt4 = document.getElementById('bm-opt-4');
-  if(opt4) {
-    opt4.addEventListener('click', function(e) {
-      setBMStyle('foto');
-    });
+    fotoInput._listenerAdded = true;
   }
 
   applyBMStyleAll();
@@ -7771,12 +7744,9 @@ function initEpubReader(dataUrl, container) {
     var buffer = bytes.buffer;
 
     _epubBook = ePub(buffer);
-    // Calcular ancho y alto real disponible
+    // Calcular ancho real disponible
     var cw = Math.max(320, (window.innerWidth || 1024));
-    // En mobile el lector es pantalla completa, descontar header (~52px) + barra nav (~54px)
-    var isMobile = cw < 700;
-    var headerH = isMobile ? 106 : 110;
-    var ch = Math.max(300, (window.innerHeight || 768) - headerH);
+    var ch = Math.max(300, (window.innerHeight || 768) - 110);
     // Una sola página en mobile (< 700px), dos en desktop
     var isMobile = cw < 700;
     _epubRendition = _epubBook.renderTo(container, {
