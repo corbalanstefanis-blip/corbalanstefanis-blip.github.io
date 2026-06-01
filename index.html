@@ -1580,12 +1580,26 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   background:var(--bg2);border:1px solid var(--border);
   border-radius:10px;padding:10px 14px;
   transition:border .2s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
 }
 .habit-item.done{border-color:var(--teal);}
-.habit-item input[type=checkbox]{accent-color:var(--teal);width:18px;height:18px;cursor:pointer;}
+.habit-item input[type=checkbox]{
+  accent-color:var(--teal);
+  width:22px;height:22px;
+  cursor:pointer;
+  flex-shrink:0;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  pointer-events:auto;
+}
 .habit-icon{font-size:1.1rem;}
 .habit-name{flex:1;font-size:.88rem;color:var(--text);}
 .habit-item.done .habit-name{color:var(--text2);text-decoration:line-through;}
+.habit-del{background:none;border:none;color:var(--text2);font-size:.9rem;cursor:pointer;padding:4px 6px;border-radius:6px;touch-action:manipulation;opacity:.5;transition:opacity .15s;}
+.habit-del:active{opacity:1;color:#e05;}
+
 .habit-streak{font-size:.72rem;color:var(--teal);font-weight:500;}
 .habits-summary{
   text-align:center;margin-top:14px;padding:10px;
@@ -2174,7 +2188,15 @@ nav{padding:12px 24px;}
     height:200px!important;
     flex-shrink:0!important;
     scroll-snap-align:start!important;
+    touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;
+    cursor:pointer!important;
   }
+  .cat-card *{
+    touch-action:manipulation!important;
+    pointer-events:none!important;
+  }
+  .cat-card-overlay,.cat-card-arrow{pointer-events:none!important;}
   .product-grid{grid-template-columns:1fr!important;}
   .video-grid{grid-template-columns:1fr!important;}
   .recipe-grid{grid-template-columns:1fr!important;}
@@ -2672,7 +2694,7 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
 .sd-items{display:flex;flex-direction:column;align-items:flex-end;gap:8px;
   opacity:0;pointer-events:none;transform:translateY(12px);
   transition:opacity .2s,transform .2s;}
-.sd-items.open{opacity:1;pointer-events:all;transform:translateY(0);}
+.sd-items.open{opacity:1;pointer-events:auto;transform:translateY(0);}
 .sd-item{
   display:flex;align-items:center;gap:8px;
   background:var(--card);border:1px solid var(--border);
@@ -3000,6 +3022,20 @@ a:active,
 .music-body {
   -webkit-overflow-scrolling: touch !important;
   overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+}
+/* Touch derecho: paneles flotantes desde la derecha */
+.music-panel,
+.music-body,
+.music-panel * {
+  touch-action: pan-y !important;
+}
+/* Habit items - touch explícito en iOS */
+.habit-item,
+.habit-item input,
+.habit-item button {
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 .settings-panel,
 .toolbox-body,
@@ -3008,10 +3044,9 @@ a:active,
   overflow-y: scroll !important;
 }
 /* Evitar que el body se mueva cuando hay panel abierto */
+/* NOTA: NO usar position:fixed — bloquea el scroll interno del panel en iOS Safari */
 body.panel-open {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
 }
 
 /* Fix toolbox z-index - no tapar input */
@@ -3135,11 +3170,12 @@ body.epub-reading .nav-right-actions{
 }
 @media(max-width:600px){
   .bib-reader-overlay{
-    top:auto;left:0;right:0;
-    width:100%;height:90vh;
-    border-right:none;border-top:1px solid var(--border);
-    border-radius:20px 20px 0 0;
-    box-shadow:0 -8px 40px rgba(0,0,0,.2);
+    top:0;left:0;right:0;bottom:0;
+    width:100%;height:100%;
+    height:100dvh;
+    border-right:none;border-top:none;
+    border-radius:0;
+    box-shadow:none;
     transform:translateY(100%);
   }
   .bib-reader-overlay.open{transform:translateY(0);}
@@ -4621,12 +4657,14 @@ body.epub-reading .nav-right-actions{
       </div>
 
       <!-- Opción 4: Foto señalador -->
-      <div class="bm-opt" id="bm-opt-4" onclick="event.stopPropagation()">
-        <div class="bm-opt-custom" style="cursor:pointer;" onclick="setBMStyle('foto')">
-          <div id="bm-foto-preview" style="width:20px;height:36px;background:var(--teal);border-radius:3px 3px 10px 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;">📸</div>
-        </div>
-        <label for="bm-foto-input" style="display:block;margin-top:2px;background:var(--accent);color:#fff;border-radius:5px;padding:2px 5px;font-size:.6rem;cursor:pointer;white-space:nowrap;" onclick="event.stopPropagation()">+ Foto</label>
-        <input type="file" id="bm-foto-input" accept="image/*" style="display:none" onchange="handleBMFoto(this)" onclick="event.stopPropagation()"/>
+      <!-- Opción 4: Foto señalador — label toca el input directamente (iOS Safari compatible) -->
+      <div class="bm-opt" id="bm-opt-4" style="position:relative;" onclick="event.stopPropagation()">
+        <div id="bm-foto-preview" style="width:20px;height:36px;background:var(--teal);border-radius:3px 3px 10px 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;margin:0 auto;">📸</div>
+        <!-- Label envuelve el input — iOS abre el selector de fotos al tocar el label completo -->
+        <label for="bm-foto-input" style="display:flex;align-items:center;justify-content:center;margin-top:4px;background:var(--accent);color:#fff;border-radius:6px;padding:4px 6px;font-size:.6rem;cursor:pointer;white-space:nowrap;min-height:28px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+          📷 Foto
+        </label>
+        <input type="file" id="bm-foto-input" accept="image/*" capture="environment" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"/>
         <div class="bm-opt-label">Mi foto</div>
       </div>
 
@@ -5268,30 +5306,46 @@ function syncHabits() {
 }
 syncHabits();
 function renderHabits() {
-  const d = new Date();
-  const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  document.getElementById('habit-date-label').textContent = days[d.getDay()]+', '+d.getDate()+'/'+('0'+(d.getMonth()+1)).slice(-2);
-  const list = document.getElementById('habit-list');
+  var d = new Date();
+  var days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  var dateEl = document.getElementById('habit-date-label');
+  if(dateEl) dateEl.textContent = days[d.getDay()]+', '+d.getDate()+'/'+('0'+(d.getMonth()+1)).slice(-2);
+  var list = document.getElementById('habit-list');
+  if(!list) return;
   list.innerHTML = '';
   habitDefs.forEach(function(h,i){
     var div = document.createElement('div');
     var done = habitsToday[i] && habitsToday[i].done;
     div.className = 'habit-item' + (done?' done':'');
-    div.innerHTML = '<input type="checkbox"'+(done?' checked':'')+' onchange="toggleHabit('+i+')"/><span class="habit-icon">'+h.icon+'</span><span class="habit-name">'+h.name+'</span>';
+    div.innerHTML =
+      '<input type="checkbox"'+(done?' checked':'')+
+      ' onclick="toggleHabit('+i+')" style="touch-action:manipulation;" />'+
+      '<span class="habit-icon">'+h.icon+'</span>'+
+      '<span class="habit-name">'+h.name+'</span>'+
+      '<button class="habit-del" onclick="deleteHabit('+i+');event.stopPropagation();" title="Eliminar">✕</button>';
     list.appendChild(div);
   });
-  var done = habitsToday.filter(function(h){return h&&h.done;}).length;
-  var pct = habitDefs.length ? Math.round(done/habitDefs.length*100) : 0;
-  document.getElementById('habits-summary').textContent = done+' de '+habitDefs.length+' completados hoy · '+pct+'%';
+  var doneCnt = habitsToday.filter(function(h){return h&&h.done;}).length;
+  var pct = habitDefs.length ? Math.round(doneCnt/habitDefs.length*100) : 0;
+  var summEl = document.getElementById('habits-summary');
+  if(summEl) summEl.textContent = doneCnt+' de '+habitDefs.length+' completados hoy · '+pct+'%';
 }
 function toggleHabit(i) {
   habitsToday[i] = {done: !(habitsToday[i]&&habitsToday[i].done)};
   localStorage.setItem(HABITS_TODAY_KEY, JSON.stringify(habitsToday));
   renderHabits();
 }
+function deleteHabit(i) {
+  habitDefs.splice(i,1);
+  habitsToday.splice(i,1);
+  localStorage.setItem(HABITS_KEY, JSON.stringify(habitDefs));
+  localStorage.setItem(HABITS_TODAY_KEY, JSON.stringify(habitsToday));
+  renderHabits();
+  showNotif('Hábito eliminado.');
+}
 function addHabit() {
   var inp = document.getElementById('habit-new-input');
-  var v = inp.value.trim();
+  var v = (inp && inp.value) ? inp.value.trim() : '';
   if(!v) return;
   habitDefs.push({icon:'✅',name:v});
   habitsToday.push({done:false});
@@ -7080,11 +7134,8 @@ function setBMStyle(style) {
   var map = {claro:'bm-opt-1', oscuro:'bm-opt-2', personal:'bm-opt-3', foto:'bm-opt-4'};
   var sel = document.getElementById(map[style]);
   if(sel) sel.classList.add('selected');
-  // Si eligió foto, abrir selector de archivo
-  if(style === 'foto') {
-    var fi = document.getElementById('bm-foto-input');
-    if(fi && !localStorage.getItem(BM_FOTO_KEY)) fi.click();
-  }
+  // Nota: el file picker se abre via el <label for="bm-foto-input"> directamente
+  // No usamos fi.click() porque iOS Safari bloquea .click() programático si no viene de gesto directo
   applyBMStyleAll();
 }
 
@@ -7174,6 +7225,32 @@ function applyBMStyleAll() {
       btn.classList.add('senalador-claro');
     }
   });
+
+  // Actualizar señalador EPUB (tiene SVG propio, no usa clase senalador-personal)
+  var epubSena = document.getElementById('epub-page-senalador');
+  if(epubSena) {
+    var epubSvg = epubSena.querySelector('svg');
+    if(!epubSvg) return;
+    // Quitar img anterior si existe
+    var oldImg = epubSena.querySelector('img.epub-sena-foto');
+    if(oldImg) oldImg.remove();
+
+    if(style === 'foto' && foto) {
+      // Mostrar foto encima del SVG
+      var img = document.createElement('img');
+      img.className = 'epub-sena-foto';
+      img.src = foto;
+      img.style.cssText = 'position:absolute;top:2px;left:50%;transform:translateX(-50%);width:20px;height:32px;object-fit:cover;border-radius:2px 2px 8px 8px;z-index:2;';
+      epubSena.style.position = 'relative';
+      epubSena.appendChild(img);
+    } else if(style === 'personal' && word) {
+      var t = epubSvg.querySelector('text.epub-label');
+      if(!t) { t = document.createElementNS('http://www.w3.org/2000/svg','text'); t.className.baseVal='epub-label'; epubSvg.appendChild(t); }
+      t.setAttribute('x','14');t.setAttribute('y','18');t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-size','5');t.setAttribute('fill','white');t.setAttribute('font-weight','700');
+      t.textContent = word.toUpperCase().slice(0,6);
+    }
+  }
 }
 
 function initBMStyle() {
@@ -7198,6 +7275,20 @@ function initBMStyle() {
   var map = {claro:'bm-opt-1', oscuro:'bm-opt-2', personal:'bm-opt-3', foto:'bm-opt-4'};
   var sel = document.getElementById(map[style]);
   if(sel) sel.classList.add('selected');
+
+  // Adjuntar listener al input foto (más confiable que onchange en iOS Safari)
+  var fotoInput = document.getElementById('bm-foto-input');
+  if(fotoInput) {
+    fotoInput.addEventListener('change', function() { handleBMFoto(this); });
+  }
+
+  // Tocar la opción 4 también activa el bm-opt-4 + abre el file picker si no hay foto
+  var opt4 = document.getElementById('bm-opt-4');
+  if(opt4) {
+    opt4.addEventListener('click', function(e) {
+      setBMStyle('foto');
+    });
+  }
 
   applyBMStyleAll();
 }
@@ -7478,7 +7569,7 @@ function openBibReader(entryId) {
     document.body.classList.add('epub-reading');
     // Mostrar señalador
     var sena = document.getElementById('epub-page-senalador');
-    if(sena) sena.style.display = 'block';
+    if(sena) { sena.style.display = 'block'; applyBMStyleAll(); }
     loadEpubJs(function(){
       initEpubReader(entry.archivo.dataUrl, viewer);
     });
@@ -7680,16 +7771,18 @@ function initEpubReader(dataUrl, container) {
     var buffer = bytes.buffer;
 
     _epubBook = ePub(buffer);
-    // epub.js necesita dimensiones en px
-    // Calcular ancho real disponible sin reservar para señalador (ahora es pequeño)
-    var cw = (window.innerWidth || 1024);
-    var ch = (window.innerHeight || 768) - 110; // restar header + barra nav
-    // En pantallas anchas mostrar dos páginas
-    var twoPage = cw >= 700;
+    // Calcular ancho y alto real disponible
+    var cw = Math.max(320, (window.innerWidth || 1024));
+    // En mobile el lector es pantalla completa, descontar header (~52px) + barra nav (~54px)
+    var isMobile = cw < 700;
+    var headerH = isMobile ? 106 : 110;
+    var ch = Math.max(300, (window.innerHeight || 768) - headerH);
+    // Una sola página en mobile (< 700px), dos en desktop
+    var isMobile = cw < 700;
     _epubRendition = _epubBook.renderTo(container, {
       width: cw,
       height: ch,
-      spread: twoPage ? 'auto' : 'none',
+      spread: isMobile ? 'none' : 'auto',
       flow: 'paginated',
       allowScriptedContent: false
     });
