@@ -4570,7 +4570,7 @@ body.epub-reading .nav-right-actions{
       <button class="music-load-btn" onclick="loadMusicYT()">Reproducir ▶</button>
       <p style="font-size:.75rem;color:var(--text2);margin-bottom:10px;">O elegí una lista:</p>
       <div class="music-presets">
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=jfKfPfyJRdk')">
+        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=6ffprvDDydI')">
           <span class="music-preset-icon">🌧</span>
           <div class="music-preset-info"><div class="music-preset-name">Lluvia + Lo-fi</div><div class="music-preset-desc">Para concentrarte o relajarte</div></div>
         </div>
@@ -6210,6 +6210,8 @@ function dciElegir(estado) {
     setTimeout(function(){
       if(p1) p1.style.display = 'none';
       if(p2) { p2.style.display='flex'; p2.style.opacity='0'; p2.style.transition='opacity .35s'; setTimeout(function(){ p2.style.opacity='1'; },20); }
+      // atrás vuelve a p1 del check-in en vez de salir
+      history.pushState({ panel: 'dci-p2' }, '', '');
     }, 300);
   } catch(e) { dciEntrar(); }
 }
@@ -7294,6 +7296,16 @@ function showPanel(name, fromPopstate) {
 // Escuchar el botón "atrás" del navegador/celular
 window.addEventListener('popstate', function(e) {
   var panel = (e.state && e.state.panel) ? e.state.panel : (localStorage.getItem('kalma-onboarded') ? 'hoy' : 'inicio');
+
+  // Si atrás viene desde p2 del check-in → volver a p1
+  if(panel === 'dci-p2') {
+    var p1 = document.getElementById('dci-p1');
+    var p2 = document.getElementById('dci-p2');
+    if(p2) { p2.style.transition='opacity .25s'; p2.style.opacity='0'; setTimeout(function(){ p2.style.display='none'; },250); }
+    if(p1) { p1.style.display='flex'; p1.style.opacity='0'; p1.style.transition='opacity .3s'; setTimeout(function(){ p1.style.opacity='1'; },20); }
+    return;
+  }
+
   showPanel(panel, true);
 });
 
