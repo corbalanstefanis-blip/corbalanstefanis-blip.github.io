@@ -3399,55 +3399,24 @@ body.epub-reading .nav-right-actions{
   margin: 0 auto;
   box-sizing: border-box;
 }
-/* Hero logo: K + luna creciente grande */
-.calma-logo-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  margin-bottom: clamp(36px,9vw,60px);
-}
-.calma-logo-mark {
-  position: relative;
+.calma-logo-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: clamp(72px,20vw,100px);
-  height: clamp(72px,20vw,100px);
+  gap: 6px;
+  margin-bottom: clamp(44px,10vw,68px);
 }
-.calma-luna-hero {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: var(--accent);
-  opacity: .28;
-}
-.calma-logo-k {
-  position: relative;
-  z-index: 1;
+.calma-logo-text {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 600;
-  font-size: clamp(64px,17vw,92px);
-  color: var(--accent);
-  line-height: 1;
-  letter-spacing: -.02em;
-  user-select: none;
-  /* Alinear visualmente con la luna */
-  margin-left: clamp(-4px,-1vw,-2px);
-}
-.calma-logo-wordmark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(10px,2.6vw,13px);
+  font-size: clamp(13px,3.5vw,15px);
   font-weight: 300;
-  letter-spacing: .38em;
+  letter-spacing: .22em;
+  color: var(--text);
+  opacity: .85;
+  padding-left: .22em;
+}
+.calma-logo-text .logo-k {
   color: var(--accent);
-  text-transform: uppercase;
-  opacity: .55;
-  margin-top: clamp(2px,.5vw,4px);
-  /* Compensar el letter-spacing al final para centrar bien */
-  padding-left: .38em;
 }
 .calma-pregunta {
   font-family: 'Cormorant Garamond', serif;
@@ -3523,14 +3492,17 @@ body.epub-reading .nav-right-actions{
 }
 .rec-logo-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
+  font-style: italic;
+  font-size: clamp(12px,3vw,13px);
   font-weight: 300;
-  letter-spacing: .28em;
-  color: var(--accent);
-  text-transform: uppercase;
-  opacity: .65;
+  letter-spacing: .22em;
+  color: var(--text);
+  opacity: .75;
+  padding-left: .22em;
 }
-.rec-logo-text em { font-style: italic; }
+.rec-logo-text .logo-k {
+  color: var(--accent);
+}
 .rec-titulo {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(20px, 5.5vw, 26px);
@@ -3618,23 +3590,15 @@ body.epub-reading .nav-right-actions{
     <path d="M14.5 3.5 C11 4.2 8.5 7.2 9.1 10.8 C9.7 14.2 12.8 16.3 16 15.7 C13.8 17.5 10.8 18.1 8.1 17 C4.8 15.6 3 12.2 3.8 8.9 C4.6 5.5 7.6 3.4 11 3.3 C12.2 3.3 13.4 3.4 14.5 3.5 Z"
       fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
   </symbol>
-  <!-- Luna hero: creciente grande para la pantalla inicial -->
-  <symbol id="kalma-luna-hero" viewBox="0 0 100 100">
-    <path d="M70 12 C52 16 40 32 42 52 C44 70 58 82 76 80 C66 90 50 94 36 88 C18 80 10 60 16 42 C22 24 40 14 58 14 C62 14 66 14 70 12 Z"
-      fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
-  </symbol>
 </svg>
 <a href="#main-content" class="skip-nav">Saltar al contenido principal</a>
 
 <!-- ═══ KALMA — PANTALLA INICIAL ═══ -->
 <div class="page-panel active" id="panel-calma">
   <div class="calma-wrap">
-    <div class="calma-logo-hero">
-      <div class="calma-logo-mark" aria-hidden="true">
-        <svg class="calma-luna-hero"><use href="#kalma-luna-hero"/></svg>
-        <span class="calma-logo-k">K</span>
-      </div>
-      <span class="calma-logo-wordmark">alma</span>
+    <div class="calma-logo-row">
+      <svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>
+      <span class="calma-logo-text"><span class="logo-k">K</span>alma</span>
     </div>
     <div class="calma-pregunta">¿Qué necesitás<br>un poco más hoy?</div>
     <div class="calma-opciones">
@@ -3663,7 +3627,7 @@ body.epub-reading .nav-right-actions{
   <div class="rec-wrap">
     <div class="rec-logo-row">
       <svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>
-      <span class="rec-logo-text"><em>K</em>ALMA</span>
+      <span class="rec-logo-text"><span class="logo-k">K</span>alma</span>
     </div>
     <div class="rec-titulo" id="rec-titulo"></div>
     <div class="rec-frase" id="rec-frase"></div>
@@ -3684,7 +3648,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P1: pregunta inicial ── -->
   <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:.22em;color:var(--text,#2C2118);margin-bottom:clamp(36px,8vw,60px);opacity:.75;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg><span style="color:var(--accent,#A67B5B);">K</span>alma</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
     <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
     <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
@@ -3698,7 +3662,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P2: cards curadas según estado ── -->
   <div id="dci-p2" style="display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;opacity:0;">
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(28px,6vw,44px);opacity:.7;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:.22em;color:var(--text,#2C2118);margin-bottom:clamp(28px,6vw,44px);opacity:.75;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg><span style="color:var(--accent,#A67B5B);">K</span>alma</div>
     <div id="dci2-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,30px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.35;margin-bottom:8px;text-align:center;"></div>
     <div id="dci2-frase"  style="font-size:clamp(12px,3vw,13px);color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.04em;margin-bottom:clamp(28px,6vw,40px);text-align:center;line-height:1.6;max-width:320px;"></div>
     <div id="dci2-cards"  style="display:flex;flex-direction:column;gap:10px;width:100%;"></div>
@@ -3801,7 +3765,7 @@ body.epub-reading .nav-right-actions{
 <div class="scroll-progress" id="scroll-progress"></div>
 
 <nav id="main-content">
-  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:5px;"><svg class="kalma-luna" aria-hidden="true" style="width:11px;height:11px;opacity:.45;color:var(--accent);"><use href="#kalma-luna"/></svg><em>K<span>A</span>LMA</em></a>
+  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:5px;"><svg class="kalma-luna" aria-hidden="true" style="width:11px;height:11px;opacity:.45;color:var(--accent);"><use href="#kalma-luna"/></svg><em style="font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.1em;color:var(--text);opacity:.8;"><span style="color:var(--accent);">K</span>alma</em></a>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="nav-links">
     <li><a href="#" onclick="showPanel('inicio');return false;" class="nav-panel-link active" data-panel="inicio">Inicio</a></li>
@@ -3918,7 +3882,7 @@ body.epub-reading .nav-right-actions{
   <circle cx="108" cy="248" r="1.5" fill="rgba(166,123,91,0.35)"/>
   <circle cx="240" cy="68" r="1.5" fill="rgba(166,123,91,0.4)"/>
 </svg>
-<div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;">KALMA</em></div>
+<div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;"><span style="color:var(--accent);">K</span>alma</em></div>
 
     </div>
   </div>
@@ -4575,7 +4539,7 @@ body.epub-reading .nav-right-actions{
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#" class="nav-logo"><em>K<span>A</span>LMA</em></a>
+      <a href="#" class="nav-logo"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.1em;"><span style="color:var(--accent);">K</span>alma</em></a>
       <p>Tu espacio digital para vivir con intención. Skincare, fitness, nutrición y comunidad — todo lo que sos.</p>
     </div>
     <div class="footer-col">
