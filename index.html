@@ -7253,7 +7253,7 @@ function emClearAndClose() {
 }
 
 // ── PANEL NAVIGATION ──────────────────────────────────────────────────────
-function showPanel(name) {
+function showPanel(name, fromPopstate) {
   // hide all panels
   document.querySelectorAll('.page-panel').forEach(function(p){
     p.classList.remove('active');
@@ -7285,7 +7285,23 @@ function showPanel(name) {
   document.querySelectorAll('.bnav-item[data-panel]').forEach(function(b){
     b.classList.toggle('active', b.dataset.panel===name);
   });
+  // Historial para que "atrás" navegue entre paneles en vez de salir de la app
+  if(!fromPopstate) {
+    history.pushState({ panel: name }, '', '');
+  }
 }
+
+// Escuchar el botón "atrás" del navegador/celular
+window.addEventListener('popstate', function(e) {
+  var panel = (e.state && e.state.panel) ? e.state.panel : (localStorage.getItem('kalma-onboarded') ? 'hoy' : 'inicio');
+  showPanel(panel, true);
+});
+
+// Empujar estado inicial al historial para que la primera vez que se toca "atrás
+// no salga de la app sino que quede en el panel de inicio
+(function(){
+  history.replaceState({ panel: 'hoy' }, '', '');
+})();
 
 // ── SCROLL PROGRESS ────────────────────────────────────────────────────────
 (function(){
