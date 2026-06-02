@@ -3529,10 +3529,6 @@ body.epub-reading .nav-right-actions{
       <button onclick="showPanel('recetario')"  class="hoy-chip">🥗 Recetas</button>
     </div>
 
-    <!-- acceso rápido a perfil -->
-    <div style="margin-top:clamp(20px,5vw,28px);display:flex;justify-content:center;">
-      <button onclick="openProfile()" class="hoy-chip" style="font-size:11px;opacity:.7;">✎ Mi perfil</button>
-    </div>
 
   </div>
 </div>
@@ -4570,7 +4566,7 @@ body.epub-reading .nav-right-actions{
       <button class="music-load-btn" onclick="loadMusicYT()">Reproducir ▶</button>
       <p style="font-size:.75rem;color:var(--text2);margin-bottom:10px;">O elegí una lista:</p>
       <div class="music-presets">
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=6ffprvDDydI')">
+        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=lTRiuFIWV54')">
           <span class="music-preset-icon">🌧</span>
           <div class="music-preset-info"><div class="music-preset-name">Lluvia + Lo-fi</div><div class="music-preset-desc">Para concentrarte o relajarte</div></div>
         </div>
@@ -6130,7 +6126,7 @@ var _DCI_DATA = {
 // - Onboarded + ya hizo check-in hoy → ir directo a panel-hoy personalizado
 // - Onboarded + menos de 7 check-ins históricos → mostrar overlay (pregunta)
 // - Onboarded + 7+ check-ins → ir directo a panel-hoy con estado de ayer + chip de actualización
-(function(){
+function _dciArrancar() {
   if(!localStorage.getItem('kalma-onboarded')) return;
 
   var hoy       = new Date().toDateString();
@@ -6158,7 +6154,13 @@ var _DCI_DATA = {
   // Resto: mostrar overlay con la pregunta
   var el = document.getElementById('daily-checkin-overlay');
   if(el) el.style.display = 'block';
-})();
+}
+// Esperar a que el DOM esté listo para que getElementById encuentre los elementos
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _dciArrancar);
+} else {
+  _dciArrancar();
+}
 
 function dciElegir(estado) {
   try {
