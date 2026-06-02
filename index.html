@@ -671,6 +671,9 @@ h1.hero-title em{font-style:italic;color:var(--accent);font-weight:300;display:b
   height:140px;
   cursor:pointer;
   border:1px solid var(--border);
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;-webkit-user-select:none;
 }
 @media(min-width:600px){.cat-card{height:180px;}}
 @media(min-width:900px){.cat-card{height:220px;}}
@@ -3591,14 +3594,6 @@ body.epub-reading .nav-right-actions{
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <span class="stat-num">12K+</span>
-        <span class="stat-label">Mujeres</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">40+</span>
-        <span class="stat-label">Productos</span>
-      </div>
-      <div class="stat-item">
         <span class="stat-num">100%</span>
         <span class="stat-label">Digital</span>
       </div>
@@ -6175,7 +6170,10 @@ function _dciArrancar() {
 
   // Resto: mostrar overlay con la pregunta
   var el = document.getElementById('daily-checkin-overlay');
-  if(el) el.style.display = 'block';
+  if(el) {
+    el.style.display = 'block';
+    history.pushState({ overlay: 'checkin-p1' }, '');
+  }
 }
 // Esperar a que el DOM esté listo para que getElementById encuentre los elementos
 if(document.readyState === 'loading') {
@@ -7319,6 +7317,21 @@ function showPanel(name, fromPopstate) {
 
 // Escuchar el botón "atrás" del navegador/celular
 window.addEventListener('popstate', function(e) {
+  // Cerrar overlays con historial propio
+  if(e.state && e.state.overlay) {
+    var ov = e.state.overlay;
+    if(ov === 'checkin-p1') {
+      var el = document.getElementById('daily-checkin-overlay');
+      if(el) { el.style.transition='opacity .25s'; el.style.opacity='0'; setTimeout(function(){ el.style.display='none'; el.style.opacity=''; el.style.transition=''; },250); }
+      return;
+    }
+    if(ov === 'music') { var mp=document.getElementById('music-panel'); if(mp) mp.classList.remove('open'); return; }
+    if(ov === 'toolbox') { var tp=document.getElementById('toolbox-panel'); if(tp) tp.classList.remove('open'); return; }
+    if(ov === 'cinco') { if(typeof closeCinco==='function') closeCinco(); return; }
+    if(ov === 'sos') { if(typeof closeEmergency==='function') closeEmergency(); return; }
+    if(ov === 'ia') { iaOpen=false; var iap=document.getElementById('ia-panel'); if(iap) iap.classList.remove('open'); return; }
+  }
+
   var panel = (e.state && e.state.panel) ? e.state.panel : (localStorage.getItem('kalma-onboarded') ? 'hoy' : 'inicio');
 
   // Si atrás viene desde p2 del check-in → volver a p1
