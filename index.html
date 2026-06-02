@@ -2023,12 +2023,31 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   font-size:.88rem;margin-bottom:14px;
 }
 .music-presets{display:flex;flex-direction:column;gap:8px;}
+button.music-preset{
+  font-family:inherit;font-size:inherit;
+  appearance:none;-webkit-appearance:none;
+  text-align:left;
+}
 .music-preset{
-  display:flex;align-items:center;gap:12px;padding:10px 14px;
+  display:flex;align-items:center;gap:12px;padding:12px 14px;
   background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  cursor:pointer;transition:border .15s;
+  cursor:pointer;transition:border .15s, background .15s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;-webkit-user-select:none;
+  min-height:48px;
+  width:100%;box-sizing:border-box;
+  pointer-events:auto;
+  position:relative;
 }
 .music-preset:hover{border-color:var(--accent);}
+.music-preset:active{background:var(--pill-bg);border-color:var(--accent);}
+.music-preset-icon{
+  font-size:1.3rem;flex-shrink:0;
+  min-width:32px;text-align:center;
+  pointer-events:none;
+}
+.music-preset-info{flex:1;min-width:0;pointer-events:none;}
 .music-preset-icon{font-size:1.2rem;}
 .music-preset-info{flex:1;}
 .music-preset-name{font-size:.85rem;color:var(--text);font-weight:500;}
@@ -3018,9 +3037,12 @@ a:active,
 }
 /* Touch derecho: paneles flotantes desde la derecha */
 .music-panel,
-.music-body,
-.music-panel * {
+.music-body {
   touch-action: pan-y !important;
+}
+/* Los presets necesitan manipulation para responder al tap en iOS */
+.music-preset {
+  touch-action: manipulation !important;
 }
 /* Habit items - touch explícito en iOS */
 .habit-item,
@@ -3351,7 +3373,7 @@ body.epub-reading .nav-right-actions{
   <!-- ── P1: pregunta inicial ── -->
   <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;">K A L M A</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegaste hasta acá hoy?</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
     <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
     <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
       <button onclick="dciElegir('llena')"   class="dci-btn"><span class="dci-dot"></span><span>con la cabeza llena y el cuerpo tenso</span></button>
@@ -4566,22 +4588,22 @@ body.epub-reading .nav-right-actions{
       <button class="music-load-btn" onclick="loadMusicYT()">Reproducir ▶</button>
       <p style="font-size:.75rem;color:var(--text2);margin-bottom:10px;">O elegí una lista:</p>
       <div class="music-presets">
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=lTRiuFIWV54')">
+        <button class="music-preset" type="button" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=A1N4GguA370',event)">
           <span class="music-preset-icon">🌧</span>
-          <div class="music-preset-info"><div class="music-preset-name">Lluvia + Lo-fi</div><div class="music-preset-desc">Para concentrarte o relajarte</div></div>
-        </div>
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=eKFTSSKCzWA')">
+          <div class="music-preset-info"><div class="music-preset-name">Lluvia relajante</div><div class="music-preset-desc">Solo lluvia, sin música</div></div>
+        </button>
+        <button class="music-preset" type="button" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=eKFTSSKCzWA',event)">
           <span class="music-preset-icon">🌿</span>
           <div class="music-preset-info"><div class="music-preset-name">Naturaleza ambiental</div><div class="music-preset-desc">Bosque, pájaros, viento</div></div>
-        </div>
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=09R8_2nJtjg')">
+        </button>
+        <button class="music-preset" type="button" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=09R8_2nJtjg',event)">
           <span class="music-preset-icon">💪</span>
           <div class="music-preset-info"><div class="music-preset-name">Energía para ejercitar</div><div class="music-preset-desc">Motivación y ritmo</div></div>
-        </div>
-        <div class="music-preset" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=ZToicYcHIOU')">
+        </button>
+        <button class="music-preset" type="button" onclick="loadMusicPreset('yt','https://www.youtube.com/watch?v=ZToicYcHIOU',event)">
           <span class="music-preset-icon">🧘</span>
           <div class="music-preset-info"><div class="music-preset-name">Meditación suave</div><div class="music-preset-desc">Para el modo 5 minutos</div></div>
-        </div>
+        </button>
       </div>
     </div>
     <div id="music-sp-body" style="display:none">
