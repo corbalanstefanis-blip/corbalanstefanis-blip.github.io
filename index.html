@@ -2153,8 +2153,8 @@ button.music-preset{
 nav{padding:12px 24px;}
 @media(max-width:768px){
   nav{padding:10px 14px;}
-  .bottom-nav{display:none;}.body.bnav-visible .bottom-nav,.bnav-visible .bottom-nav{display:block;}
-  body{padding-bottom:70px;}
+  body.bnav-visible .bottom-nav{display:block;}
+  body.bnav-visible{padding-bottom:70px;}
   .nav-links{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;
     background:var(--bg);flex-direction:column;align-items:center;justify-content:center;
     gap:32px;z-index:998;font-size:1.2rem;}
@@ -2241,10 +2241,10 @@ nav{padding:12px 24px;}
   .music-fab{top:auto!important;bottom:160px!important;right:0!important;
     transform:none!important;border-radius:12px 0 0 12px!important;writing-mode:horizontal-tb!important;
     padding:10px 12px!important;flex-direction:row!important;gap:6px!important;}
-  .cinco-btn{bottom:82px!important;right:16px!important;left:auto!important;font-size:.75rem!important;padding:10px 14px!important;}
-  .toolbox-fab{bottom:82px!important;right:16px!important;}
+  .cinco-btn{display:none!important;}
+  .toolbox-fab{display:none!important;}
   .ia-fab{display:none!important;}
-  .config-fab{bottom:146px!important;right:72px!important;left:auto!important;}
+  .config-fab{display:none!important;}
   .privacy-chip{display:none!important;}
   .emergency-btn{top:auto!important;bottom:240px!important;transform:none!important;
     border-radius:0 8px 8px 0!important;writing-mode:vertical-rl!important;}
@@ -2727,8 +2727,9 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
 
 /* Mobile: bottom nav takes space — raise dial */
 @media(max-width:768px){
-  .speed-dial{bottom:80px;right:16px;}
-  .sd-trigger{width:50px;height:50px;font-size:20px;}
+  .speed-dial{bottom:16px;right:16px;}
+  .sd-trigger{width:52px;height:52px;font-size:20px;touch-action:manipulation;}
+  .sd-items{align-items:flex-end;}
 }
 
 
@@ -3365,67 +3366,28 @@ body.epub-reading .nav-right-actions{
 .hoy-card-sec-arrow{font-size:13px;color:rgba(166,123,91,.3);margin-left:auto;}
 .hoy-chip{background:rgba(255,255,255,.45);border:.5px solid rgba(166,123,91,.2);border-radius:20px;padding:8px 14px;font-size:12px;color:var(--accent);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:300;touch-action:manipulation;transition:background .2s;white-space:nowrap;}
 .hoy-chip:active{background:rgba(255,255,255,.88);}
-</style>
-</head>
-<body>
-<a href="#main-content" class="skip-nav">Saltar al contenido principal</a>
 
-<!-- ═══ KALMA — PANTALLA INICIAL LIVIANA ═══ -->
-<div class="page-panel active" id="panel-calma">
-  <div class="calma-wrap">
+/* ════════════════════════════════
+   LUNA KALMA — detalle visual
+════════════════════════════════ */
+.kalma-luna {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  color: var(--accent);
+  opacity: .55;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.kalma-luna-sm {
+  width: 11px;
+  height: 11px;
+  opacity: .4;
+}
 
-    <div class="calma-logo">
-      <em>K</em>ALMA
-    </div>
-
-    <div class="calma-pregunta">¿Qué necesitás<br>un poco más hoy?</div>
-
-    <div class="calma-opciones">
-      <button class="calma-opt" onclick="kalmaElegir('llena')">
-        <span class="calma-dot"></span>
-        <span>bajar el ruido de la cabeza</span>
-      </button>
-      <button class="calma-opt" onclick="kalmaElegir('bien')">
-        <span class="calma-dot"></span>
-        <span>un rato tranquilo para mí</span>
-      </button>
-      <button class="calma-opt" onclick="kalmaElegir('energia')">
-        <span class="calma-dot"></span>
-        <span>energía para hacer algo</span>
-      </button>
-      <button class="calma-opt calma-opt-verde" onclick="kalmaElegir('nose')">
-        <span class="calma-dot calma-dot-verde"></span>
-        <span>todavía no sé bien</span>
-      </button>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══ KALMA — RECOMENDACIÓN (post-elección) ═══ -->
-<div class="page-panel" id="panel-recomendacion">
-  <div class="rec-wrap">
-    <div class="rec-logo"><em>K</em>ALMA</div>
-    <div class="rec-titulo" id="rec-titulo"></div>
-    <div class="rec-frase" id="rec-frase"></div>
-
-    <button class="rec-card" id="rec-card" onclick="">
-      <div class="rec-card-ico" id="rec-card-ico"></div>
-      <div class="rec-card-body">
-        <div class="rec-card-nombre" id="rec-card-nombre"></div>
-        <div class="rec-card-hint" id="rec-card-hint"></div>
-      </div>
-      <div class="rec-card-arrow">›</div>
-    </button>
-
-    <button class="rec-ver-todo" onclick="kalmaVerTodo()">
-      Ver todo en KALMA
-    </button>
-  </div>
-</div>
-
-<style>
-/* ── PANTALLA CALMA ── */
+/* ════════════════════════════════
+   PANTALLA CALMA — inicial
+════════════════════════════════ */
 .calma-wrap {
   min-height: 100dvh;
   display: flex;
@@ -3437,42 +3399,79 @@ body.epub-reading .nav-right-actions{
   margin: 0 auto;
   box-sizing: border-box;
 }
-
-.calma-logo {
+/* Hero logo: K + luna creciente grande */
+.calma-logo-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: clamp(36px,9vw,60px);
+}
+.calma-logo-mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(72px,20vw,100px);
+  height: clamp(72px,20vw,100px);
+}
+.calma-luna-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+  opacity: .28;
+}
+.calma-logo-k {
+  position: relative;
+  z-index: 1;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(64px,17vw,92px);
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -.02em;
+  user-select: none;
+  /* Alinear visualmente con la luna */
+  margin-left: clamp(-4px,-1vw,-2px);
+}
+.calma-logo-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(10px,2.6vw,13px);
   font-weight: 300;
-  letter-spacing: .28em;
+  letter-spacing: .38em;
   color: var(--accent);
   text-transform: uppercase;
-  opacity: .6;
-  margin-bottom: clamp(44px, 10vw, 72px);
+  opacity: .55;
+  margin-top: clamp(2px,.5vw,4px);
+  /* Compensar el letter-spacing al final para centrar bien */
+  padding-left: .38em;
 }
-.calma-logo em { font-style: italic; }
-
 .calma-pregunta {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(24px, 6vw, 32px);
+  font-size: clamp(23px, 6vw, 30px);
   font-weight: 300;
   font-style: italic;
   color: var(--text);
   line-height: 1.35;
   text-align: center;
-  margin-bottom: clamp(36px, 8vw, 52px);
+  margin-bottom: clamp(32px, 8vw, 48px);
 }
-
 .calma-opciones {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
-
 .calma-opt {
   background: rgba(255,255,255,.5);
   border: .5px solid rgba(166,123,91,.2);
-  border-radius: 14px;
-  padding: clamp(14px,3.5vw,17px) 18px;
+  border-radius: 16px;
+  /* Área táctil grande — mínimo 52px height */
+  padding: clamp(15px,3.8vw,18px) clamp(18px,4vw,22px);
+  min-height: 52px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -3485,24 +3484,26 @@ body.epub-reading .nav-right-actions{
   font-weight: 300;
   line-height: 1.4;
   text-align: left;
-  transition: background .15s;
+  transition: background .12s;
   width: 100%;
+  /* Alineación al centro vertical para diestras — texto hacia la izquierda del centro */
+  justify-content: flex-start;
 }
 .calma-opt:active { background: rgba(255,255,255,.92); }
-.calma-opt-verde { border-color: rgba(106,155,132,.2) !important; }
-.calma-opt-verde span:last-child { color: #6A9B84; font-style: italic; }
-
 .calma-dot {
-  width: 6px;
-  height: 6px;
+  width: 5px; height: 5px;
   border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
-  opacity: .45;
+  opacity: .4;
 }
+.calma-opt-verde { border-color: rgba(106,155,132,.22) !important; }
 .calma-dot-verde { background: #6A9B84 !important; }
+.calma-opt-verde .calma-opt-text { color: #6A9B84; font-style: italic; }
 
-/* ── RECOMENDACIÓN ── */
+/* ════════════════════════════════
+   PANEL RECOMENDACION — post elección
+════════════════════════════════ */
 .rec-wrap {
   min-height: 100dvh;
   display: flex;
@@ -3514,22 +3515,25 @@ body.epub-reading .nav-right-actions{
   margin: 0 auto;
   box-sizing: border-box;
 }
-
-.rec-logo {
+.rec-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: clamp(28px,7vw,48px);
+}
+.rec-logo-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 13px;
   font-weight: 300;
   letter-spacing: .28em;
   color: var(--accent);
   text-transform: uppercase;
-  opacity: .6;
-  margin-bottom: clamp(32px,7vw,52px);
+  opacity: .65;
 }
-.rec-logo em { font-style: italic; }
-
+.rec-logo-text em { font-style: italic; }
 .rec-titulo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(20px, 5vw, 26px);
+  font-size: clamp(20px, 5.5vw, 26px);
   font-weight: 300;
   font-style: italic;
   color: var(--text);
@@ -3537,23 +3541,23 @@ body.epub-reading .nav-right-actions{
   text-align: center;
   margin-bottom: 8px;
 }
-
 .rec-frase {
   font-size: clamp(11px, 2.8vw, 13px);
   color: var(--accent);
   font-weight: 300;
-  letter-spacing: .04em;
-  line-height: 1.6;
+  letter-spacing: .03em;
+  line-height: 1.65;
   text-align: center;
   max-width: 300px;
-  margin-bottom: clamp(28px,6vw,44px);
+  opacity: .85;
+  margin-bottom: clamp(28px,7vw,44px);
 }
-
 .rec-card {
-  background: rgba(255,255,255,.65);
+  background: rgba(255,255,255,.6);
   border: .5px solid rgba(166,123,91,.2);
   border-radius: 18px;
-  padding: clamp(18px,4vw,22px);
+  padding: clamp(18px,4.5vw,24px) clamp(18px,4.5vw,22px);
+  min-height: 72px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -3562,66 +3566,125 @@ body.epub-reading .nav-right-actions{
   -webkit-tap-highlight-color: transparent;
   width: 100%;
   text-align: left;
-  transition: background .15s;
-  margin-bottom: clamp(20px,5vw,32px);
+  transition: background .12s;
+  margin-bottom: clamp(16px,4vw,24px);
 }
 .rec-card:active { background: rgba(255,255,255,.92); }
-
 .rec-card-ico {
-  width: 48px;
-  height: 48px;
+  width: 48px; height: 48px;
   border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   font-size: 22px;
 }
-
-.rec-card-body { flex: 1; }
-
 .rec-card-nombre {
-  font-family: 'DM Sans', sans-serif;
   font-size: clamp(14px, 3.5vw, 15px);
   color: var(--text);
   font-weight: 400;
   margin-bottom: 3px;
 }
-
 .rec-card-hint {
   font-size: 11px;
   color: var(--accent);
   font-weight: 300;
-  opacity: .8;
+  opacity: .75;
 }
-
-.rec-card-arrow {
-  font-size: 22px;
-  color: rgba(166,123,91,.3);
-  flex-shrink: 0;
-}
-
+.rec-card-arrow { font-size: 22px; color: rgba(166,123,91,.3); margin-left: auto; flex-shrink: 0; }
 .rec-ver-todo {
   background: transparent;
   border: none;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
-  color: rgba(166,123,91,.45);
+  color: rgba(166,123,91,.38);
   cursor: pointer;
   touch-action: manipulation;
-  padding: 10px;
-  letter-spacing: .03em;
+  -webkit-tap-highlight-color: transparent;
+  padding: 14px 20px;
+  min-height: 44px;
+  letter-spacing: .04em;
   transition: color .2s;
+  width: 100%;
+  text-align: center;
 }
 .rec-ver-todo:active { color: var(--accent); }
+
+
+@media(max-width:768px){.emergency-btn{display:none!important;}}
 </style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="kalma-luna" viewBox="0 0 20 20">
+    <path d="M14.5 3.5 C11 4.2 8.5 7.2 9.1 10.8 C9.7 14.2 12.8 16.3 16 15.7 C13.8 17.5 10.8 18.1 8.1 17 C4.8 15.6 3 12.2 3.8 8.9 C4.6 5.5 7.6 3.4 11 3.3 C12.2 3.3 13.4 3.4 14.5 3.5 Z"
+      fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Luna hero: creciente grande para la pantalla inicial -->
+  <symbol id="kalma-luna-hero" viewBox="0 0 100 100">
+    <path d="M70 12 C52 16 40 32 42 52 C44 70 58 82 76 80 C66 90 50 94 36 88 C18 80 10 60 16 42 C22 24 40 14 58 14 C62 14 66 14 70 12 Z"
+      fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+</svg>
+<a href="#main-content" class="skip-nav">Saltar al contenido principal</a>
+
+<!-- ═══ KALMA — PANTALLA INICIAL ═══ -->
+<div class="page-panel active" id="panel-calma">
+  <div class="calma-wrap">
+    <div class="calma-logo-hero">
+      <div class="calma-logo-mark" aria-hidden="true">
+        <svg class="calma-luna-hero"><use href="#kalma-luna-hero"/></svg>
+        <span class="calma-logo-k">K</span>
+      </div>
+      <span class="calma-logo-wordmark">alma</span>
+    </div>
+    <div class="calma-pregunta">¿Qué necesitás<br>un poco más hoy?</div>
+    <div class="calma-opciones">
+      <button class="calma-opt" onclick="kalmaElegir('llena')" aria-label="Bajar el ruido de la cabeza">
+        <span class="calma-dot"></span>
+        <span class="calma-opt-text">bajar el ruido de la cabeza</span>
+      </button>
+      <button class="calma-opt" onclick="kalmaElegir('bien')" aria-label="Un rato tranquilo para mí">
+        <span class="calma-dot"></span>
+        <span class="calma-opt-text">un rato tranquilo para mí</span>
+      </button>
+      <button class="calma-opt" onclick="kalmaElegir('energia')" aria-label="Energía para hacer algo">
+        <span class="calma-dot"></span>
+        <span class="calma-opt-text">energía para hacer algo</span>
+      </button>
+      <button class="calma-opt calma-opt-verde" onclick="kalmaElegir('nose')" aria-label="Todavía no sé bien">
+        <span class="calma-dot calma-dot-verde"></span>
+        <span class="calma-opt-text">todavía no sé bien</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KALMA — RECOMENDACION ═══ -->
+<div class="page-panel" id="panel-recomendacion">
+  <div class="rec-wrap">
+    <div class="rec-logo-row">
+      <svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>
+      <span class="rec-logo-text"><em>K</em>ALMA</span>
+    </div>
+    <div class="rec-titulo" id="rec-titulo"></div>
+    <div class="rec-frase" id="rec-frase"></div>
+    <button class="rec-card" id="rec-card">
+      <div class="rec-card-ico" id="rec-card-ico"></div>
+      <div style="flex:1">
+        <div class="rec-card-nombre" id="rec-card-nombre"></div>
+        <div class="rec-card-hint" id="rec-card-hint"></div>
+      </div>
+      <div class="rec-card-arrow">›</div>
+    </button>
+    <button class="rec-ver-todo" onclick="kalmaVerTodo()">Ver todo en KALMA</button>
+  </div>
+</div>
 
 <!-- ═══ DAILY CHECK-IN ═══ -->
 <div id="daily-checkin-overlay" style="display:none;position:fixed;inset:0;background:var(--bg,#F5EDD8);z-index:9998;overflow-y:auto;font-family:'DM Sans',sans-serif;">
 
   <!-- ── P1: pregunta inicial ── -->
   <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;">K A L M A</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
     <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
     <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
@@ -3635,7 +3698,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P2: cards curadas según estado ── -->
   <div id="dci-p2" style="display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;opacity:0;">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(28px,6vw,44px);opacity:.7;">K A L M A</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(28px,6vw,44px);opacity:.7;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
     <div id="dci2-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,30px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.35;margin-bottom:8px;text-align:center;"></div>
     <div id="dci2-frase"  style="font-size:clamp(12px,3vw,13px);color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.04em;margin-bottom:clamp(28px,6vw,40px);text-align:center;line-height:1.6;max-width:320px;"></div>
     <div id="dci2-cards"  style="display:flex;flex-direction:column;gap:10px;width:100%;"></div>
@@ -3738,7 +3801,7 @@ body.epub-reading .nav-right-actions{
 <div class="scroll-progress" id="scroll-progress"></div>
 
 <nav id="main-content">
-  <a href="#" class="nav-logo"><em>K<span>A</span>LMA</em></a>
+  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:5px;"><svg class="kalma-luna" aria-hidden="true" style="width:11px;height:11px;opacity:.45;color:var(--accent);"><use href="#kalma-luna"/></svg><em>K<span>A</span>LMA</em></a>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="nav-links">
     <li><a href="#" onclick="showPanel('inicio');return false;" class="nav-panel-link active" data-panel="inicio">Inicio</a></li>
@@ -3761,12 +3824,9 @@ body.epub-reading .nav-right-actions{
 <!-- ── BOTTOM NAV (mobile) ── -->
 <div class="bottom-nav" role="navigation" aria-label="Menú inferior">
   <div class="bottom-nav-items">
-    <button class="bnav-item active" data-panel="hoy" onclick="showPanel(localStorage.getItem('kalma-onboarded') ? 'hoy' : 'inicio')"><span class="bnav-icon">🏠</span><span>Inicio</span></button>
-    <button class="bnav-item"        data-panel="categorias"  onclick="showPanel('categorias')"><span class="bnav-icon">✦</span><span>Explorar</span></button>
-    <button class="bnav-item"        data-panel="rutinas"     onclick="showPanel('rutinas')"><span class="bnav-icon">🗓</span><span>Rutina</span></button>
-    <button class="bnav-item"        data-panel="biblioteca"  onclick="showPanel('biblioteca')"><span class="bnav-icon">📚</span><span>Biblioteca</span></button>
-    <button class="bnav-item"        data-panel="recetario"   onclick="showPanel('recetario')"><span class="bnav-icon">🥗</span><span>Recetas</span></button>
-    <button class="bnav-item"                                 onclick="openProfile()"><span class="bnav-icon">🌸</span><span>Perfil</span></button>
+    <button class="bnav-item active" data-panel="hoy" onclick="kalmaInicio()"><span class="bnav-icon">🏠</span><span>Inicio</span></button>
+    <button class="bnav-item"        data-panel="categorias" onclick="showPanel('categorias')"><span class="bnav-icon">✦</span><span>Explorar</span></button>
+    <button class="bnav-item"                                onclick="toggleDial()"><span class="bnav-icon">⚙︎</span><span>Más</span></button>
   </div>
 </div>
 
@@ -3786,7 +3846,7 @@ body.epub-reading .nav-right-actions{
     <!-- acciones secundarias (2, más chicas) -->
     <div id="hoy-secundarias" style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(28px,6vw,40px);"></div>
 
-    <!-- acceso ligero a todo -->
+    <!-- acceso discreto a todo -->
     <button class="hoy-ver-todo" onclick="kalmaVerTodo()">Ver todo en KALMA</button>
 
 
@@ -3811,24 +3871,15 @@ body.epub-reading .nav-right-actions{
 
 .hoy-chip{background:rgba(255,255,255,.45);border:.5px solid rgba(166,123,91,.2);border-radius:20px;padding:8px 14px;font-size:12px;color:var(--accent);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:300;letter-spacing:.02em;touch-action:manipulation;transition:background .2s;white-space:nowrap;}
 .hoy-chip:active{background:rgba(255,255,255,.85);}
-/* ── hoy-ver-todo — discreto, sin ruido ── */
-.hoy-ver-todo {
-  background: transparent;
-  border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  color: rgba(166,123,91,.4);
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  padding: 12px 10px;
-  letter-spacing: .03em;
-  width: 100%;
-  text-align: center;
-  transition: color .2s;
-  margin-top: clamp(8px,2vw,16px);
+.hoy-ver-todo{
+  background:transparent;border:none;
+  font-family:'DM Sans',sans-serif;font-size:12px;
+  color:rgba(166,123,91,.38);cursor:pointer;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  padding:14px 10px;min-height:44px;width:100%;text-align:center;
+  letter-spacing:.04em;transition:color .2s;margin-top:8px;
 }
-.hoy-ver-todo:active { color: var(--accent); }
+.hoy-ver-todo:active{color:var(--accent);}
 
 </style>
 
@@ -6395,58 +6446,67 @@ var _DCI_DATA = {
 // Arranca la app según el estado de la usuaria:
 // - Sin onboarding → nada (el onboarding se encarga)
 
-// ── KALMA PANTALLA CALMA — lógica principal ──────────────────────────────
+// ── KALMA — funciones pantalla inicial ──────────────────────────────────
 function kalmaElegir(estado) {
+  // Guardar estado
   try {
     var conteo = parseInt(localStorage.getItem('kalma-checkin-count') || '0', 10);
     localStorage.setItem('kalma-checkin-date',   new Date().toDateString());
     localStorage.setItem('kalma-checkin-estado', estado);
     localStorage.setItem('kalma-checkin-count',  conteo + 1);
-  } catch(e) {}
+  } catch(e){}
 
-  var data = typeof _DCI_DATA !== 'undefined' ? _DCI_DATA[estado] : null;
-  if(!data) {
-    // fallback si los datos aún no cargaron
-    kalmaVerTodo();
-    return;
-  }
+  var data = (typeof _DCI_DATA !== 'undefined') ? _DCI_DATA[estado] : null;
+  if(!data){ kalmaVerTodo(); return; }
 
-  // Llenar panel-recomendacion con 1 sola sugerencia
-  var el = function(id){ return document.getElementById(id); };
-  var c = data.principal;
-
-  if(el('rec-titulo')) el('rec-titulo').textContent = data.titulo;
-  if(el('rec-frase'))  el('rec-frase').textContent  = data.frase;
-  if(el('rec-card-ico'))    el('rec-card-ico').textContent    = c.ico;
-  if(el('rec-card-ico'))    el('rec-card-ico').style.background = c.bg;
-  if(el('rec-card-nombre')) el('rec-card-nombre').textContent = c.nombre;
-  if(el('rec-card-hint'))   el('rec-card-hint').textContent   = c.hint;
-
-  var card = el('rec-card');
-  if(card) {
-    card.onclick = function(){ eval(c.fn); };
-  }
-
-  // Pre-llenar también panel-hoy para cuando llegue
+  // Pre-llenar panel-hoy
   if(typeof _dciLlenarCards === 'function')        _dciLlenarCards(data);
   if(typeof _dciActualizarPanelHoy === 'function') _dciActualizarPanelHoy(data);
+
+  // Llenar panel-recomendacion con 1 sola sugerencia
+  var c = data.principal;
+  var get = function(id){ return document.getElementById(id); };
+  if(get('rec-titulo')) get('rec-titulo').textContent = data.titulo;
+  if(get('rec-frase'))  get('rec-frase').textContent  = data.frase;
+  if(get('rec-card-ico')){
+    get('rec-card-ico').textContent    = c.ico;
+    get('rec-card-ico').style.background = c.bg;
+  }
+  if(get('rec-card-nombre')) get('rec-card-nombre').textContent = c.nombre;
+  if(get('rec-card-hint'))   get('rec-card-hint').textContent   = c.hint;
+  var card = get('rec-card');
+  if(card) card.onclick = function(){ try{ eval(c.fn); }catch(e){} };
 
   showPanel('recomendacion');
 }
 
 function kalmaVerTodo() {
-  // Mostrar bottom-nav y navegar a panel-hoy o panel-inicio
   document.body.classList.add('bnav-visible');
   if(localStorage.getItem('kalma-onboarded')) {
     var estadoUlt = localStorage.getItem('kalma-checkin-estado');
-    var data = typeof _DCI_DATA !== 'undefined' && estadoUlt ? _DCI_DATA[estadoUlt] : null;
-    if(data) {
-      if(typeof _dciLlenarCards === 'function') _dciLlenarCards(data);
+    var data = (typeof _DCI_DATA !== 'undefined' && estadoUlt) ? _DCI_DATA[estadoUlt] : null;
+    if(data){
+      if(typeof _dciLlenarCards === 'function')        _dciLlenarCards(data);
       if(typeof _dciActualizarPanelHoy === 'function') _dciActualizarPanelHoy(data);
     }
     showPanel('hoy');
   } else {
     showPanel('inicio');
+  }
+}
+
+function kalmaInicio() {
+  if(localStorage.getItem('kalma-onboarded')) {
+    var hoy = new Date().toDateString();
+    var fechaUlt = localStorage.getItem('kalma-checkin-date');
+    var estadoUlt = localStorage.getItem('kalma-checkin-estado');
+    if(fechaUlt === hoy && estadoUlt){
+      showPanel('hoy');
+    } else {
+      showPanel('calma');
+    }
+  } else {
+    showPanel('calma');
   }
 }
 
@@ -6719,10 +6779,7 @@ function finishOnboarding() {
     if(name) el.value ? (el.value = name) : (el.textContent = name);
   });
   if(name) showReward('💜', '¡Bienvenida, ' + name + '!', 'Tu espacio está listo.');
-  // Ir a la pantalla calma para el primer check-in
-  setTimeout(function(){
-    showPanel('calma');
-  }, 350);
+  setTimeout(function(){ showPanel('calma'); }, 300);
 }
 
 
@@ -7592,11 +7649,9 @@ function emClearAndClose() {
 
 // ── PANEL NAVIGATION ──────────────────────────────────────────────────────
 function showPanel(name, fromPopstate) {
-  // Si va a una sección real (no calma ni recomendacion), mostrar bottom-nav
-  var seccionesReales = ['hoy','inicio','categorias','tienda','comunidad','recetario','rutinas','salud','biblioteca'];
-  if(seccionesReales.indexOf(name) > -1) {
-    document.body.classList.add('bnav-visible');
-  }
+  // Si va a sección real, mostrar bottom-nav
+  var secReal = ['hoy','inicio','categorias','tienda','comunidad','recetario','rutinas','salud','biblioteca'];
+  if(secReal.indexOf(name) > -1){ document.body.classList.add('bnav-visible'); }
   // hide all panels
   document.querySelectorAll('.page-panel').forEach(function(p){
     p.classList.remove('active');
