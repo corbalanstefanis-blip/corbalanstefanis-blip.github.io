@@ -1491,9 +1491,12 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 }
 .cinco-overlay.open{display:flex;}
 .cinco-close{
-  position:absolute;top:24px;right:28px;
-  background:none;border:none;color:rgba(255,255,255,.5);
-  font-size:24px;cursor:pointer;
+  position:absolute;top:20px;right:20px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.85);border-radius:50%;
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;z-index:3010;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .cinco-title{
   font-family:'Cormorant Garamond',serif;font-size:1.6rem;
@@ -2103,14 +2106,14 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
   position:fixed;
   bottom:0;left:0;right:0;
   top:auto;
-  transform:translateY(100%);
   z-index:1300;
   width:100%;
   max-height:85dvh;
   background:var(--card);border:1px solid var(--border);
   border-radius:20px 20px 0 0;
   box-shadow:0 -8px 40px rgba(0,0,0,.25);
-  display:flex;flex-direction:column;overflow:hidden;
+  display:none;flex-direction:column;overflow:hidden;
+  transform:translateY(100%);
   transition:transform .3s ease;
   touch-action:pan-y;
 }
@@ -2558,8 +2561,11 @@ html.no-animations .float-card-1,html.no-animations .float-card-2,html.no-animat
 .emergency-overlay.open{display:flex;}
 .emergency-close{
   position:absolute;top:20px;right:24px;
-  background:none;border:none;color:rgba(255,255,255,.4);
-  font-size:22px;cursor:pointer;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.85);border-radius:50%;
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;z-index:10010;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .emergency-label{
   font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
@@ -3713,6 +3719,28 @@ body.epub-reading .nav-right-actions{
 
 
 @media(max-width:768px){.emergency-btn{display:none!important;}}
+/* ── SALIDA SIEMPRE VISIBLE — regla de seguridad PWA ──
+   Garantiza que ningún botón de cierre quede tapado o invisible
+   en ningún overlay/modal/panel de la app */
+.emergency-close,
+.cinco-close,
+.bib-reader-close,
+.recipe-modal-close,
+.music-close {
+  min-width: 40px !important;
+  min-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  cursor: pointer !important;
+  z-index: inherit;
+}
+/* Safe area top para notch/barra de estado */
+.emergency-close { top: max(20px, env(safe-area-inset-top, 20px)) !important; }
+.cinco-close     { top: max(20px, env(safe-area-inset-top, 20px)) !important; }
+
 /* ═══ OCULTAMIENTO TEMPORAL — primera experiencia ═══
    No se elimina código. Solo se oculta visualmente.
    Para restaurar: eliminar este bloque completo.
@@ -3799,6 +3827,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P1: pregunta inicial ── -->
   <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
+    <button onclick="_dciCerrar()" style="position:fixed;top:max(20px,env(safe-area-inset-top,20px));right:20px;background:rgba(166,123,91,.12);border:1px solid rgba(166,123,91,.2);color:var(--accent,#A67B5B);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;z-index:10000;touch-action:manipulation;-webkit-tap-highlight-color:transparent;" aria-label="Cerrar">✕</button>
     <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
     <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
@@ -3845,6 +3874,7 @@ body.epub-reading .nav-right-actions{
 
 <!-- ═══ ONBOARDING ═══ -->
 <div class="onboarding-overlay" id="onboarding-overlay" role="dialog" aria-modal="true" aria-label="Bienvenida a KALMA">
+  <button onclick="document.getElementById('onboarding-overlay').classList.add('done')" style="position:fixed;top:max(16px,env(safe-area-inset-top,16px));right:16px;background:none;border:none;color:var(--text2,#8C6E55);font-size:.78rem;cursor:pointer;z-index:5010;padding:8px 12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;font-family:'DM Sans',sans-serif;opacity:.6;" aria-label="Saltar introducción">Saltar</button>
   <div class="onboarding-card">
     <div class="onboarding-logo"><em style="font-style:italic;">K</em>ALMA</div>
     <p class="onboarding-sub">Tu espacio. Tu ritmo. Tu mundo.</p>
@@ -5087,7 +5117,10 @@ body.epub-reading .nav-right-actions{
 <!-- ═══ RUEDA CONFIGURACIÓN ═══ -->
 
 <div class="settings-panel" id="settings-panel" role="dialog" aria-label="Configuración">
-  <div class="settings-title">⚙️ Configuración</div>
+  <div class="settings-title" style="display:flex;align-items:center;justify-content:space-between;">
+    <span>⚙️ Configuración</span>
+    <button onclick="toggleSettings();event.stopPropagation();" style="background:none;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer;padding:4px 6px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;" aria-label="Cerrar configuración">✕</button>
+  </div>
 
   <div class="settings-section">
     <div class="settings-section-label">Tema y apariencia</div>
