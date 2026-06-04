@@ -1622,29 +1622,141 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
    RECETARIO
 ═══════════════════════════════════════════ */
 #recetario{padding:80px 60px;}
-.recipe-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:24px;margin-top:36px;
+/* ── RECETARIO KALMA — sistema de energía ── */
+.rec-home{display:flex;flex-direction:column;gap:clamp(10px,3vw,16px);padding:clamp(8px,2vw,16px) 0;}
+.rec-energy-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:clamp(14px,3vw,20px);padding:clamp(18px,4vw,28px) clamp(18px,4vw,28px);
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:transform .18s,box-shadow .18s;
+  display:flex;align-items:center;gap:clamp(14px,3vw,20px);
 }
+.rec-energy-card:active{transform:scale(.98);}
+.rec-energy-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.08);}
+.rec-energy-ico{font-size:clamp(1.8rem,5vw,2.4rem);flex-shrink:0;line-height:1;}
+.rec-energy-info{flex:1;}
+.rec-energy-title{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.1rem,3.5vw,1.4rem);color:var(--accent);
+  margin-bottom:4px;line-height:1.2;
+}
+.rec-energy-desc{font-size:clamp(.75rem,2vw,.85rem);color:var(--text2);line-height:1.5;}
+.rec-energy-arrow{font-size:1.1rem;color:var(--border);flex-shrink:0;}
+
+/* vista de lista dentro de categoría */
+.rec-cat-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:clamp(14px,3vw,20px);
+}
+.rec-back-btn{
+  background:none;border:none;color:var(--accent);font-size:1.3rem;
+  cursor:pointer;padding:4px 8px 4px 0;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;line-height:1;
+}
+.rec-cat-label{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1rem,3vw,1.2rem);color:var(--accent);flex:1;
+}
+.rec-search-btn{
+  background:none;border:none;color:var(--text2);font-size:1.1rem;
+  cursor:pointer;padding:4px;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.rec-search-bar{
+  width:100%;padding:10px 14px;border-radius:10px;
+  background:var(--bg2);border:1px solid var(--border);
+  color:var(--text);font-size:.88rem;outline:none;
+  font-family:'DM Sans',sans-serif;margin-bottom:12px;display:none;
+}
+.rec-search-bar.open{display:block;}
+.rec-search-bar:focus{border-color:var(--accent);}
+.rec-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:clamp(12px,3vw,18px);}
+.rec-filter-btn{
+  padding:5px 13px;border-radius:20px;border:1px solid var(--border);
+  background:var(--pill-bg);color:var(--text2);font-size:.75rem;
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:all .15s;white-space:nowrap;
+}
+.rec-filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* cards de receta en lista */
+.recipe-grid{display:flex;flex-direction:column;gap:clamp(8px,2vw,12px);margin-top:0;}
 .recipe-card{
   background:var(--card);border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;cursor:pointer;
-  transition:transform .2s,box-shadow .2s;
+  border-radius:clamp(12px,2.5vw,16px);cursor:pointer;
+  transition:transform .18s,box-shadow .18s;
+  padding:clamp(14px,3vw,18px);
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
-.recipe-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(155,77,235,.15);}
-.recipe-thumb{
-  height:160px;background:var(--bg3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:4rem;
+.recipe-card:active{transform:scale(.99);}
+.recipe-card.top-recipe{border-left:3px solid var(--accent);}
+.recipe-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;}
+.recipe-emoji{font-size:clamp(1.6rem,4vw,2rem);line-height:1;flex-shrink:0;}
+.recipe-card-info{flex:1;}
+.recipe-name{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1rem,3vw,1.15rem);color:var(--text);
+  margin-bottom:3px;line-height:1.3;
 }
-.recipe-body{padding:18px;}
-.recipe-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text);margin-bottom:6px;}
-.recipe-meta{font-size:.78rem;color:var(--text2);display:flex;gap:12px;}
-.recipe-tag{
-  display:inline-block;padding:2px 10px;border-radius:20px;
-  background:var(--pill-bg);color:var(--accent);font-size:.72rem;
-  border:1px solid var(--pill-border);margin-top:8px;
+.recipe-comment{
+  font-size:clamp(.72rem,2vw,.8rem);color:var(--text2);
+  line-height:1.4;font-style:italic;
 }
+.recipe-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.recipe-chip{
+  font-size:.7rem;padding:2px 9px;border-radius:20px;
+  background:var(--pill-bg);color:var(--text2);
+  border:1px solid var(--border);white-space:nowrap;
+}
+.recipe-chip.chip-teal{background:rgba(20,184,166,.1);color:var(--teal);border-color:rgba(20,184,166,.2);}
+.recipe-chip.chip-green{background:rgba(106,155,132,.1);color:#3d7060;border-color:rgba(106,155,132,.2);}
+.recipe-chip.chip-energy{background:rgba(166,123,91,.08);color:var(--accent);border-color:var(--border);}
+
+/* base: preparaciones estratégicas */
+.recipe-card.base-card{border-left:3px solid var(--teal);}
+.recipe-base-uses{
+  margin-top:8px;padding:10px 12px;
+  background:rgba(20,184,166,.06);border-radius:8px;
+  border:1px solid rgba(20,184,166,.15);
+}
+.recipe-base-uses-title{
+  font-size:.7rem;color:var(--teal);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:5px;font-weight:500;
+}
+.recipe-base-uses-list{
+  display:flex;flex-wrap:wrap;gap:4px;
+}
+.rec-see-more{
+  width:100%;padding:clamp(10px,2.5vw,14px);
+  background:none;border:1px solid var(--border);
+  border-radius:clamp(10px,2vw,14px);color:var(--accent);
+  font-family:'DM Sans',sans-serif;font-size:.85rem;
+  cursor:pointer;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:all .15s;margin-top:4px;
+}
+.rec-see-more:hover{background:var(--card);}
+
+/* modal — ficha emocional encima */
+.recipe-modal-ficha{
+  background:rgba(166,123,91,.07);border:1px solid var(--border);
+  border-radius:12px;padding:12px 16px;margin-bottom:20px;
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+}
+.ficha-chip{
+  display:flex;align-items:center;gap:5px;
+  font-size:.78rem;color:var(--text2);
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:4px 11px;
+}
+.ficha-comentario{
+  width:100%;text-align:center;font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:.95rem;color:var(--accent);
+  padding-top:6px;border-top:1px solid var(--border);margin-top:2px;
+  line-height:1.5;
+}
+
+.recipe-tag{display:none;}/* ya no se usa, se mantiene por compatibilidad */
 
 .recipe-modal-overlay{
   position:fixed;inset:0;z-index:2500;
@@ -1988,15 +2100,23 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 .music-fab:hover{background:var(--pill-bg);color:var(--accent);}
 .music-fab-icon{font-size:1.2rem;}
 .music-panel{
-  position:fixed;top:50%;right:0;transform:translateY(-50%);
-  z-index:1198;width:min(340px,90vw);
+  position:fixed;
+  bottom:0;left:0;right:0;
+  top:auto;
+  transform:translateY(100%);
+  z-index:1300;
+  width:100%;
+  max-height:85dvh;
   background:var(--card);border:1px solid var(--border);
-  border-radius:20px 0 0 20px;
-  box-shadow:-8px 0 40px rgba(0,0,0,.25);
-  display:none;flex-direction:column;overflow:hidden;
+  border-radius:20px 20px 0 0;
+  box-shadow:0 -8px 40px rgba(0,0,0,.25);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .3s ease;
   touch-action:pan-y;
 }
-.music-panel.open{display:flex;}
+.music-panel.open{display:flex;transform:translateY(0);}
+.music-backdrop{display:none;position:fixed;inset:0;z-index:1298;background:rgba(0,0,0,.35);}
+.music-backdrop.open{display:block;}
 .music-panel-header{
   padding:16px 20px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
@@ -3407,17 +3527,14 @@ body.epub-reading .nav-right-actions{
 }
 .calma-logo-text {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(13px,3.5vw,15px);
+  font-size: 13px;
   font-weight: 300;
-  letter-spacing: .22em;
-  color: var(--text);
-  opacity: .85;
-  padding-left: .22em;
-}
-.calma-logo-text .logo-k {
+  letter-spacing: .28em;
   color: var(--accent);
+  text-transform: uppercase;
+  opacity: .65;
 }
+.calma-logo-text em { font-style: italic; }
 .calma-pregunta {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(23px, 6vw, 30px);
@@ -3492,17 +3609,14 @@ body.epub-reading .nav-right-actions{
 }
 .rec-logo-text {
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(12px,3vw,13px);
+  font-size: 13px;
   font-weight: 300;
-  letter-spacing: .22em;
-  color: var(--text);
-  opacity: .75;
-  padding-left: .22em;
-}
-.rec-logo-text .logo-k {
+  letter-spacing: .28em;
   color: var(--accent);
+  text-transform: uppercase;
+  opacity: .65;
 }
+.rec-logo-text em { font-style: italic; }
 .rec-titulo {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(20px, 5.5vw, 26px);
@@ -3562,6 +3676,23 @@ body.epub-reading .nav-right-actions{
   opacity: .75;
 }
 .rec-card-arrow { font-size: 22px; color: rgba(166,123,91,.3); margin-left: auto; flex-shrink: 0; }
+.rec-volver {
+  background: transparent;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: rgba(166,123,91,.45);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  padding: 14px 0 4px;
+  min-height: 44px;
+  letter-spacing: .04em;
+  transition: color .2s;
+  text-align: left;
+  width: 100%;
+}
+.rec-volver:active { color: var(--accent); }
 .rec-ver-todo {
   background: transparent;
   border: none;
@@ -3582,9 +3713,28 @@ body.epub-reading .nav-right-actions{
 
 
 @media(max-width:768px){.emergency-btn{display:none!important;}}
+/* ═══ OCULTAMIENTO TEMPORAL — primera experiencia ═══
+   No se elimina código. Solo se oculta visualmente.
+   Para restaurar: eliminar este bloque completo.
+════════════════════════════════════════════════════ */
+
+/* Nav desktop: ocultar Categorías, Comunidad, Tienda */
+.nav-links li:has(a[data-panel="categorias"]),
+.nav-links li:has(a[data-panel="comunidad"]),
+.nav-links li:has(a[data-panel="tienda"]) { display:none!important; }
+
+/* Bottom nav mobile: ocultar Explorar */
+.bnav-item[data-panel="categorias"] { display:none!important; }
+
+/* Secciones de contenido a ocultar */
+#categorias, #productos, #pagos, #comunidad, #testimonios { display:none!important; }
+
+/* Estadísticas y botones hero secundarios */
+.hero-stats, .hero-ctas { display:none!important; }
+
+/* Fin ocultamiento temporal */
 </style>
-</head>
-<body>
+</head>>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="kalma-luna" viewBox="0 0 20 20">
     <path d="M14.5 3.5 C11 4.2 8.5 7.2 9.1 10.8 C9.7 14.2 12.8 16.3 16 15.7 C13.8 17.5 10.8 18.1 8.1 17 C4.8 15.6 3 12.2 3.8 8.9 C4.6 5.5 7.6 3.4 11 3.3 C12.2 3.3 13.4 3.4 14.5 3.5 Z"
@@ -3598,7 +3748,7 @@ body.epub-reading .nav-right-actions{
   <div class="calma-wrap">
     <div class="calma-logo-row">
       <svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>
-      <span class="calma-logo-text"><span class="logo-k">K</span>alma</span>
+      <span class="calma-logo-text"><em>K</em>ALMA</span>
     </div>
     <div class="calma-pregunta">¿Qué necesitás<br>un poco más hoy?</div>
     <div class="calma-opciones">
@@ -3625,9 +3775,10 @@ body.epub-reading .nav-right-actions{
 <!-- ═══ KALMA — RECOMENDACION ═══ -->
 <div class="page-panel" id="panel-recomendacion">
   <div class="rec-wrap">
+    <button class="rec-volver" onclick="showPanel('inicio')" aria-label="Volver">← volver</button>
     <div class="rec-logo-row">
       <svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>
-      <span class="rec-logo-text"><span class="logo-k">K</span>alma</span>
+      <span class="rec-logo-text"><em>K</em>ALMA</span>
     </div>
     <div class="rec-titulo" id="rec-titulo"></div>
     <div class="rec-frase" id="rec-frase"></div>
@@ -3648,7 +3799,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P1: pregunta inicial ── -->
   <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:.22em;color:var(--text,#2C2118);margin-bottom:clamp(36px,8vw,60px);opacity:.75;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg><span style="color:var(--accent,#A67B5B);">K</span>alma</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
     <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
     <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
@@ -3662,7 +3813,7 @@ body.epub-reading .nav-right-actions{
 
   <!-- ── P2: cards curadas según estado ── -->
   <div id="dci-p2" style="display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;opacity:0;">
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:.22em;color:var(--text,#2C2118);margin-bottom:clamp(28px,6vw,44px);opacity:.75;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg><span style="color:var(--accent,#A67B5B);">K</span>alma</div>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(28px,6vw,44px);opacity:.7;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
     <div id="dci2-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,30px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.35;margin-bottom:8px;text-align:center;"></div>
     <div id="dci2-frase"  style="font-size:clamp(12px,3vw,13px);color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.04em;margin-bottom:clamp(28px,6vw,40px);text-align:center;line-height:1.6;max-width:320px;"></div>
     <div id="dci2-cards"  style="display:flex;flex-direction:column;gap:10px;width:100%;"></div>
@@ -3765,10 +3916,10 @@ body.epub-reading .nav-right-actions{
 <div class="scroll-progress" id="scroll-progress"></div>
 
 <nav id="main-content">
-  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:5px;"><svg class="kalma-luna" aria-hidden="true" style="width:11px;height:11px;opacity:.45;color:var(--accent);"><use href="#kalma-luna"/></svg><em style="font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.1em;color:var(--text);opacity:.8;"><span style="color:var(--accent);">K</span>alma</em></a>
+  <a href="#" class="nav-logo" style="display:flex;align-items:center;gap:5px;"><svg class="kalma-luna" aria-hidden="true" style="width:11px;height:11px;opacity:.45;color:var(--accent);"><use href="#kalma-luna"/></svg><em>K<span>A</span>LMA</em></a>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#" onclick="showPanel('inicio');return false;" class="nav-panel-link active" data-panel="inicio">Inicio</a></li>
+    <li><a href="#" onclick="showPanel('calma');return false;" class="nav-panel-link active" data-panel="inicio">Inicio</a></li>
     <li><a href="#" onclick="showPanel('categorias');return false;" class="nav-panel-link" data-panel="categorias">Categorías</a></li>
     <li><a href="#" onclick="showPanel('rutinas');return false;" class="nav-panel-link" data-panel="rutinas">Mi rutina</a></li>
     <li><a href="#" onclick="showPanel('recetario');return false;" class="nav-panel-link" data-panel="recetario">Recetario</a></li>
@@ -3790,7 +3941,7 @@ body.epub-reading .nav-right-actions{
   <div class="bottom-nav-items">
     <button class="bnav-item active" data-panel="hoy" onclick="kalmaInicio()"><span class="bnav-icon">🏠</span><span>Inicio</span></button>
     <button class="bnav-item"        data-panel="categorias" onclick="showPanel('categorias')"><span class="bnav-icon">✦</span><span>Explorar</span></button>
-    <button class="bnav-item"                                onclick="toggleDial()"><span class="bnav-icon">⚙︎</span><span>Más</span></button>
+    <button class="bnav-item" style="display:none!important"  onclick="toggleDial()"><span class="bnav-icon">⚙︎</span><span>Más</span></button>
   </div>
 </div>
 
@@ -3882,7 +4033,7 @@ body.epub-reading .nav-right-actions{
   <circle cx="108" cy="248" r="1.5" fill="rgba(166,123,91,0.35)"/>
   <circle cx="240" cy="68" r="1.5" fill="rgba(166,123,91,0.4)"/>
 </svg>
-<div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;"><span style="color:var(--accent);">K</span>alma</em></div>
+<div class="hero-over" id="hero-greeting"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;">KALMA</em></div>
 
     </div>
   </div>
@@ -4272,28 +4423,51 @@ body.epub-reading .nav-right-actions{
 <div class="page-panel" id="panel-recetario">
 <!-- ═══ RECETARIO ═══ -->
 <section id="recetario">
-  <div class="fade-up" style="text-align:center;margin-bottom:8px;">
-    <div class="section-tag">Alimentación</div>
-    <h2 class="section-title">Recetario <em>interactivo.</em></h2>
-    <p class="section-body">Cocinás y tildás. Sin perder el hilo, sin olvidar ingredientes.</p>
+  <div class="fade-up" style="text-align:center;margin-bottom:clamp(16px,4vw,24px);">
+    <div class="section-tag">Cocina</div>
+    <h2 class="section-title">¿Cómo estás <em>hoy?</em></h2>
+    <p class="section-body">Elegí según tu energía. Las recetas se acomodan a vos.</p>
   </div>
-  <div class="fade-up">
-    <input class="recipe-search" type="text" placeholder="🔍  Buscar receta…" oninput="filterRecipes(this.value)"/>
-    <div class="recipe-time-row">
-      <span class="recipe-time-label">⏱ Tiempo disponible:</span>
-      <button class="recipe-time-btn active" onclick="setRecipeTime(0,this)">Cualquiera</button>
-      <button class="recipe-time-btn" onclick="setRecipeTime(15,this)">Hasta 15 min</button>
-      <button class="recipe-time-btn" onclick="setRecipeTime(30,this)">Hasta 30 min</button>
+
+  <!-- pantalla 1: tres tarjetas de energía -->
+  <div id="rec-home-view" class="rec-home fade-up">
+    <div class="rec-energy-card" onclick="recOpenCat('facil')">
+      <span class="rec-energy-ico">🤍</span>
+      <div class="rec-energy-info">
+        <div class="rec-energy-title">Hoy necesito algo fácil</div>
+        <div class="rec-energy-desc">Poca energía, pocos ingredientes, poco para lavar.</div>
+      </div>
+      <span class="rec-energy-arrow">›</span>
     </div>
-    <div class="recipe-filter-row">
-      <button class="recipe-filter-btn active" onclick="filterRecipeCat('todas',this)">Todas</button>
-      <button class="recipe-filter-btn" onclick="filterRecipeCat('rapida',this)">⚡ Rápidas</button>
-      <button class="recipe-filter-btn" onclick="filterRecipeCat('saludable',this)">🥗 Saludables</button>
-      <button class="recipe-filter-btn" onclick="filterRecipeCat('sin_gluten',this)">🌾 Sin gluten</button>
-      <button class="recipe-filter-btn" onclick="filterRecipeCat('vegana',this)">🌿 Veganas</button>
-      <button class="recipe-filter-btn" onclick="filterRecipeCat('mama',this)">👩‍👧 Fácil y rápida</button>
+    <div class="rec-energy-card" onclick="recOpenCat('tranquila')">
+      <span class="rec-energy-ico">🌷</span>
+      <div class="rec-energy-info">
+        <div class="rec-energy-title">Hoy puedo cocinar tranquila</div>
+        <div class="rec-energy-desc">Las comidas de siempre. Sin complicaciones.</div>
+      </div>
+      <span class="rec-energy-arrow">›</span>
     </div>
+    <div class="rec-energy-card" onclick="recOpenCat('manana')">
+      <span class="rec-energy-ico">🍲</span>
+      <div class="rec-energy-info">
+        <div class="rec-energy-title">Hoy cocino para mañana</div>
+        <div class="rec-energy-desc">Bases y preparaciones que resuelven varios días.</div>
+      </div>
+      <span class="rec-energy-arrow">›</span>
+    </div>
+  </div>
+
+  <!-- pantalla 2: lista de recetas por categoría -->
+  <div id="rec-cat-view" style="display:none;">
+    <div class="rec-cat-header">
+      <button class="rec-back-btn" onclick="recGoHome()">←</button>
+      <span class="rec-cat-label" id="rec-cat-label"></span>
+      <button class="rec-search-btn" onclick="recToggleSearch()">🔍</button>
+    </div>
+    <input class="rec-search-bar" id="rec-search-bar" type="text" placeholder="Buscar receta…" oninput="recApplyFilters()"/>
+    <div class="rec-filters" id="rec-filters"></div>
     <div class="recipe-grid" id="recipe-grid"></div>
+    <button class="rec-see-more" id="rec-see-more" onclick="recShowAll()" style="display:none;">Ver más opciones</button>
   </div>
 </section>
 
@@ -4303,6 +4477,7 @@ body.epub-reading .nav-right-actions{
     <button class="recipe-modal-close" onclick="closeRecipe()">✕</button>
     <div class="recipe-modal-emoji" id="rm-emoji"></div>
     <div class="recipe-modal-title" id="rm-title"></div>
+    <div class="recipe-modal-ficha" id="rm-ficha"></div>
     <div class="recipe-modal-meta" id="rm-meta"></div>
     <div class="recipe-progress-bar"><div class="recipe-progress-fill" id="rm-progress"></div></div>
     <p class="recipe-section-title">Ingredientes</p>
@@ -4322,7 +4497,7 @@ body.epub-reading .nav-right-actions{
     <h2 class="section-title">Tu rutina <em>de hoy.</em></h2>
     <p class="section-body">Contame cómo estás y cuánto tiempo tenés. Yo me encargo del resto.</p>
   </div>
-  <div class="rutina-quiz fade-up" id="rutina-quiz">
+  <div class="rutina-quiz" id="rutina-quiz">
     <div class="quiz-step-indicator" id="quiz-dots">
       <div class="quiz-dot active"></div>
       <div class="quiz-dot"></div>
@@ -4365,7 +4540,7 @@ body.epub-reading .nav-right-actions{
       </div>
     </div>
   </div>
-  <div class="rutina-result fade-up" id="rutina-result">
+  <div class="rutina-result" id="rutina-result">
     <div class="rutina-header">
       <span class="rutina-badge" id="rutina-badge">Rutina Express</span>
       <h3 class="section-title" style="margin-top:8px;" id="rutina-title">Tu rutina de hoy</h3>
@@ -4539,7 +4714,7 @@ body.epub-reading .nav-right-actions{
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#" class="nav-logo"><em style="font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.1em;"><span style="color:var(--accent);">K</span>alma</em></a>
+      <a href="#" class="nav-logo"><em>K<span>A</span>LMA</em></a>
       <p>Tu espacio digital para vivir con intención. Skincare, fitness, nutrición y comunidad — todo lo que sos.</p>
     </div>
     <div class="footer-col">
@@ -5776,147 +5951,481 @@ function addHabit() {
 }
 
 // ─── RECETARIO ───
+// ─── RECETARIO KALMA — sistema de energía ───
 var RECIPES = [
-  {id:1,emoji:'🥑',name:'Bowl de aguacate y huevo',cat:['rapida','saludable'],time:'10 min',porciones:'1',cal:'320 kcal',
-   ings:[
-     {amount:'1',item:'palta madura'},
-     {amount:'2',item:'huevos'},
-     {amount:'1/4 taza',item:'tomate cherry cortado'},
-     {amount:'1 puñado',item:'espinaca fresca'},
-     {amount:'c/n',item:'sal, pimienta y limón'},
-     {amount:'1 cda',item:'aceite de oliva'},
-   ],
-   steps:['Cortá la palta en cubos y exprimí el limón encima para que no oxide.','Cocinás los huevos a tu gusto (poché, revueltos o fritos).','Armás el bowl: base de espinaca, palta, tomate cherry.','Agregás el huevo encima y rociás con aceite de oliva.','Salpimentás y ¡listo!']
-  },
-  {id:2,emoji:'🍲',name:'Sopa de lentejas rápida',cat:['rapida','saludable','vegana','sin_gluten'],time:'25 min',porciones:'4',cal:'290 kcal',
-   ings:[
-     {amount:'1 taza',item:'lentejas rojas'},
-     {amount:'1',item:'cebolla picada'},
-     {amount:'2 dientes',item:'ajo'},
-     {amount:'1',item:'zanahoria en cubos'},
-     {amount:'1 lata',item:'tomates triturados'},
-     {amount:'1 cdita',item:'cúrcuma'},
-     {amount:'1 cdita',item:'comino'},
-     {amount:'4 tazas',item:'caldo de verduras'},
-   ],
-   steps:['Sofría la cebolla y el ajo en aceite hasta dorar.','Agregá la zanahoria y cocinás 3 minutos más.','Sumás las lentejas, tomates, especias y caldo.','Cocinás a fuego medio 20 minutos hasta que las lentejas estén tiernas.','Mixer opcional para textura cremosa. Servís con limón.']
-  },
-  {id:3,emoji:'🥞',name:'Panqueques de avena y banana',cat:['rapida','saludable','sin_gluten','mama'],time:'15 min',porciones:'2',cal:'280 kcal',
-   ings:[
-     {amount:'1',item:'banana madura'},
-     {amount:'2',item:'huevos'},
-     {amount:'1/2 taza',item:'avena molida'},
-     {amount:'1 cdita',item:'canela'},
-     {amount:'1 cdita',item:'esencia de vainilla'},
-     {amount:'c/n',item:'miel o maple para servir'},
-   ],
-   steps:['Pisás la banana con un tenedor hasta que quede una pasta.','Batís los huevos y mezclás con la banana.','Agregás la avena, canela y vainilla. Mezcla bien.','Cocinás cucharadas de la mezcla en sartén antiadherente a fuego medio-bajo.','Servís con frutas y miel.']
-  },
-  {id:4,emoji:'🍝',name:'Pasta con vegetales al pesto',cat:['rapida','vegana'],time:'20 min',porciones:'2',cal:'420 kcal',
-   ings:[
-     {amount:'200g',item:'pasta integral (tallarines)'},
-     {amount:'1 taza',item:'albahaca fresca'},
-     {amount:'2 dientes',item:'ajo'},
-     {amount:'3 cdas',item:'nueces o piñones'},
-     {amount:'4 cdas',item:'aceite de oliva'},
-     {amount:'1',item:'zucchini en rodajas'},
-     {amount:'1 taza',item:'cherry cortado'},
-     {amount:'c/n',item:'sal y limón'},
-   ],
-   steps:['Cocinás la pasta según el paquete. Reservás 1/2 taza del agua de cocción.','Para el pesto: procesás albahaca, ajo, nueces, aceite y sal.','Salteás el zucchini y cherry en aceite 5 minutos.','Mezclás la pasta escurrida con el pesto y los vegetales.','Ajustás consistencia con el agua de cocción. Servís con limón.']
-  },
-  {id:5,emoji:'🥗',name:'Ensalada niçoise light',cat:['saludable','sin_gluten'],time:'15 min',porciones:'2',cal:'350 kcal',
-   ings:[
-     {amount:'200g',item:'atún en lata (al natural)'},
-     {amount:'2',item:'huevos duros'},
-     {amount:'1 taza',item:'ejotes o chauchas cocidas'},
-     {amount:'1 taza',item:'tomates cherry'},
-     {amount:'1/4',item:'cebolla morada'},
-     {amount:'2 cdas',item:'aceite de oliva'},
-     {amount:'1 cda',item:'mostaza dijon'},
-     {amount:'1 cda',item:'vinagre de vino blanco'},
-   ],
-   steps:['Cocinás los huevos 9 minutos, enfriás y pelás.','Blanqueás las chauchas 3 minutos en agua hirviendo.','Armás la base con hojas verdes.','Distribuís el atún, huevos en mitades, chauchas y tomates.','Emulsionás aceite, mostaza, vinagre y sal. Rociás y servís.']
-  },
-  {id:6,emoji:'🍪',name:'Cookies de avena y dátiles',cat:['saludable','sin_gluten','mama'],time:'25 min',porciones:'12',cal:'95 kcal',
-   ings:[
-     {amount:'2 tazas',item:'avena en copos'},
-     {amount:'1/2 taza',item:'dátiles sin carozo'},
-     {amount:'2',item:'bananas maduras'},
-     {amount:'3 cdas',item:'mantequilla de maní'},
-     {amount:'1/4 taza',item:'chips de chocolate negro'},
-     {amount:'1 cdita',item:'canela'},
-   ],
-   steps:['Precalentás el horno a 180°C.','Procesás los dátiles hasta formar una pasta.','Pisás las bananas y mezclás con la pasta de dátiles y la mantequilla de maní.','Incorporás la avena, canela y chips de chocolate.','Formás bollitos y los achatás en placa con papel. Horneás 15 min.']
-  },
+// ══ 🤍 HOY NECESITO ALGO FÁCIL ══
+{id:1,energia:'facil',top:true,emoji:'🍝',name:'Fideos con manteca y queso',
+ energy:'⚡',time:'10 min',porciones:'2',tags:['poco-lavar','economico'],comment:'El clásico de siempre. Listo antes de que te arrepientas.',
+ ings:[{amount:'200g',item:'fideos (el formato que tengas)'},{amount:'30g',item:'manteca'},{amount:'c/n',item:'queso rallado'},{amount:'c/n',item:'sal'}],
+ steps:['Cocinás los fideos en agua con sal según el paquete.','Escurrís y volvés a la olla apagada.','Agregás la manteca y mezclás hasta que se derrita.','Servís con queso rallado encima.']},
+
+{id:2,energia:'facil',top:true,emoji:'🍳',name:'Arroz con huevo frito',
+ energy:'⚡',time:'15 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Reconfortante y real. Lo que hay, listo.',
+ ings:[{amount:'1 taza',item:'arroz cocido (puede ser de ayer)'},{amount:'2',item:'huevos'},{amount:'c/n',item:'sal, aceite'}],
+ steps:['Calentás el arroz en sartén o microondas.','En sartén con aceite, freís los huevos a tu gusto.','Ponés el arroz en el plato y el huevo arriba.','Salpimentás y listo.']},
+
+{id:3,energia:'facil',top:true,emoji:'🍜',name:'Sopa con fideos',
+ energy:'⚡',time:'15 min',porciones:'2',tags:['una-olla','economico'],comment:'Para los días de poco ánimo y mucho frío.',
+ ings:[{amount:'1 l',item:'caldo de verduras o pollo'},{amount:'100g',item:'fideos cabello o tirabuzón chico'},{amount:'c/n',item:'sal, aceite de oliva'}],
+ steps:['Llevás el caldo a hervor.','Agregás los fideos y cocinás el tiempo indicado.','Ajustás sal y servís con un chorrito de aceite.']},
+
+{id:4,energia:'facil',top:true,emoji:'🥚',name:'Omelette de queso',
+ energy:'⚡',time:'8 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Dos huevos y un rato. No necesita más.',
+ ings:[{amount:'2',item:'huevos'},{amount:'2 cdas',item:'queso cremoso o en fetas'},{amount:'c/n',item:'sal, aceite o manteca'}],
+ steps:['Batís los huevos con sal.','Calentás sartén con aceite o manteca a fuego medio.','Volcás los huevos y dejás que cuaje el borde.','Ponés el queso en el centro y doblás a la mitad.','Cocinás 1 minuto más y servís.']},
+
+{id:5,energia:'facil',top:true,emoji:'🍚',name:'Arroz con atún',
+ energy:'⚡',time:'20 min',porciones:'2',tags:['economico','rinde-manana'],comment:'Completo, económico, sin discusiones.',
+ ings:[{amount:'1 taza',item:'arroz'},{amount:'1 lata',item:'atún al natural'},{amount:'1 cda',item:'mayonesa o aceite de oliva'},{amount:'c/n',item:'sal, limón'}],
+ steps:['Cocinás el arroz según el paquete.','Escurrís el atún y mezclás con mayo o aceite.','Servís el arroz con el atún por encima.','Exprimís limón al gusto.']},
+
+{id:6,energia:'facil',top:false,emoji:'🫓',name:'Tostados de jamón y queso',
+ energy:'⚡',time:'5 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Rápido, caliente, sin ollas.',
+ ings:[{amount:'2',item:'rebanadas de pan'},{amount:'2 fetas',item:'jamón cocido'},{amount:'2 fetas',item:'queso'}],
+ steps:['Armás el sándwich con jamón y queso.','Tostás en sandwichera, sartén o tostadora.','Servís caliente.']},
+
+{id:7,energia:'facil',top:false,emoji:'🥚',name:'Huevos revueltos con tostadas',
+ energy:'⚡',time:'8 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Simple, nutritivo, en diez minutos.',
+ ings:[{amount:'3',item:'huevos'},{amount:'1 cda',item:'manteca o aceite'},{amount:'2',item:'rebanadas de pan'},{amount:'c/n',item:'sal'}],
+ steps:['Batís los huevos con sal.','Calentás manteca en sartén a fuego bajo.','Agregás los huevos y revolvés suavemente hasta que cuajen.','Servís con las tostadas.']},
+
+{id:8,energia:'facil',top:false,emoji:'🫔',name:'Quesadillas',
+ energy:'⚡',time:'10 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Con lo que haya adentro. En cinco minutos.',
+ ings:[{amount:'2',item:'tortillas de harina'},{amount:'50g',item:'queso rallado o en fetas'},{amount:'c/n',item:'jamón, verduras o lo que tengas'}],
+ steps:['Ponés una tortilla en sartén caliente.','Cubrís con queso y el relleno elegido.','Tapás con la otra tortilla y presionás.','Cocinás 2 min de cada lado hasta dorar.','Cortás en cuartos y servís.']},
+
+{id:9,energia:'facil',top:false,emoji:'🍝',name:'Ravioles con salsa rápida',
+ energy:'⚡',time:'15 min',porciones:'2',tags:['poco-lavar'],comment:'Pasta comprada, salsa de diez minutos.',
+ ings:[{amount:'500g',item:'ravioles comprados (frescos o secos)'},{amount:'1 lata',item:'tomates perita'},{amount:'2 dientes',item:'ajo'},{amount:'c/n',item:'aceite, sal, albahaca opcional'}],
+ steps:['Cocinás los ravioles en agua hirviendo con sal.','En sartén, dorás el ajo picado en aceite.','Agregás los tomates aplastados, salpimentás y cocinás 8 min.','Servís los ravioles con la salsa encima.']},
+
+{id:10,energia:'facil',top:false,emoji:'🥟',name:'Ñoquis comprados con manteca',
+ energy:'⚡',time:'10 min',porciones:'2',tags:['poco-lavar','economico'],comment:'Listos en minutos. Nadie se queja.',
+ ings:[{amount:'500g',item:'ñoquis comprados'},{amount:'40g',item:'manteca'},{amount:'c/n',item:'queso rallado, sal'}],
+ steps:['Hervís agua con sal.','Cocinás los ñoquis hasta que suben a la superficie.','Escurrís y salteás unos segundos con manteca.','Servís con queso rallado.']},
+
+{id:11,energia:'facil',top:false,emoji:'🌭',name:'Puré con salchichas',
+ energy:'⚡',time:'15 min',porciones:'2',tags:['economico','chicos'],comment:'Gusta a los chicos, requiere mínimo esfuerzo.',
+ ings:[{amount:'2 sobres',item:'puré instantáneo'},{amount:'4',item:'salchichas'},{amount:'c/n',item:'leche, manteca para el puré'}],
+ steps:['Preparás el puré según las instrucciones del sobre.','Cocinás las salchichas en sartén o microondas.','Servís junto.']},
+
+{id:12,energia:'facil',top:false,emoji:'🧀',name:'Papas al horno con queso',
+ energy:'⚡',time:'30 min',porciones:'2',tags:['poco-lavar','economico'],comment:'Las papas hacen todo el trabajo. Vos solo esperás.',
+ ings:[{amount:'3',item:'papas medianas'},{amount:'c/n',item:'aceite de oliva, sal, queso rallado'},{amount:'c/n',item:'orégano opcional'}],
+ steps:['Precalentás el horno a 200°C.','Cortás las papas en cubos y condimentás con aceite y sal.','Horneás 25 min hasta dorar.','Salís, agregás queso y volvés 3 min al horno.']},
+
+{id:13,energia:'facil',top:false,emoji:'🍮',name:'Polenta rápida con queso',
+ energy:'⚡',time:'10 min',porciones:'2',tags:['una-olla','economico'],comment:'Abrigada, simple, sin pensar.',
+ ings:[{amount:'1 taza',item:'polenta instantánea'},{amount:'2 tazas',item:'agua o leche'},{amount:'50g',item:'queso rallado'},{amount:'c/n',item:'sal, manteca'}],
+ steps:['Hervís el agua con sal.','Agregás la polenta en lluvia, revolviendo siempre.','Cocinás 3-5 min hasta espesar.','Incorporás queso y manteca, mezclás y servís.']},
+
+{id:14,energia:'facil',top:false,emoji:'🍝',name:'Fideos con salsa de tomate rápida',
+ energy:'⚡',time:'20 min',porciones:'2',tags:['economico','una-olla'],comment:'La solución de siempre cuando no hay más ideas.',
+ ings:[{amount:'200g',item:'fideos'},{amount:'1 lata',item:'tomates perita'},{amount:'2 dientes',item:'ajo'},{amount:'c/n',item:'aceite, sal, orégano'}],
+ steps:['Cocinás la pasta en agua con sal.','Dorás el ajo en aceite, agregás los tomates aplastados.','Salpimentás y cocinás 8 min.','Mezclás con la pasta escurrida.']},
+
+{id:15,energia:'facil',top:false,emoji:'🥪',name:'Sándwich caliente de pollo o jamón',
+ energy:'⚡',time:'8 min',porciones:'1',tags:['poco-lavar','economico'],comment:'Para resolver en minutos sin ensuciar nada.',
+ ings:[{amount:'2',item:'rebanadas de pan'},{amount:'c/n',item:'pollo desmenuzado, jamón o lo que haya'},{amount:'c/n',item:'queso, tomate, mayonesa'}],
+ steps:['Armás el sándwich con el relleno elegido.','Tostás en sandwichera o sartén.','Servís caliente.']},
+
+{id:16,energia:'facil',top:false,emoji:'🍚',name:'Arroz con queso',
+ energy:'⚡',time:'15 min',porciones:'1',tags:['economico','poco-lavar'],comment:'Cuando no hay nada más pero hay arroz y queso.',
+ ings:[{amount:'1 taza',item:'arroz'},{amount:'c/n',item:'queso rallado o en cubos'},{amount:'c/n',item:'sal, aceite o manteca'}],
+ steps:['Cocinás el arroz según el paquete.','Mezclás con un toque de manteca mientras está caliente.','Agregás el queso y mezclás hasta fundir.']},
+
+{id:17,energia:'facil',top:false,emoji:'🍳',name:'Omelette de verduras',
+ energy:'⚡',time:'10 min',porciones:'1',tags:['poco-lavar'],comment:'Con lo que haya en la heladera.',
+ ings:[{amount:'3',item:'huevos'},{amount:'1 puñado',item:'verduras de la heladera (tomate, zapallito, espinaca)'},{amount:'c/n',item:'aceite, sal'}],
+ steps:['Picás las verduras en trozos chicos.','Batís los huevos con sal.','Salteás las verduras 2 min en sartén con aceite.','Volcás los huevos encima y cocinás a fuego medio hasta cuajar.','Doblás y servís.']},
+
+{id:18,energia:'facil',top:false,emoji:'🍳',name:'Huevos con papas fritas',
+ energy:'⚡',time:'15 min',porciones:'1',tags:['economico','chicos','poco-lavar'],comment:'El clásico de siempre. Gusta a todos, no falla nunca.',
+ ings:[{amount:'2',item:'huevos'},{amount:'2',item:'papas medianas'},{amount:'c/n',item:'aceite, sal'}],
+ steps:['Pelás y cortás las papas en bastones o rodajas.','Freís en aceite caliente hasta dorar. Salás.','En otra sartén, freís los huevos a tu gusto.','Servís junto.']},
+
+{id:19,energia:'facil',top:false,emoji:'🧇',name:'Tostadas con palta y huevo',
+ energy:'⚡',time:'10 min',porciones:'1',tags:['poco-lavar'],comment:'Nutritivo y sin drama.',
+ ings:[{amount:'2',item:'rebanadas de pan'},{amount:'1/2',item:'palta'},{amount:'1',item:'huevo'},{amount:'c/n',item:'sal, limón'}],
+ steps:['Tostás el pan.','Pisás la palta con limón y sal.','Freís o pochás el huevo.','Armás: tostada, palta, huevo encima.']},
+
+{id:20,energia:'facil',top:false,emoji:'🍲',name:'Milanesas del freezer',
+ energy:'⚡',time:'15 min',porciones:'2',tags:['freezable','poco-lavar'],comment:'Ya están hechas. Solo calentar.',
+ ings:[{amount:'4',item:'milanesas del freezer'},{amount:'c/n',item:'aceite o sprayvegetalizado'}],
+ steps:['Precalentás el horno a 200°C o calentás sartén con aceite mínimo.','Cocinás las milanesas 5-7 min de cada lado hasta calentar y dorar.','Servís con lo que tengas: ensalada, puré, arroz.']},
+
+// ══ 🌷 HOY PUEDO COCINAR TRANQUILA ══
+{id:21,energia:'tranquila',top:true,emoji:'🍗',name:'Arroz con pollo',
+ energy:'⚡⚡',time:'40 min',porciones:'4',tags:['rinde-manana','una-olla','chicos'],comment:'De esas comidas que generan elogios en la mesa.',
+ ings:[{amount:'4',item:'muslos o pechugas de pollo'},{amount:'1.5 tazas',item:'arroz'},{amount:'1',item:'cebolla'},{amount:'2 dientes',item:'ajo'},{amount:'1',item:'pimiento rojo'},{amount:'1 taza',item:'arvejas'},{amount:'c/n',item:'aceite, sal, pimentón, caldo'}],
+ steps:['Dorás el pollo salpimentado en aceite por todos lados. Reservás.','En la misma olla, sofís cebolla, ajo y pimiento picados.','Agregás el arroz y revolvés 1 min.','Ponés el pollo encima, cubrís con caldo caliente (doble volumen que arroz).','Cocinás tapado a fuego bajo 25 min.','Agregás arvejas los últimos 5 min.']},
+
+{id:22,energia:'tranquila',top:true,emoji:'🍗',name:'Pollo al horno con papas',
+ energy:'⚡⚡',time:'60 min',porciones:'4',tags:['rinde-manana','chicos','poco-lavar'],comment:'Una asadera, todo adentro, horno se encarga.',
+ ings:[{amount:'4',item:'presas de pollo'},{amount:'4',item:'papas medianas'},{amount:'c/n',item:'aceite de oliva, sal, orégano, ajo'},{amount:'c/n',item:'jugo de limón opcional'}],
+ steps:['Precalentás el horno a 200°C.','Cortás las papas en trozos, las ponés en asadera.','Acomodás el pollo encima, condimentás todo con aceite, sal, ajo y orégano.','Horneás 50-60 min, dando vuelta el pollo a la mitad.','El pollo está listo cuando la piel está dorada y el jugo sale claro.']},
+
+{id:23,energia:'tranquila',top:true,emoji:'🥩',name:'Milanesas al horno con puré',
+ energy:'⚡⚡',time:'35 min',porciones:'4',tags:['chicos','freezable'],comment:'El clásico familiar. Siempre funciona.',
+ ings:[{amount:'500g',item:'milanesas de carne o pollo'},{amount:'3',item:'papas grandes para el puré'},{amount:'c/n',item:'huevo, pan rallado, sal'},{amount:'c/n',item:'leche, manteca'}],
+ steps:['Precalentás el horno a 200°C.','Pasás las milanesas por huevo y pan rallado.','Las colocás en asadera con aceite y horneás 15 min de cada lado.','Mientras, cocinás y pisás las papas con leche, manteca y sal.','Servís junto.']},
+
+{id:24,energia:'tranquila',top:true,emoji:'🥔',name:'Tortilla de papas',
+ energy:'⚡⚡',time:'30 min',porciones:'4',tags:['economico','rinde-manana'],comment:'Sale para varios, sirve caliente o fría.',
+ ings:[{amount:'3',item:'papas medianas'},{amount:'4',item:'huevos'},{amount:'1',item:'cebolla grande'},{amount:'c/n',item:'aceite de oliva, sal'}],
+ steps:['Pelás y cortás las papas en rodajas finas. Igual con la cebolla.','Cocinás papas y cebolla en aceite a fuego bajo hasta tiernas (15 min).','Batís los huevos con sal, mezclás con las papas escurridas.','En sartén antiadherente, volcás la mezcla y cocinás a fuego bajo tapado.','Cuando está firme abajo, das vuelta con un plato y cocinás el otro lado.']},
+
+{id:25,energia:'tranquila',top:true,emoji:'🥧',name:'Tarta de jamón y queso',
+ energy:'⚡⚡',time:'40 min',porciones:'6',tags:['rinde-manana','chicos','freezable'],comment:'Se hace una vez, se come tres veces.',
+ ings:[{amount:'1',item:'tapa de tarta comprada'},{amount:'150g',item:'jamón cocido'},{amount:'100g',item:'queso mozzarella'},{amount:'3',item:'huevos'},{amount:'100ml',item:'crema o leche'}],
+ steps:['Precalentás el horno a 180°C.','Forrás un molde con la tapa de tarta.','Batís los huevos con la crema y salpimentás.','Cubrís la base con jamón y queso.','Volcás el batido encima.','Horneás 30-35 min hasta que esté firme y dorada.']},
+
+{id:26,energia:'tranquila',top:false,emoji:'🥧',name:'Tarta de verduras',
+ energy:'⚡⚡',time:'45 min',porciones:'6',tags:['rinde-manana','freezable'],comment:'Acelga o espinaca con queso. Dura tres días en la heladera.',
+ ings:[{amount:'1',item:'tapa de tarta comprada'},{amount:'1 atado',item:'acelga o espinaca'},{amount:'100g',item:'queso mozzarella o rallado'},{amount:'3',item:'huevos'},{amount:'c/n',item:'sal, nuez moscada'}],
+ steps:['Precalentás horno a 180°C.','Cocinás la verdura, escurrís bien y picás.','Mezclás con huevos batidos, queso y sal.','Volcás en molde forrado con la tapa.','Horneás 35-40 min.']},
+
+{id:27,energia:'tranquila',top:true,emoji:'🥩',name:'Pastel de papa',
+ energy:'⚡⚡',time:'50 min',porciones:'5',tags:['rinde-manana','chicos','freezable'],comment:'Clásico de madre y de abuela. Se freezea perfecto.',
+ ings:[{amount:'500g',item:'carne picada'},{amount:'4',item:'papas grandes'},{amount:'1',item:'cebolla'},{amount:'1',item:'pimiento'},{amount:'c/n',item:'aceite, sal, pimentón, huevo duro opcional'}],
+ steps:['Cocinás y pisás las papas con manteca y sal.','Sofís cebolla y pimiento picados. Agregás la carne y cocinás hasta cambiar de color.','Condimentás con sal y pimentón.','En asadera: capa de carne, capa de puré encima.','Pintás con huevo batido y horneás a 180°C hasta dorar (20 min).']},
+
+{id:28,energia:'tranquila',top:true,emoji:'🍝',name:'Albóndigas con salsa',
+ energy:'⚡⚡',time:'40 min',porciones:'4',tags:['chicos','freezable','rinde-manana'],comment:'Ideal para días donde querés resolver sin discusiones en la mesa.',
+ ings:[{amount:'500g',item:'carne picada'},{amount:'1',item:'huevo'},{amount:'2 cdas',item:'pan rallado'},{amount:'1 lata',item:'tomates perita'},{amount:'c/n',item:'sal, ajo, perejil, aceite'}],
+ steps:['Mezclás la carne con huevo, pan rallado, sal y ajo picado.','Formás bolitas y las dorás en aceite por todos lados.','En la misma sartén, hacés la salsa de tomate con ajo.','Devolvés las albóndigas a la salsa y cocinás 15 min tapado.','Servís con arroz, pasta o puré.']},
+
+{id:29,energia:'tranquila',top:false,emoji:'🍝',name:'Milanesas con fideos',
+ energy:'⚡⚡',time:'30 min',porciones:'4',tags:['chicos'],comment:'La combinación que no falla.',
+ ings:[{amount:'500g',item:'milanesas de carne'},{amount:'200g',item:'fideos'},{amount:'c/n',item:'huevo, pan rallado, salsa de tomate'}],
+ steps:['Pasás las milanesas por huevo y pan rallado.','Freís en aceite caliente o cocinás al horno 15 min de cada lado.','Cocinás los fideos según el paquete.','Servís con salsa de tomate.']},
+
+{id:30,energia:'tranquila',top:false,emoji:'🍔',name:'Hamburguesas caseras',
+ energy:'⚡⚡',time:'25 min',porciones:'4',tags:['chicos','freezable'],comment:'Mejores que las compradas y se freezean crudas.',
+ ings:[{amount:'500g',item:'carne picada'},{amount:'1',item:'huevo'},{amount:'2 cdas',item:'pan rallado'},{amount:'c/n',item:'sal, ajo en polvo, perejil'}],
+ steps:['Mezclás todos los ingredientes con las manos.','Formás 4 hamburguesas de 1.5 cm de espesor.','Cocinás en sartén o plancha caliente 4-5 min de cada lado.','Servís en pan con lo que tengas.']},
+
+{id:31,energia:'tranquila',top:false,emoji:'🍗',name:'Pollo a la crema con arroz',
+ energy:'⚡⚡',time:'35 min',porciones:'4',tags:['chicos','rinde-manana'],comment:'Suave, cremoso, siempre bien recibido.',
+ ings:[{amount:'4',item:'pechugas de pollo'},{amount:'200ml',item:'crema de leche'},{amount:'1',item:'cebolla'},{amount:'c/n',item:'sal, caldo, aceite'}],
+ steps:['Cocinás el arroz aparte.','Sellás el pollo cortado en tiras.','Sofís cebolla, agregás la crema y un chorro de caldo.','Sumás el pollo y cocinás 10 min a fuego bajo.','Servís sobre el arroz.']},
+
+{id:32,energia:'tranquila',top:false,emoji:'🥬',name:'Tortilla de verduras',
+ energy:'⚡⚡',time:'25 min',porciones:'3',tags:['economico','rinde-manana'],comment:'Con lo que haya en la heladera.',
+ ings:[{amount:'4',item:'huevos'},{amount:'1 taza',item:'verduras variadas (zapallito, espinaca, morrón)'},{amount:'c/n',item:'aceite, sal, queso opcional'}],
+ steps:['Salteás las verduras picadas en sartén con aceite.','Batís los huevos con sal y volcás sobre las verduras.','Cocinás a fuego bajo tapado hasta cuajar.','Das vuelta y terminás de cocinar.']},
+
+{id:33,energia:'tranquila',top:false,emoji:'🥟',name:'Empanadas de jamón y queso',
+ energy:'⚡⚡',time:'45 min',porciones:'6',tags:['chicos','freezable'],comment:'Con tapas compradas, mucho más rápido.',
+ ings:[{amount:'12',item:'tapas de empanada'},{amount:'150g',item:'jamón cocido'},{amount:'150g',item:'queso mozzarella'}],
+ steps:['Precalentás el horno a 180°C.','Ponés jamón y queso en cada tapa.','Cerrás apretando el borde con tenedor.','Horneás 20 min hasta dorar.']},
+
+{id:34,energia:'tranquila',top:false,emoji:'🥟',name:'Empanadas de carne',
+ energy:'⚡⚡⚡',time:'60 min',porciones:'6',tags:['freezable','rinde-manana'],comment:'Las de siempre. Valen cada minuto.',
+ ings:[{amount:'12',item:'tapas de empanada'},{amount:'400g',item:'carne picada'},{amount:'1',item:'cebolla'},{amount:'2',item:'huevos duros'},{amount:'c/n',item:'aceitunas, sal, pimentón, comino'}],
+ steps:['Sofís la cebolla, agregás la carne y cocinás.','Condimentás con sal, pimentón y comino.','Añadís huevo duro picado y aceitunas.','Dejás enfriar y rellenás las tapas.','Cerrás y horneás a 200°C 20 min.']},
+
+{id:35,energia:'tranquila',top:false,emoji:'🍝',name:'Fideos con albóndigas',
+ energy:'⚡⚡',time:'40 min',porciones:'4',tags:['chicos','rinde-manana'],comment:'Plato completo que gusta a todos.',
+ ings:[{amount:'200g',item:'fideos'},{amount:'8',item:'albóndigas (caseras o del freezer)'},{amount:'1 lata',item:'tomates perita'},{amount:'c/n',item:'ajo, aceite, sal, orégano'}],
+ steps:['Cocinás las albóndigas en la salsa de tomate 15 min.','Cocinás la pasta según el paquete.','Mezclás y servís con queso rallado.']},
+
+{id:36,energia:'tranquila',top:false,emoji:'🥩',name:'Carne guisada con papas',
+ energy:'⚡⚡',time:'55 min',porciones:'4',tags:['rinde-manana','una-olla'],comment:'Una olla que resuelve toda la comida.',
+ ings:[{amount:'500g',item:'carne para guiso (roast beef o paleta)'},{amount:'3',item:'papas medianas'},{amount:'1',item:'cebolla'},{amount:'1',item:'tomate'},{amount:'c/n',item:'aceite, sal, pimentón, caldo'}],
+ steps:['Cortás la carne en cubos y dorás en aceite.','Agregás cebolla y tomate picados, sofís 5 min.','Cubrís con caldo caliente y cocinás tapado 30 min.','Agregás las papas en cubos y cocinás 20 min más.','Salpimentás y servís.']},
+
+{id:37,energia:'tranquila',top:false,emoji:'🫑',name:'Zapallitos rellenos',
+ energy:'⚡⚡',time:'50 min',porciones:'4',tags:['rinde-manana'],comment:'Más entretenidos que una tarta, igual de rendidores.',
+ ings:[{amount:'4',item:'zapallitos grandes'},{amount:'200g',item:'carne picada o pollo'},{amount:'c/n',item:'queso, cebolla, sal, aceite'}],
+ steps:['Cortás los zapallitos al medio y vaciás.','Sofís cebolla con la carne picada, mezclás con la pulpa del zapallito.','Rellenás los zapallitos, cubrís con queso.','Horneás a 180°C 25 min.']},
+
+{id:38,energia:'tranquila',top:false,emoji:'🍚',name:'Arroz primavera',
+ energy:'⚡⚡',time:'25 min',porciones:'4',tags:['economico','rinde-manana'],comment:'Colorido, completo, rinde para varios.',
+ ings:[{amount:'2 tazas',item:'arroz'},{amount:'1 taza',item:'arvejas'},{amount:'1',item:'zanahoria'},{amount:'1',item:'choclo'},{amount:'c/n',item:'aceite, sal'}],
+ steps:['Cocinás el arroz.','Aparte, cocinás las verduras al vapor o hervidas.','Mezclás todo con un chorro de aceite y sal.']},
+
+{id:39,energia:'tranquila',top:false,emoji:'🐔',name:'Wok simple de pollo',
+ energy:'⚡⚡',time:'20 min',porciones:'3',tags:['poco-lavar'],comment:'Una sartén grande, todo adentro, listo en veinte minutos.',
+ ings:[{amount:'400g',item:'pechuga de pollo en tiritas'},{amount:'2 tazas',item:'verduras variadas (morrón, brócoli, zapallito)'},{amount:'3 cdas',item:'salsa de soja'},{amount:'c/n',item:'aceite, ajo, jengibre opcional'}],
+ steps:['Salteás el pollo en sartén o wok con aceite a fuego fuerte.','Agregás las verduras en orden de dureza (primero zanahoria, último zapallito).','Salseás con salsa de soja y ajo picado.','Mezclás y servís sobre arroz.']},
+
+{id:40,energia:'tranquila',top:false,emoji:'🍕',name:'Pizza casera',
+ energy:'⚡⚡⚡',time:'60 min',porciones:'4',tags:['chicos','freezable'],comment:'Los chicos la ayudan a armar y comen felices.',
+ ings:[{amount:'1',item:'paquete de levadura'},{amount:'2 tazas',item:'harina'},{amount:'1 cda',item:'aceite'},{amount:'c/n',item:'sal, agua tibia, tomate, queso, toppings'}],
+ steps:['Disolvés la levadura en agua tibia con azúcar.','Mezclás con harina y sal, amasás 10 min.','Dejás leudar 30 min tapado.','Estirás la masa, cubrís con tomate y queso.','Horneás a 220°C 15-20 min.']},
+
+{id:41,energia:'tranquila',top:false,emoji:'🍝',name:'Lasaña sencilla',
+ energy:'⚡⚡⚡',time:'60 min',porciones:'6',tags:['freezable','rinde-manana','chicos'],comment:'Rinde para toda la semana.',
+ ings:[{amount:'1 paquete',item:'láminas de lasaña'},{amount:'500g',item:'carne picada'},{amount:'1 lata',item:'tomates'},{amount:'c/n',item:'bechamel, queso, sal'}],
+ steps:['Preparás la salsa boloñesa.','Armás capas: pasta, carne, bechamel, queso.','Terminás con bechamel y queso rallado.','Horneás tapado 30 min, destapado 15 más.']},
+
+{id:42,energia:'tranquila',top:false,emoji:'🥩',name:'Carne al horno con vegetales',
+ energy:'⚡⚡',time:'70 min',porciones:'5',tags:['rinde-manana','poco-lavar'],comment:'Horno se ocupa de todo. Vos esperás.',
+ ings:[{amount:'800g',item:'carne para horno (cuadril o paleta)'},{amount:'c/n',item:'papas, zanahorias, cebollas'},{amount:'c/n',item:'aceite de oliva, sal, hierbas'}],
+ steps:['Condimentás la carne con sal y hierbas.','Cortás las verduras en trozos grandes.','Acomodás todo en asadera con aceite.','Cubrís con papel y horneás a 180°C 60 min.','Destapás 10 min para dorar.']},
+
+{id:43,energia:'tranquila',top:false,emoji:'🐔',name:'Pastel de pollo',
+ energy:'⚡⚡',time:'50 min',porciones:'5',tags:['freezable','chicos'],comment:'Como el pastel de papa pero con pollo.',
+ ings:[{amount:'500g',item:'pollo cocido desmenuzado'},{amount:'4',item:'papas para puré'},{amount:'1',item:'cebolla'},{amount:'c/n',item:'aceite, sal, crema o leche'}],
+ steps:['Hacés el puré de papa.','Sofís cebolla, mezclás con el pollo desmenuzado.','Armás en asadera: capa de pollo, capa de puré.','Pintás con huevo y horneás a 180°C hasta dorar.']},
+
+{id:44,energia:'tranquila',top:false,emoji:'🍝',name:'Pastas con salsa casera',
+ energy:'⚡⚡',time:'30 min',porciones:'4',tags:['economico','chicos'],comment:'Salsa de tomate hecha en casa, diferencia total.',
+ ings:[{amount:'400g',item:'pasta'},{amount:'1 lata grande',item:'tomates perita'},{amount:'1',item:'cebolla'},{amount:'3 dientes',item:'ajo'},{amount:'c/n',item:'aceite, sal, albahaca, orégano'}],
+ steps:['Sofís cebolla y ajo picados en aceite.','Agregás los tomates aplastados con las manos.','Cocinás 20 min a fuego medio, salpimentás.','Cocinás la pasta y mezclas con la salsa.']},
+
+// ══ 🍲 HOY COCINO PARA MAÑANA ══
+{id:45,energia:'manana',top:true,isBase:true,emoji:'🍅',name:'Salsa de tomate base',
+ baseUses:['fideos','pizza','empanadas','milanesas napolitanas','albóndigas'],
+ energy:'⚡',time:'20 min',porciones:'8+',tags:['freezable','economico'],comment:'Una vez por semana, muchos problemas resueltos.',
+ ings:[{amount:'2 latas',item:'tomates perita'},{amount:'1',item:'cebolla grande'},{amount:'4 dientes',item:'ajo'},{amount:'c/n',item:'aceite de oliva, sal, orégano, albahaca'}],
+ steps:['Sofís cebolla y ajo picados en aceite.','Agregás los tomates aplastados.','Cocinás 20 min a fuego medio.','Mixeás si querés textura más lisa.','Dividís en porciones y freezás.']},
+
+{id:46,energia:'manana',top:true,isBase:true,emoji:'🐔',name:'Pollo desmenuzado base',
+ baseUses:['tacos','empanadas','tarta de pollo','sándwiches','arroz con pollo','ensaladas'],
+ energy:'⚡',time:'30 min',porciones:'6+',tags:['freezable','rinde-manana'],comment:'Cocinás una vez, resolvés cinco comidas distintas.',
+ ings:[{amount:'1 kg',item:'pechuga de pollo'},{amount:'c/n',item:'sal, ajo, hierbas'}],
+ steps:['Cocinás el pollo en agua hirviendo con sal y ajo 20-25 min.','Dejás entibiar y desmenuzás con dos tenedores.','Dividís en bolsas o tuppers y freezás o guardás en heladera hasta 4 días.']},
+
+{id:47,energia:'manana',top:true,isBase:true,emoji:'🥩',name:'Salsa boloñesa',
+ baseUses:['fideos','lasaña','empanadas','relleno de tartas','canelones'],
+ energy:'⚡⚡',time:'45 min',porciones:'8+',tags:['freezable','rinde-manana'],comment:'La base que resuelve más comidas que cualquier otra.',
+ ings:[{amount:'500g',item:'carne picada'},{amount:'1',item:'cebolla'},{amount:'2',item:'zanahorias'},{amount:'2 dientes',item:'ajo'},{amount:'1 lata',item:'tomates perita'},{amount:'c/n',item:'aceite, sal, orégano'}],
+ steps:['Sofís cebolla, zanahoria y ajo picados finos.','Agregás la carne y cocinás hasta cambiar de color.','Sumás los tomates aplastados.','Cocinás 30 min a fuego bajo.','Dividís en porciones y freezás.']},
+
+{id:48,energia:'manana',top:true,emoji:'🍲',name:'Guiso de lentejas grande',
+ energy:'⚡⚡',time:'55 min',porciones:'6',tags:['freezable','rinde-manana','economico','una-olla'],comment:'Una olla grande para toda la semana.',
+ ings:[{amount:'500g',item:'lentejas'},{amount:'2',item:'chorizos colorados'},{amount:'1',item:'cebolla'},{amount:'2',item:'zanahorias'},{amount:'1 lata',item:'tomates perita'},{amount:'c/n',item:'aceite, sal, pimentón'}],
+ steps:['Remojás las lentejas 30 min (o usás las rojas sin remojar).','Sofís cebolla y chorizo en aceite.','Agregás zanahoria, tomates y lentejas.','Cubrís con agua fría y cocinás 35 min a fuego medio.','Salpimentás. Listo para 3-4 días.']},
+
+{id:49,energia:'manana',top:false,isBase:true,emoji:'🍚',name:'Arroz cocido para la semana',
+ baseUses:['arroz con huevo','guarnición','arroz con atún','wok','arroz frito'],
+ energy:'⚡',time:'20 min',porciones:'8+',tags:['rinde-manana','economico'],comment:'Tenerlo listo en la heladera cambia la semana.',
+ ings:[{amount:'2 tazas',item:'arroz'},{amount:'4 tazas',item:'agua'},{amount:'c/n',item:'sal, aceite'}],
+ steps:['Lavás el arroz con agua fría.','Herví el agua con sal y aceite.','Agregás el arroz, cocinás tapado a fuego bajo 18 min.','Apagás y dejás reposar 5 min.','Guardás en heladera hasta 5 días.']},
+
+{id:50,energia:'manana',top:false,isBase:true,emoji:'🧅',name:'Base de cebolla y morrón',
+ baseUses:['salsas','guisos','carnes','omelettes','pizzas','rellenos'],
+ energy:'⚡',time:'25 min',porciones:'10+',tags:['freezable','economico'],comment:'El sofrito que arranca todas las comidas. Hacelo en cantidad.',
+ ings:[{amount:'4',item:'cebollas grandes'},{amount:'2',item:'morrones'},{amount:'4 dientes',item:'ajo'},{amount:'c/n',item:'aceite de oliva, sal'}],
+ steps:['Picás fino todo.','Cocinás en aceite a fuego bajo 20 min, revolviendo ocasionalmente.','Dejás enfriar y dividís en bolsitas de freezer.','Cucharada por cucharada, según necesites.']},
+
+{id:51,energia:'manana',top:false,emoji:'🟡',name:'Lentejas cocidas base',
+ energy:'⚡',time:'35 min',porciones:'8+',tags:['freezable','economico'],comment:'Versátiles para ensaladas, sopas, guisos y más.',
+ ings:[{amount:'500g',item:'lentejas'},{amount:'c/n',item:'sal, laurel, ajo'}],
+ steps:['Lavás las lentejas.','Cocinás en agua con laurel y ajo 25-30 min hasta tiernas.','Escurrís y guardás en heladera o freezás en porciones.']},
+
+{id:52,energia:'manana',top:false,emoji:'⚪',name:'Garbanzos cocidos',
+ energy:'⚡',time:'90 min',porciones:'10+',tags:['freezable','economico'],comment:'En freezer son un tesoro. Ensaladas, guisos, hummus.',
+ ings:[{amount:'500g',item:'garbanzos secos'},{amount:'c/n',item:'sal, bicarbonato, laurel'}],
+ steps:['Remojás los garbanzos 12 horas.','Cocinás en agua fresca con laurel 60-80 min.','Salás al final.','Guardás en heladera o freezás en porciones con un poco de caldo.']},
+
+{id:53,energia:'manana',top:false,emoji:'🥩',name:'Albóndigas para freezer',
+ energy:'⚡⚡',time:'40 min',porciones:'8+',tags:['freezable','chicos'],comment:'Hacelas el doble y guardá la mitad. Semana resuelta.',
+ ings:[{amount:'1 kg',item:'carne picada'},{amount:'2',item:'huevos'},{amount:'4 cdas',item:'pan rallado'},{amount:'c/n',item:'sal, ajo, perejil'}],
+ steps:['Mezclás todo con las manos.','Formás bolitas del tamaño de una nuez.','Podés freezarlas crudas o cocidas.','Crudas: las ponés en bandeja separadas y freezás 2h, luego bolsa.','Cocidas: dorás y guardás con o sin salsa.']},
+
+{id:54,energia:'manana',top:false,emoji:'🍕',name:'Prepizzas para freezer',
+ energy:'⚡⚡⚡',time:'90 min',porciones:'8',tags:['freezable','chicos'],comment:'Un domingo, varias semanas de cenas resueltas.',
+ ings:[{amount:'1 kg',item:'harina'},{amount:'2 sobres',item:'levadura seca'},{amount:'c/n',item:'aceite, sal, agua tibia'}],
+ steps:['Disolvés levadura en agua tibia con sal.','Mezclás con harina y aceite, amasás 10 min.','Leudás 45 min.','Dividís, estirás y precocinás las bases 7 min en horno fuerte.','Dejás enfriar y freezás entre papeles.']},
+
+{id:55,energia:'manana',top:false,isBase:true,emoji:'🥟',name:'Relleno para tartas y empanadas',
+ baseUses:['tartas','empanadas','papas rellenas','canelones'],
+ energy:'⚡⚡',time:'30 min',porciones:'8+',tags:['freezable','rinde-manana'],comment:'Hacé un kilo y resolvé varios días.',
+ ings:[{amount:'500g',item:'carne picada o verduras'},{amount:'1',item:'cebolla'},{amount:'2',item:'huevos duros'},{amount:'c/n',item:'aceitunas, sal, especias'}],
+ steps:['Sofís cebolla, cocinás la carne.','Condimentás y dejás enfriar.','Agregás huevo duro picado y aceitunas.','Dividís en porciones y freezás.']},
+
+{id:56,energia:'manana',top:false,emoji:'🍗',name:'Pollo marinado para freezer',
+ energy:'⚡',time:'15 min',porciones:'4',tags:['freezable'],comment:'Listo para asar o al horno directo del freezer.',
+ ings:[{amount:'1 kg',item:'presas de pollo'},{amount:'3 cdas',item:'aceite de oliva'},{amount:'c/n',item:'ajo, orégano, sal, jugo de limón'}],
+ steps:['Mezclás el marinado en un bol.','Cubrís el pollo y masajeás bien.','Dividís en bolsas de freezer.','Freezás hasta 3 meses.','Para usar: descongelás en heladera y cocinás.']},
+
+{id:57,energia:'manana',top:false,isBase:true,emoji:'🫑',name:'Verduras asadas base',
+ baseUses:['ensaladas','pizzas','sandwiches','tortillas','acompañamientos'],
+ energy:'⚡',time:'35 min',porciones:'6+',tags:['freezable','economico'],comment:'Una asadera llena de verduras resuelve muchas comidas.',
+ ings:[{amount:'c/n',item:'morrón, berenjena, zucchini, cebolla, zapallo'},{amount:'c/n',item:'aceite de oliva, sal, orégano'}],
+ steps:['Cortás todo en trozos similares.','Condimentás con aceite y sal.','Horneás a 200°C 30-35 min hasta tiernas y con bordes dorados.','Guardás en heladera hasta 5 días o freezás.']},
+
+{id:58,energia:'manana',top:false,emoji:'🍽️',name:'Viandas para congelar',
+ energy:'⚡⚡',time:'60 min',porciones:'5',tags:['freezable','rinde-manana'],comment:'Un domingo de cocina, cinco días resueltos.',
+ ings:[{amount:'c/n',item:'cualquier guiso, arroz con pollo, pastel de papa o estofado'}],
+ steps:['Cocinás en doble o triple cantidad cualquier guiso o plato de olla.','Dejás enfriar completamente.','Dividís en tuppers individuales.','Rotulás con nombre y fecha.','Freezás. Duran 2-3 meses.']},
+
+{id:59,energia:'manana',top:false,isBase:true,emoji:'🧆',name:'Base de verduras salteadas',
+ baseUses:['omelettes','tartas','sopas','arroces','rellenos varios'],
+ energy:'⚡',time:'20 min',porciones:'6+',tags:['freezable','economico'],comment:'La base que agiliza cualquier preparación de la semana.',
+ ings:[{amount:'c/n',item:'zapallito, morrón, cebolla, espinaca, choclo'},{amount:'c/n',item:'aceite, sal, ajo'}],
+ steps:['Cortás todo chico y parejo.','Salteás en aceite con ajo 10 min a fuego medio.','Dejás enfriar.','Guardás en heladera o freezás en porciones.']},
+
+{id:60,energia:'manana',top:false,emoji:'🍖',name:'Estofado simple',
+ energy:'⚡⚡',time:'60 min',porciones:'5',tags:['freezable','rinde-manana','una-olla'],comment:'Una olla para varios días. Mejor al día siguiente.',
+ ings:[{amount:'600g',item:'carne para estofar (aguja o roast beef)'},{amount:'3',item:'papas'},{amount:'2',item:'zanahorias'},{amount:'1',item:'cebolla'},{amount:'c/n',item:'aceite, vino tinto opcional, caldo, sal'}],
+ steps:['Dorás la carne en cubos en aceite.','Agregás cebolla y zanahorias picadas.','Cubrís con caldo y vino si tenés.','Cocinás tapado a fuego bajo 45 min.','Agregás las papas los últimos 20 min.']}
 ];
-var currentRecipeCat = 'todas';
-function renderRecipes(list) {
-  var grid = document.getElementById('recipe-grid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  list.forEach(function(r){
-    var card = document.createElement('div');
-    card.className = 'recipe-card fade-up visible';
-    card.setAttribute('data-cat', r.cat.join(' '));
-    card.innerHTML = '<div class="recipe-thumb"><span style="font-size:4rem">'+r.emoji+'</span></div><div class="recipe-body"><div class="recipe-name">'+r.name+'</div><div class="recipe-meta"><span>⏱ '+r.time+'</span><span>👤 '+r.porciones+'</span><span>🔥 '+r.cal+'</span></div>'+r.cat.slice(0,2).map(function(c){return '<span class="recipe-tag">'+c+'</span>';}).join('')+'</div>';
-    card.onclick = function(){ openRecipe(r.id); };
-    grid.appendChild(card);
+
+// ── sistema de energía — lógica central ──
+var REC_CATS = {
+  facil:    {label:'🤍 Hoy necesito algo fácil',    ico:'🤍'},
+  tranquila:{label:'🌷 Hoy puedo cocinar tranquila', ico:'🌷'},
+  manana:   {label:'🍲 Hoy cocino para mañana',      ico:'🍲'}
+};
+var REC_FILTERS = [
+  {key:'todo',    label:'Todo'},
+  {key:'15',      label:'⏱ −15 min'},
+  {key:'30',      label:'⏱ −30 min'},
+  {key:'45',      label:'⏱ −45 min'},
+  {key:'una-olla',label:'Una sola olla'},
+  {key:'poco-lavar',label:'Poco para lavar'},
+  {key:'economico',label:'Económico'},
+  {key:'chicos',  label:'Gusta a los chicos'},
+  {key:'rinde-manana',label:'Rinde para mañana'},
+  {key:'freezable',label:'Freezable'}
+];
+var recCurrentCat = null;
+var recShowingAll = false;
+var recActiveFilter = 'todo';
+var INITIAL_SHOW = 8;
+
+function recOpenCat(cat) {
+  recCurrentCat = cat;
+  recShowingAll = false;
+  recActiveFilter = 'todo';
+  document.getElementById('rec-home-view').style.display = 'none';
+  document.getElementById('rec-cat-view').style.display  = 'block';
+  document.getElementById('rec-cat-label').textContent = REC_CATS[cat].label;
+  // buscador oculto al entrar
+  var sb = document.getElementById('rec-search-bar');
+  sb.value = '';
+  sb.classList.remove('open');
+  // renderizar filtros
+  var fc = document.getElementById('rec-filters');
+  fc.innerHTML = '';
+  REC_FILTERS.forEach(function(f){
+    var b = document.createElement('button');
+    b.className = 'rec-filter-btn' + (f.key==='todo' ? ' active' : '');
+    b.textContent = f.label;
+    b.onclick = function(){ recSetFilter(f.key, b); };
+    fc.appendChild(b);
   });
+  recRender();
 }
-var currentRecipeTime = 0;
-function setRecipeTime(mins, btn) {
-  currentRecipeTime = mins;
-  document.querySelectorAll('.recipe-time-btn').forEach(function(b){b.classList.remove('active');});
+function recGoHome() {
+  document.getElementById('rec-cat-view').style.display  = 'none';
+  document.getElementById('rec-home-view').style.display = 'flex';
+}
+function recToggleSearch() {
+  var sb = document.getElementById('rec-search-bar');
+  sb.classList.toggle('open');
+  if(sb.classList.contains('open')) sb.focus();
+  else { sb.value=''; recRender(); }
+}
+function recSetFilter(key, btn) {
+  recActiveFilter = key;
+  recShowingAll = false;
+  document.querySelectorAll('.rec-filter-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  applyRecipeFilters();
+  recRender();
 }
-function filterRecipeCat(cat, btn) {
-  currentRecipeCat = cat;
-  document.querySelectorAll('.recipe-filter-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-  applyRecipeFilters();
+function recShowAll() {
+  recShowingAll = true;
+  recRender();
 }
-function filterRecipes(q) {
-  applyRecipeFilters(q);
+function recGetFiltered() {
+  var q = (document.getElementById('rec-search-bar').value || '').toLowerCase();
+  var list = RECIPES.filter(function(r){ return r.energia === recCurrentCat; });
+  // filtro de tiempo
+  if(recActiveFilter === '15') list = list.filter(function(r){ return parseInt(r.time)<=15; });
+  else if(recActiveFilter === '30') list = list.filter(function(r){ return parseInt(r.time)<=30; });
+  else if(recActiveFilter === '45') list = list.filter(function(r){ return parseInt(r.time)<=45; });
+  else if(recActiveFilter !== 'todo') list = list.filter(function(r){ return r.tags && r.tags.includes(recActiveFilter); });
+  // búsqueda
+  if(q) list = list.filter(function(r){ return r.name.toLowerCase().includes(q); });
+  return list;
 }
-function applyRecipeFilters(searchQ) {
-  var q = (searchQ || document.querySelector('.recipe-search').value || '').toLowerCase();
-  var base = currentRecipeCat==='todas' ? RECIPES : RECIPES.filter(function(r){return r.cat.includes(currentRecipeCat);});
-  if(currentRecipeTime > 0) {
-    base = base.filter(function(r){
-      var mins = parseInt(r.time) || 99;
-      return mins <= currentRecipeTime;
-    });
+function recRender() {
+  var list = recGetFiltered();
+  // top primero si no hay filtro activo
+  if(recActiveFilter === 'todo') {
+    list = list.slice().sort(function(a,b){ return (b.top?1:0)-(a.top?1:0); });
   }
-  if(q) base = base.filter(function(r){return r.name.toLowerCase().includes(q);});
-  renderRecipes(base);
+  var showing = recShowingAll ? list : list.slice(0, INITIAL_SHOW);
+  var grid = document.getElementById('recipe-grid');
+  grid.innerHTML = '';
+  showing.forEach(function(r){ grid.appendChild(recBuildCard(r)); });
+  var btn = document.getElementById('rec-see-more');
+  btn.style.display = (!recShowingAll && list.length > INITIAL_SHOW) ? 'block' : 'none';
+  if(!recShowingAll && list.length > INITIAL_SHOW)
+    btn.textContent = 'Ver más opciones (' + (list.length - INITIAL_SHOW) + ')';
 }
+function recBuildCard(r) {
+  var div = document.createElement('div');
+  div.className = 'recipe-card' + (r.top ? ' top-recipe' : '') + (r.isBase ? ' base-card' : '');
+  // chips de contexto
+  var chips = '';
+  chips += '<span class="recipe-chip chip-energy">' + r.energy + ' Energía ' + r.energy + '</span>';
+  chips += '<span class="recipe-chip">⏱ ' + r.time + '</span>';
+  if(r.tags && r.tags.includes('freezable'))    chips += '<span class="recipe-chip chip-teal">🧊 Freezable</span>';
+  if(r.tags && r.tags.includes('rinde-manana')) chips += '<span class="recipe-chip chip-teal">🥡 Rinde para mañana</span>';
+  if(r.tags && r.tags.includes('chicos'))       chips += '<span class="recipe-chip chip-green">🧒 Gusta a los chicos</span>';
+  if(r.tags && r.tags.includes('economico'))    chips += '<span class="recipe-chip">💰 Económico</span>';
+  if(r.tags && r.tags.includes('una-olla'))     chips += '<span class="recipe-chip">🫕 Una sola olla</span>';
+  // usos de base (solo categoría mañana)
+  var baseHtml = '';
+  if(r.isBase && r.baseUses) {
+    baseHtml = '<div class="recipe-base-uses"><div class="recipe-base-uses-title">Con esto resolvés</div><div class="recipe-base-uses-list">'
+      + r.baseUses.map(function(u){ return '<span class="recipe-chip">'+u+'</span>'; }).join('')
+      + '</div></div>';
+  }
+  div.innerHTML =
+    '<div class="recipe-card-top">'
+    + '<span class="recipe-emoji">' + r.emoji + '</span>'
+    + '<div class="recipe-card-info">'
+    + '<div class="recipe-name">' + r.name + '</div>'
+    + '<div class="recipe-comment">' + r.comment + '</div>'
+    + '</div></div>'
+    + '<div class="recipe-chips">' + chips + '</div>'
+    + baseHtml;
+  div.onclick = function(){ openRecipe(r.id); };
+  return div;
+}
+function recApplyFilters() { recRender(); }
+
 var openRecipeData = null;
 function openRecipe(id) {
-  var r = RECIPES.find(function(x){return x.id===id;});
+  var r = RECIPES.find(function(x){ return x.id===id; });
   if(!r) return;
   openRecipeData = r;
   document.getElementById('rm-emoji').textContent = r.emoji;
   document.getElementById('rm-title').textContent = r.name;
-  document.getElementById('rm-meta').innerHTML = '<span>⏱ '+r.time+'</span><span>👤 '+r.porciones+' porción/es</span><span>🔥 '+r.cal+'</span>';
+  // ficha emocional
+  var ficha = document.getElementById('rm-ficha');
+  ficha.innerHTML =
+    '<span class="ficha-chip">' + r.energy + ' ' + (['⚡','Muy baja','⚡⚡ Media','⚡⚡⚡ Necesita ganas'][['⚡','⚡⚡','⚡⚡⚡'].indexOf(r.energy)] || 'Energía ' + r.energy) + '</span>'
+    + '<span class="ficha-chip">⏱ ' + r.time + '</span>'
+    + '<span class="ficha-chip">👨‍👩‍👧 ' + r.porciones + (parseInt(r.porciones)>1?' porciones':' porción') + '</span>'
+    + (r.tags&&r.tags.includes('freezable') ? '<span class="ficha-chip chip-teal">🧊 Freezable</span>' : '')
+    + (r.tags&&r.tags.includes('rinde-manana') ? '<span class="ficha-chip chip-teal">🥡 Rinde para mañana</span>' : '')
+    + (r.tags&&r.tags.includes('chicos') ? '<span class="ficha-chip chip-green">🧒 Gusta a los chicos</span>' : '')
+    + '<div class="ficha-comentario">💛 ' + r.comment + '</div>';
+  document.getElementById('rm-meta').innerHTML = '';
   document.getElementById('rm-progress').style.width = '0%';
   var ings = document.getElementById('rm-ings');
   ings.innerHTML = '';
   r.ings.forEach(function(ing,i){
-    var div = document.createElement('div');
-    div.className = 'recipe-ing-item';
-    div.id = 'ing-'+i;
-    div.innerHTML = '<input type="checkbox" onchange="toggleIng('+i+')"/><span class="recipe-ing-text">'+ing.item+'</span><span class="recipe-ing-amount">'+ing.amount+'</span>';
-    ings.appendChild(div);
+    var d = document.createElement('div');
+    d.className = 'recipe-ing-item'; d.id = 'ing-'+i;
+    d.innerHTML = '<input type="checkbox" onchange="toggleIng('+i+')"/><span class="recipe-ing-text">'+ing.item+'</span><span class="recipe-ing-amount">'+ing.amount+'</span>';
+    ings.appendChild(d);
   });
   var steps = document.getElementById('rm-steps');
   steps.innerHTML = '';
   r.steps.forEach(function(s,i){
-    var div = document.createElement('div');
-    div.className = 'recipe-step';
-    div.innerHTML = '<div class="step-num">'+(i+1)+'</div><div class="step-text">'+s+'</div>';
-    steps.appendChild(div);
+    var d = document.createElement('div');
+    d.className = 'recipe-step';
+    d.innerHTML = '<div class="step-num">'+(i+1)+'</div><div class="step-text">'+s+'</div>';
+    steps.appendChild(d);
   });
   document.getElementById('recipe-modal-overlay').classList.add('open');
 }
@@ -5929,7 +6438,6 @@ function toggleIng(i) {
   document.getElementById('rm-progress').style.width = (checked/total*100)+'%';
 }
 function closeRecipe() { document.getElementById('recipe-modal-overlay').classList.remove('open'); }
-renderRecipes(RECIPES);
 
 // ─── RUTINAS PERSONALIZADAS ───
 var quizAnswers = {};
@@ -6289,17 +6797,35 @@ function selectQuiz(key, val, btn) {
   var siblings = btn.parentElement.querySelectorAll('.quiz-opt');
   siblings.forEach(function(b){b.classList.remove('selected');});
   btn.classList.add('selected');
-  // Haptic feedback if available
   if(navigator.vibrate) navigator.vibrate(10);
-  // Auto-avanzar al siguiente paso (reducido de 350 a 200ms para mayor respuesta)
-  var step = parseInt(btn.closest('[id^="quiz-step-"]') ? btn.closest('[id^="quiz-step-"]').id.replace('quiz-step-','') : 0);
-  if(step && step < 3) {
-    setTimeout(function(){ quizNext(step + 1); }, 200);
+  // detectar step actual recorriendo el árbol padre
+  var step = 0;
+  var el = btn;
+  while(el && el !== document.body) {
+    if(el.id && el.id.indexOf('quiz-step-') === 0) {
+      step = parseInt(el.id.replace('quiz-step-',''));
+      break;
+    }
+    el = el.parentElement;
+  }
+  if(step > 0 && step < 3) {
+    setTimeout(function(){ quizNext(step + 1); }, 220);
   } else if(step === 3) {
-    setTimeout(function(){ generateRutina(); }, 200);
+    setTimeout(function(){ generateRutina(); }, 220);
   }
 }
 function quizNext(step) {
+  // validar que el paso actual tenga selección antes de avanzar
+  if(step > 1) {
+    var keys = ['','tiempo','estado','foco'];
+    var needed = keys[step - 1];
+    if(needed && !quizAnswers[needed]) {
+      // sacudir el step actual para indicar que falta selección
+      var cur = document.getElementById('quiz-step-'+(step-1));
+      if(cur) { cur.style.transition='transform .1s'; cur.style.transform='translateX(6px)'; setTimeout(function(){cur.style.transform='translateX(-6px)';setTimeout(function(){cur.style.transform='';},100);},100); }
+      return;
+    }
+  }
   for(var i=1;i<=3;i++){
     var el = document.getElementById('quiz-step-'+i);
     if(el) el.style.display = (i===step)?'block':'none';
@@ -6460,18 +6986,7 @@ function kalmaVerTodo() {
 }
 
 function kalmaInicio() {
-  if(localStorage.getItem('kalma-onboarded')) {
-    var hoy = new Date().toDateString();
-    var fechaUlt = localStorage.getItem('kalma-checkin-date');
-    var estadoUlt = localStorage.getItem('kalma-checkin-estado');
-    if(fechaUlt === hoy && estadoUlt){
-      showPanel('hoy');
-    } else {
-      showPanel('calma');
-    }
-  } else {
-    showPanel('calma');
-  }
+  showPanel('calma');
 }
 
 // - Onboarded + ya hizo check-in hoy → ir directo a panel-hoy personalizado
@@ -6948,7 +7463,10 @@ function iaAsk(q) {
 
 // ─── MÚSICA ───
 function toggleMusic() {
-  document.getElementById('music-panel').classList.toggle('open');
+  var panel = document.getElementById('music-panel');
+  var backdrop = document.getElementById('music-backdrop');
+  var isOpen = panel.classList.toggle('open');
+  if(backdrop) backdrop.classList.toggle('open', isOpen);
 }
 function switchMusicTab(tab, btn) {
   document.querySelectorAll('.music-tab').forEach(function(b){b.classList.remove('active');});
@@ -8652,6 +9170,7 @@ function waveSenaladorEpub() {
 </div>
 <!-- Backdrop -->
 <div class="sd-backdrop" id="sd-backdrop" onclick="closeDial()"></div>
+<div class="music-backdrop" id="music-backdrop" onclick="toggleMusic()"></div>
 
 </body>
 </html>
