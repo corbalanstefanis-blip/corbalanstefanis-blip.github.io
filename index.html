@@ -1252,9 +1252,10 @@ footer{background:var(--bg3);padding:70px 80px 36px;transition:background .4s;}
 }
 .toolbox-body{
   padding:16px;
-  overflow-y:scroll;
+  overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;
+  touch-action:pan-y;
   flex:1;
 }
 
@@ -2446,6 +2447,9 @@ nav{padding:12px 24px;}
   }
 }
 .settings-panel.open{display:block;}
+/* Asegurar que el scroll interno no bloquee el touch en mobile */
+.settings-panel *{-webkit-overflow-scrolling:touch;}
+.settings-section,.settings-row{touch-action:pan-y;}
 .settings-title{
   font-family:'Cormorant Garamond',serif;font-size:1rem;
   color:var(--text);margin-bottom:16px;font-weight:600;
@@ -2819,7 +2823,7 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
 
 
 /* ── SPEED-DIAL ── */
-.speed-dial{position:fixed;bottom:28px;right:24px;z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.speed-dial{position:fixed;bottom:28px;right:24px;z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;}
 .sd-trigger{
   width:56px;height:56px;border-radius:50%;
   background:var(--accent);color:#fff;border:none;
@@ -2828,6 +2832,9 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
   transition:transform .25s,background .2s;
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
+  pointer-events:auto;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .sd-trigger:hover{transform:scale(1.08);}
 .sd-trigger.open{transform:rotate(45deg);background:var(--text);}
@@ -2843,13 +2850,15 @@ input,textarea,select{max-width:100%;box-sizing:border-box;}
   box-shadow:0 2px 12px rgba(0,0,0,.15);
   font-size:.82rem;color:var(--text);
   transition:transform .15s,background .15s;white-space:nowrap;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .sd-item:hover{transform:translateX(-4px);background:var(--bg2);}
 .sd-item-danger{color:#c084e0;border-color:rgba(192,132,224,.3);background:rgba(160,80,200,.06);}
 .sd-icon{font-size:1.1rem;line-height:1;}
 .sd-label{font-weight:500;letter-spacing:.02em;}
-.sd-backdrop{display:none;position:fixed;inset:0;z-index:1199;background:transparent;}
-.sd-backdrop.open{display:block;}
+.sd-backdrop{display:none;position:fixed;inset:0;z-index:1199;background:transparent;pointer-events:none;}
+.sd-backdrop.open{display:block;pointer-events:auto;}
 
 /* Mobile: bottom nav takes space — raise dial */
 @media(max-width:768px){
@@ -3881,75 +3890,6 @@ body.epub-reading .nav-right-actions{
 </style>
 
 <!-- ═══ ONBOARDING ═══ -->
-<div class="onboarding-overlay" id="onboarding-overlay" role="dialog" aria-modal="true" aria-label="Bienvenida a KALMA">
-  <button onclick="document.getElementById('onboarding-overlay').classList.add('done')" style="position:fixed;top:max(16px,env(safe-area-inset-top,16px));right:16px;background:none;border:none;color:var(--text2,#8C6E55);font-size:.78rem;cursor:pointer;z-index:5010;padding:8px 12px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;font-family:'DM Sans',sans-serif;opacity:.6;" aria-label="Saltar introducción">Saltar</button>
-  <div class="onboarding-card">
-    <div class="onboarding-logo"><em style="font-style:italic;">K</em>ALMA</div>
-    <p class="onboarding-sub">Tu espacio. Tu ritmo. Tu mundo.</p>
-    <div class="ob-progress" id="ob-progress">
-      <div class="ob-dot active"></div>
-      <div class="ob-dot"></div>
-      <div class="ob-dot"></div>
-      <div class="ob-dot"></div>
-    </div>
-
-    <div class="ob-step active" id="ob-1">
-      <p class="ob-q">¿Cómo te llamás?</p>
-      <p class="ob-hint">Así te vamos a saludar cada vez que entrés.</p>
-      <input class="ob-name-input" type="text" id="ob-name-field" placeholder="Tu nombre…" maxlength="25" aria-label="Tu nombre"/>
-      <button class="ob-btn" onclick="obNext(2)" id="ob-btn-1">Seguir →</button>
-    </div>
-
-    <div class="ob-step" id="ob-2">
-      <p class="ob-q">¿Qué te trajo acá?</p>
-      <p class="ob-hint">Podés elegir más de uno.</p>
-      <div class="ob-opts">
-        <button class="ob-opt" onclick="obToggle(this,'motivo','cuidarme')"><span class="ob-opt-icon">🌸</span>Quiero cuidarme más</button>
-        <button class="ob-opt" onclick="obToggle(this,'motivo','organizar')"><span class="ob-opt-icon">📋</span>Organizarme mejor</button>
-        <button class="ob-opt" onclick="obToggle(this,'motivo','tiempo')"><span class="ob-opt-icon">⏱</span>Tengo poco tiempo</button>
-        <button class="ob-opt" onclick="obToggle(this,'motivo','espacio')"><span class="ob-opt-icon">🏠</span>Necesito mi espacio</button>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button class="ob-btn" style="background:var(--bg3);color:var(--text);flex:0 0 80px" onclick="obNext(1)">←</button>
-        <button class="ob-btn" onclick="obNext(3)">Seguir →</button>
-      </div>
-    </div>
-
-    <div class="ob-step" id="ob-3">
-      <p class="ob-q">¿Cuánto tiempo tenés para vos cada día?</p>
-      <p class="ob-hint">Siendo realistas 😊</p>
-      <div class="ob-opts">
-        <button class="ob-opt" onclick="obSel(this,'tiempo','5')"><span class="ob-opt-icon">⚡</span>5 minutos</button>
-        <button class="ob-opt" onclick="obSel(this,'tiempo','15')"><span class="ob-opt-icon">🕐</span>15 minutos</button>
-        <button class="ob-opt" onclick="obSel(this,'tiempo','30')"><span class="ob-opt-icon">☀️</span>30 minutos</button>
-        <button class="ob-opt" onclick="obSel(this,'tiempo','60')"><span class="ob-opt-icon">🌟</span>1 hora o más</button>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button class="ob-btn" style="background:var(--bg3);color:var(--text);flex:0 0 80px" onclick="obNext(2)">←</button>
-        <button class="ob-btn" onclick="obNext(4)">Seguir →</button>
-      </div>
-    </div>
-
-    <div class="ob-step" id="ob-4">
-      <div class="ob-welcome">
-        <div class="ob-welcome-av" id="ob-av">🌸</div>
-        <div class="ob-welcome-name" id="ob-welcome-name">Hola, !</div>
-        <p class="ob-welcome-msg" id="ob-welcome-msg">KALMA es tu espacio. Sin apuro, sin agenda — solo lo que necesitás hoy.</p>
-        <div class="ob-features-preview">
-          <span class="ob-feat-chip">Un ratito para vos</span>
-          <span class="ob-feat-chip">Algo rico sin pensar mucho</span>
-          <span class="ob-feat-chip">Ordenar para respirar</span>
-          <span class="ob-feat-chip">Bajar el ruido</span>
-          <span class="ob-feat-chip">Lo que necesitás hoy</span>
-          <span class="ob-feat-chip">A tu ritmo, siempre</span>
-        </div>
-        <button class="ob-btn" onclick="finishOnboarding()">Entrar a KALMA ✨</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <!-- ═══ NAV ═══ -->
 <div class="scroll-progress" id="scroll-progress"></div>
 
@@ -5494,9 +5434,7 @@ if('serviceWorker' in navigator) {
 
 // ─── MIGRACIÓN DE DATOS (ALMA → KALMA) ───
 (function(){
-  if(localStorage.getItem('alma-onboarded') && !localStorage.getItem('kalma-onboarded')){
-    localStorage.setItem('kalma-onboarded','1');
-  }
+  localStorage.setItem('kalma-onboarded','1');
 })();
 
 // ─── TEMA Y PALETA ───
@@ -5651,8 +5589,16 @@ function sendMsg() {
 // ─── WAITLIST (panel-hoy mini form) ──────────────────────────────────────
 function hoyWaitlistEnviar() {
   var input = document.getElementById('hoy-waitlist-input');
+  if(!input) { 
+    // fallback: buscar cualquier input email en el cierre
+    var inputs = document.querySelectorAll('#hoy-cierre input[type="email"]');
+    if(inputs.length) input = inputs[0];
+  }
   var email = (input ? input.value : '').trim();
-  if(!email || !email.includes('@')) { if(input) input.focus(); return; }
+  if(!email || !email.includes('@')) { 
+    if(input) { input.focus(); input.style.borderColor='rgba(166,123,91,.6)'; }
+    return; 
+  }
   // Guardar localmente
   try {
     var wl = JSON.parse(localStorage.getItem('kalma-waitlist') || '[]');
@@ -8705,6 +8651,32 @@ function toggleDial() {
   if(trigger) trigger.setAttribute('aria-expanded', String(_dialOpen));
   if(backdrop) backdrop.classList.toggle('open', _dialOpen);
 }
+
+// Fix touch en iOS: touchend directo en el trigger sin delay
+(function(){
+  var trigger = document.getElementById('sd-trigger');
+  if(!trigger) return;
+  var _touched = false;
+  trigger.addEventListener('touchend', function(e){
+    e.preventDefault();
+    if(_touched) return;
+    _touched = true;
+    toggleDial();
+    setTimeout(function(){ _touched = false; }, 400);
+  }, {passive:false});
+
+  // touchend en cada sd-item para respuesta inmediata
+  document.querySelectorAll('.sd-item').forEach(function(btn){
+    var _t = false;
+    btn.addEventListener('touchend', function(e){
+      e.preventDefault();
+      if(_t) return;
+      _t = true;
+      btn.click();
+      setTimeout(function(){ _t = false; }, 400);
+    }, {passive:false});
+  });
+})();
 function closeDial() {
   _dialOpen = false;
   ['sd-items','sd-trigger','sd-backdrop'].forEach(function(id){
