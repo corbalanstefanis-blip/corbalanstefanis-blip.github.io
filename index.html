@@ -397,7 +397,7 @@ nav{
   border-top:1px solid var(--border);
   z-index:1000;padding:8px 0 max(8px,env(safe-area-inset-bottom));
 }
-.bottom-nav-items{display:flex;justify-content:space-around;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.bottom-nav-items{display:flex;justify-content:space-around;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:480px;margin:0 auto;}
 .bottom-nav-items::-webkit-scrollbar{display:none;}
 .bnav-item{
   display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -2275,10 +2275,10 @@ button.music-preset{
    RESPONSIVE BASE
 ════════════════════════════════════════ */
 nav{padding:12px 24px;}
+body.bnav-visible .bottom-nav{display:block;}
+body.bnav-visible{padding-bottom:70px;}
 @media(max-width:768px){
   nav{padding:10px 14px;}
-  body.bnav-visible .bottom-nav{display:block;}
-  body.bnav-visible{padding-bottom:70px;}
   .nav-links{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;
     background:var(--bg);flex-direction:column;align-items:center;justify-content:center;
     gap:32px;z-index:998;font-size:1.2rem;}
@@ -3840,55 +3840,6 @@ body.epub-reading .nav-right-actions{
 </div>
 
 <!-- ═══ DAILY CHECK-IN ═══ -->
-<div id="daily-checkin-overlay" style="display:none;position:fixed;inset:0;background:var(--bg,#F5EDD8);z-index:9998;overflow-y:auto;font-family:'DM Sans',sans-serif;">
-
-  <!-- ── P1: pregunta inicial ── -->
-  <div id="dci-p1" style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;">
-    <button onclick="_dciCerrar()" style="position:fixed;top:max(20px,env(safe-area-inset-top,20px));right:20px;background:rgba(166,123,91,.12);border:1px solid rgba(166,123,91,.2);color:var(--accent,#A67B5B);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;z-index:10000;touch-action:manipulation;-webkit-tap-highlight-color:transparent;" aria-label="Cerrar">✕</button>
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(36px,8vw,60px);opacity:.7;"><svg class="kalma-luna" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6.5vw,34px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.3;margin-bottom:10px;text-align:center;">¿Cómo llegás hoy?</div>
-    <div style="font-size:13px;color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.06em;margin-bottom:clamp(32px,7vw,48px);text-align:center;">sin presión · sin juicio</div>
-    <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
-      <button onclick="dciElegir('llena')"   class="dci-btn"><span class="dci-dot"></span><span>con la cabeza llena y el cuerpo tenso</span></button>
-      <button onclick="dciElegir('bien')"    class="dci-btn"><span class="dci-dot"></span><span>bien, pero necesito un rato solo mío</span></button>
-      <button onclick="dciElegir('energia')" class="dci-btn"><span class="dci-dot"></span><span>tengo ganas de hacer algo, lo que sea</span></button>
-      <button onclick="dciElegir('nose')"    class="dci-btn" style="border-color:rgba(106,155,132,.22)!important"><span class="dci-dot" style="background:#6A9B84!important"></span><span style="color:#6A9B84!important;font-style:italic;">no sé muy bien cómo estoy</span></button>
-    </div>
-    <div style="font-size:11px;color:rgba(166,123,91,.4);margin-top:clamp(20px,5vw,28px);">Kalma se adapta a vos · siempre</div>
-  </div>
-
-  <!-- ── P2: cards curadas según estado ── -->
-  <div id="dci-p2" style="display:none;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vw,48px) clamp(20px,5vw,40px);max-width:440px;margin:0 auto;opacity:0;">
-    <div style="display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;letter-spacing:.28em;color:var(--accent,#A67B5B);text-transform:uppercase;margin-bottom:clamp(28px,6vw,44px);opacity:.7;"><svg class="kalma-luna kalma-luna-sm" aria-hidden="true"><use href="#kalma-luna"/></svg>K A L M A</div>
-    <div id="dci2-titulo" style="font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5.5vw,30px);font-weight:300;font-style:italic;color:var(--text,#2C2018);line-height:1.35;margin-bottom:8px;text-align:center;"></div>
-    <div id="dci2-frase"  style="font-size:clamp(12px,3vw,13px);color:var(--accent,#A67B5B);font-weight:300;letter-spacing:.04em;margin-bottom:clamp(28px,6vw,40px);text-align:center;line-height:1.6;max-width:320px;"></div>
-    <div id="dci2-cards"  style="display:flex;flex-direction:column;gap:10px;width:100%;"></div>
-    <button onclick="dciEntrar()" class="dci-btn" style="margin-top:clamp(20px,5vw,28px);justify-content:center;font-size:12px;opacity:.6;border-color:transparent;background:transparent;">Ver todo en KALMA →</button>
-  </div>
-
-</div>
-
-<style>
-.dci-btn{background:rgba(255,255,255,.55);border:.5px solid rgba(166,123,91,.22);border-radius:14px;padding:clamp(12px,3vw,15px) 18px;display:flex;align-items:center;gap:12px;cursor:pointer;touch-action:manipulation;font-family:'DM Sans',sans-serif;font-size:clamp(13px,3.5vw,14px);color:var(--text,#2C2018);font-weight:300;line-height:1.4;text-align:left;transition:background .2s;width:100%;}
-.dci-btn:active{background:rgba(255,255,255,.9);}
-.dci-dot{width:6px;height:6px;border-radius:50%;background:var(--accent,#A67B5B);flex-shrink:0;opacity:.5;}
-
-/* cards p2 */
-.dci-card-big{background:rgba(255,255,255,.65);border:.5px solid rgba(166,123,91,.2);border-radius:18px;padding:clamp(16px,4vw,20px) clamp(16px,4vw,20px);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:16px;touch-action:manipulation;text-align:left;width:100%;}
-.dci-card-big:active{background:rgba(255,255,255,.92);}
-.dci-card-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
-.dci-card-name{font-size:clamp(14px,3.5vw,15px);color:var(--text,#2C2018);font-weight:400;margin-bottom:3px;}
-.dci-card-hint{font-size:11px;color:var(--accent,#A67B5B);font-weight:300;opacity:.8;}
-.dci-card-arrow{font-size:18px;color:rgba(166,123,91,.3);margin-left:auto;flex-shrink:0;}
-
-.dci-card-sm{background:rgba(255,255,255,.5);border:.5px solid rgba(166,123,91,.16);border-radius:14px;padding:clamp(11px,3vw,13px) 15px;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:12px;touch-action:manipulation;text-align:left;width:100%;}
-.dci-card-sm:active{background:rgba(255,255,255,.88);}
-.dci-card-sm-ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
-.dci-card-sm-name{font-size:clamp(13px,3.2vw,14px);color:var(--text,#2C2018);font-weight:300;}
-.dci-card-sm-hint{font-size:11px;color:var(--accent,#A67B5B);opacity:.65;}
-.dci-card-sm-arrow{font-size:13px;color:rgba(166,123,91,.3);margin-left:auto;}
-</style>
-
 <!-- ═══ ONBOARDING ═══ -->
 <!-- ═══ NAV ═══ -->
 <div class="scroll-progress" id="scroll-progress"></div>
@@ -5606,7 +5557,7 @@ function hoyWaitlistEnviar() {
   } catch(err){}
   // Enviar via Web3Forms
   var fd = new FormData();
-  fd.append('access_key', 'bf738e20-1dca-4bda-a523-ffb63eb11995'); // ← tu key de web3forms.com
+  fd.append('access_key', 'a0dbd691-5ccd-4860-9135-c43e4bb0cc40'); // ← tu key de web3forms.com
   fd.append('subject', 'Nueva suscriptora KALMA 💛');
   fd.append('message', 'Email desde panel inicio: ' + email);
   fd.append('email', email);
@@ -5633,7 +5584,7 @@ function handleNewsletter(e) {
   } catch(err){}
   // Enviar a kalmaunespacioparavos@gmail.com via Web3Forms
   var fd = new FormData();
-  fd.append('access_key', 'bf738e20-1dca-4bda-a523-ffb63eb11995'); // ← reemplazar con tu key de web3forms.com
+  fd.append('access_key', 'a0dbd691-5ccd-4860-9135-c43e4bb0cc40'); // ← reemplazar con tu key de web3forms.com
   fd.append('subject', 'Nueva suscriptora KALMA 💛');
   fd.append('message', '¡Nueva suscriptora en la waitlist!\nEmail: ' + email);
   fd.append('email', email);
@@ -7123,43 +7074,10 @@ function kalmaInicio() {
   showPanel('calma');
 }
 
-// - Onboarded + ya hizo check-in hoy → ir directo a panel-hoy personalizado
-// - Onboarded + menos de 7 check-ins históricos → mostrar overlay (pregunta)
-// - Onboarded + 7+ check-ins → ir directo a panel-hoy con estado de ayer + chip de actualización
 function _dciArrancar() {
-  // ── V1: sin onboarding — el check-in es siempre la primera pantalla ──
-  // (antes requería kalma-onboarded; ahora arranca siempre)
-
-  var hoy       = new Date().toDateString();
-  var fechaUlt  = localStorage.getItem('kalma-checkin-date');
-  var estadoUlt = localStorage.getItem('kalma-checkin-estado');
-  var conteo    = parseInt(localStorage.getItem('kalma-checkin-count') || '0', 10);
-
-  // Ya respondió hoy → panel-hoy directo
-  if(fechaUlt === hoy && estadoUlt && _DCI_DATA[estadoUlt]) {
-    _dciLlenarCards(_DCI_DATA[estadoUlt]);
-    _dciActualizarPanelHoy(_DCI_DATA[estadoUlt]);
-    showPanel('hoy');
-    return;
-  }
-
-  // 7+ check-ins y tiene estado guardado → patrón conocido, va directo con chip
-  if(conteo >= 7 && estadoUlt && _DCI_DATA[estadoUlt]) {
-    _dciLlenarCards(_DCI_DATA[estadoUlt]);
-    _dciActualizarPanelHoy(_DCI_DATA[estadoUlt]);
-    _dciMostrarChipActualizar();
-    showPanel('hoy');
-    return;
-  }
-
-  // Primera visita o nuevo día → mostrar "¿Cómo llegás hoy?"
-  var el = document.getElementById('daily-checkin-overlay');
-  if(el) {
-    el.style.display = 'block';
-    history.pushState({ overlay: 'checkin-p1' }, '');
-  }
+  // Check-in eliminado — abre directo en panel inicio
+  showPanel('calma');
 }
-// Esperar a que el DOM esté listo para que getElementById encuentre los elementos
 if(document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', _dciArrancar);
 } else {
@@ -7354,7 +7272,7 @@ function submitFeedback() {
   } catch(e){}
   // Enviar via Web3Forms (access_key gratuita — reemplazar con la tuya en https://web3forms.com)
   var formData = new FormData();
-  formData.append('access_key', 'bf738e20-1dca-4bda-a523-ffb63eb11995'); // ← reemplazar con tu key real
+  formData.append('access_key', 'a0dbd691-5ccd-4860-9135-c43e4bb0cc40'); // ← reemplazar con tu key real
   formData.append('subject', 'KALMA Feedback');
   formData.append('message', text);
   formData.append('email', email||'sin-email@kalmaunespacioparavos.app');
